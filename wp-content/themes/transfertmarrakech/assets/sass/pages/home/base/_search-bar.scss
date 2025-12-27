@@ -1,0 +1,18 @@
+.search-bar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  max-width: 100%;
+  margin-top: calc(3100svw / var(--w));
+  margin-bottom: 0;
+  padding: clamp(4px, 500svw / var(--w), 6px);
+  color: var(--blue-dark);
+  background: var(--blue-grey-light);
+  border-radius: var(--radius);
+  cursor: pointer;
+  .ais-SearchBox-form {
+    flex-grow: 1;
+  }
+}

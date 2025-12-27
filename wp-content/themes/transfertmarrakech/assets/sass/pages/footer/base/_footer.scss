@@ -1,0 +1,78 @@
+.footer {
+  position: sticky;
+  bottom: 0;
+  font-size: max(15px, 1700svw / var(--w));
+  background: var(--blue-grey);
+  overflow: hidden;
+
+  &__top,
+  &__bottom {
+    padding-inline: var(--gutter);
+  }
+
+  &__top {
+    display: block;
+    padding-block: max(24px, 2400svw / var(--w)) max(38px, 3800svw / var(--w));
+
+    &>div {
+      &:first-child {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: flex-start;
+
+        .cta {
+          width: 14.0666666667em;
+          min-width: 14.0666666667em;
+
+          &:not(:last-child) {
+            margin-bottom: max(7px, 700svw / var(--w));
+          }
+        }
+      }
+      &:not(:last-child) {
+        margin-bottom: max(40px, 4000svw / var(--w));
+      }
+    }
+  }
+
+  &__logo-link {
+    margin-bottom: max(24px, 2400svw / var(--w));
+
+    img {
+      width: max(60px, 6000svw / var(--w));
+    }
+  }
+
+  &__links {
+    &-title {
+      @include typographic($font-ibmplexmono, max(13px, 1500svw / var(--w)), 400, var(--blue));
+      margin-bottom: 1.7333333333em;
+      text-transform: uppercase;
+    }
+    li {
+      &:not(:last-child) {
+        margin-bottom: 1.4117647059em;
+      }
+
+      a {
+        @include typographic($font-ppneuemontreal, inherit, 400, var(--blue-dark));
+      }
+    }
+  }
+
+  &__bottom {
+    display: block;
+    padding-block: max(25px, 2500svw / var(--w));
+    font-size: max(13px, 1500svw / var(--w));
+    border-top: 1px solid var(--blue-dark-opacity);
+
+    ul {
+      li {
+        a {
+          @include typographic($font-ppneuemontreal, inherit, 400, var(--blue-dark));
+          opacity: .5;
+        }
+      }
+    }
+  }
+}

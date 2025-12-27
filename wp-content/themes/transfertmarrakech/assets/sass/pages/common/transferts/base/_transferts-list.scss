@@ -1,0 +1,29 @@
+.transfersList {
+  .modules & {
+    &.transfersList {
+      margin: var(--gutter);
+    }
+  }
+
+  &__inner {
+    padding: max(160px, 16000svw / var(--w)) var(--gutter) var(--gutter);
+    padding-top: max(80px, 8000svw / var(--w));
+    background: var(--blue-grey-light);
+
+    .home & {
+      padding-top: calc(3400svw / var(--w));
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gutter);
+  }
+
+  &__title {
+    max-width: 9.45em;
+    margin: 0 auto 0.8em;
+    text-align: left;
+  }
+}

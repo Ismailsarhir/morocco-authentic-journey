@@ -1,0 +1,43 @@
+/**
+ * Carrousel des destinations
+ */
+
+.carrousel {
+  &__title {
+    margin: 0 1em 0 var(--gutter);
+  }
+
+  &__top {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    margin: 0 var(--gutter) 0 auto;
+    text-align: right;
+
+    .module__ctas {
+      margin: 0 calc(5500svw / var(--w)) 0 0;
+    }
+
+    .cta.is-arrow {
+      display: grid;
+      place-items: center;
+      flex: 0 0 max(80px, 8000svw / var(--w));
+      width: max(80px, 8000svw / var(--w));
+      min-width: max(80px, 8000svw / var(--w));
+      margin-left: .4em;
+      vertical-align: middle;
+    }
+  }
+
+  &__inner {
+    .swiper-wrapper {
+      margin-top: var(--gutter);
+    }
+  }
+}

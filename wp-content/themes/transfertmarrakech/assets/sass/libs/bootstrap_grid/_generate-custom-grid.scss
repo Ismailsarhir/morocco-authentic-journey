@@ -1,0 +1,26 @@
+@use "sass:math";
+
+@mixin make-col($col, $columns) {
+  flex: 0 0 percentage(math.div($col, $columns));
+  max-width: percentage(math.div($col, $columns));
+}
+
+@mixin generate-custom-grid($grid-map) {
+  @each $breakpoint, $cols in $grid-map {
+    @each $col in $cols {
+      @if $breakpoint =="xs" {
+        .col-#{$col} {
+          @include make-col($col, $grid-columns);
+        }
+      }
+
+      @else {
+        @include breakpoint(#{$breakpoint}--min-width) {
+          .col-#{$breakpoint}-#{$col} {
+            @include make-col($col, $grid-columns);
+          }
+        }
+      }
+    }
+  }
+}

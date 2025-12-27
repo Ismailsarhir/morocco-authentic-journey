@@ -1,0 +1,115 @@
+html {
+  height: auto;
+  box-sizing: border-box;
+  font-family: $font-ppneuemontreal;
+  color: var(--blue-dark);
+  background: var(--blue-grey);
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  text-decoration: none;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-user-drag: none;
+}
+
+body {
+  height: auto;
+  min-height: 100svh;
+  letter-spacing: 0;
+  background: inherit;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  @include typographic($font-ppneuemontreal, 16px, var(--body-text-color, $black-color));
+
+  &.home {
+    background-color: var(--blue-grey-light);
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--black-color, $black-color);
+
+  &:hover {
+    color: currentColor;
+  }
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  text-align: inherit;
+  text-decoration: none;
+  color: inherit;
+  background: none;
+  border: none;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  
+  &:focus {
+    outline: none;
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

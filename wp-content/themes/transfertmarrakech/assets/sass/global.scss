@@ -1,0 +1,20 @@
+@import "utils/index";
+@import "utils/fonts";
+@import "utils/reset";
+
+@import "pages/common/index";
+@import "pages/header/base/index";
+@import "pages/footer/base/index";
+
+#page {
+  min-height: 100vh;
+}
+
+/* Tablet */
+@include breakpoint(sm--min-width) {}
+
+/* Desktop */
+@include breakpoint(md--min-width) {
+  @import "pages/header/desktop/index";
+  @import "pages/footer/desktop/index";
+}

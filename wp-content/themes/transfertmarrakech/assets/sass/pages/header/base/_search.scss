@@ -1,0 +1,191 @@
+.search {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  padding: 101px var(--gutter) var(--gutter);
+  color: var(--blue-grey-light);
+  background: var(--blue-dark);
+  transition: all 1s var(--ease-out);
+  transform: translateY(100%);
+  pointer-events: none;
+
+  &.is-open {
+    transform: none;
+    pointer-events: auto;
+  }
+
+  &__inner {
+    display: flex;
+    flex-flow: column nowrap;
+    flex-grow: 1;
+    max-width: 1154px;
+    margin: 0 auto;
+    overflow: auto;
+  }
+
+  &-bar {
+    &__label {
+      position: relative;
+      display: block;
+      width: 100%;
+      margin: 0;
+      padding: clamp(10.4px, 1300svw / var(--w), 15.6px) clamp(14.4px, 1800svw / var(--w), 21.6px);
+      text-align: left;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      background: var(--blue-grey-light);
+      border-radius: var(--radius);
+      opacity: 1;
+      overflow: hidden;
+      transition: all var(--ts) var(--smooth);
+      cursor: pointer;
+
+      input[type="search"] {
+        display: block;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        padding-right: 35px;
+        background: none;
+        border: 0;
+        outline: none;
+        box-shadow: none;
+        transition: all var(--ts) var(--smooth);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+
+        // Remove native clear button (x) in browsers
+        &::-webkit-search-decoration,
+        &::-webkit-search-cancel-button,
+        &::-webkit-search-results-button,
+        &::-webkit-search-results-decoration {
+          display: none;
+          -webkit-appearance: none;
+          appearance: none;
+        }
+
+        // Firefox
+        &::-moz-search-clear {
+          display: none;
+        }
+
+        &,
+        &::placeholder {
+          @include typographic($font-ppneuemontreal, 16px, 400, var(--blue-dark), 1);
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: none;
+        }
+      }
+
+      &-title {
+        @include typographic($font-ibmplexmono, 12px, 400, var(--blue-dark), 1);
+        margin-bottom: 0.6666666667em;
+        text-transform: uppercase;
+      }
+
+      .ais-SearchBox {
+        &-form {
+          position: relative;
+        }
+
+        &-submit {
+          position: absolute;
+          top: 50%;
+          right: 8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 23px;
+          height: 23px;
+          padding: 0;
+          background: none;
+          border: 0;
+          transition: opacity var(--ts) var(--smooth);
+          transform: translateY(-50%);
+          cursor: pointer;
+
+          &:hover {
+            opacity: 0.7;
+          }
+
+          &:focus {
+            outline: 2px solid var(--blue-dark);
+            outline-offset: 2px;
+          }
+
+          svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+  &__close {
+    position: absolute;
+    top: 23px;
+    left: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    min-width: 50px;
+    height: 50px;
+    padding: 0;
+    background-color: var(--blue-grey-light);
+    border: 0;
+    border-radius: 100%;
+    transition: all var(--tm) var(--smooth);
+    transform: translate(-50%);
+    cursor: pointer;
+
+    &:hover {
+      transform: translate(-50%) scale(1.1);
+    }
+
+    &:focus {
+      outline: 2px solid var(--blue-grey-light);
+      outline-offset: 2px;
+    }
+
+    span {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+      transition: all var(--tm) var(--smooth);
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: block;
+        width: 40%;
+        height: 40%;
+        background: url($path_icons + "/close.svg") no-repeat center;
+        background-size: contain;
+        filter: invert(90%) sepia(29%) saturate(4567%) hue-rotate(200deg) brightness(89%) contrast(95%);
+        transition: all var(--tm) var(--smooth);
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+
+  .logged-in & {
+    padding-top: 161px;
+  }
+
+  .logged-in &__close {
+    top: 83px;
+  }
+}

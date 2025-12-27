@@ -1,0 +1,29 @@
+.featuredText {
+  text-align: center;
+  .modules & {
+    &.featuredText {
+      margin: var(--gutter);
+    }
+  }
+
+  &__inner {
+    padding: calc(4700svw / var(--w)) calc(2200svw / var(--w));
+    color: var(--blue-grey);
+    background: var(--blue-dark);
+    border-radius: var(--radius);
+  }
+
+  &__surtext {
+    font-family: $font-ibmplexmono;
+    font-size: calc(1400svw / var(--w));
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  &__text {
+    margin: 0;
+    margin-top: calc(3900svw / var(--w));
+    font-size: max(30px, 4000svw / var(--w));
+    line-height: 1.2;
+  }
+}

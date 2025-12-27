@@ -1,0 +1,297 @@
+{
+  "description": "Exemple de données pour créer des posts de test via l'API REST",
+  "vehicules": [
+    {
+      "title": "Mercedes Vito 8 places",
+      "content": "Véhicule confortable idéal pour les groupes. Climatisation, sièges confortables, espace généreux pour les bagages. Parfait pour les transferts aéroport et les excursions en groupe.",
+      "meta": {
+        "tm_vehicle_type": "van",
+        "tm_seats": 8,
+        "tm_baggage_capacity": "3 valises",
+        "tm_daily_price": "500.00",
+        "tm_availability": true
+      }
+    },
+    {
+      "title": "Toyota Land Cruiser 4x4",
+      "content": "Véhicule tout-terrain parfait pour les excursions dans le désert. Confortable, puissant et fiable. Idéal pour les aventures hors route.",
+      "meta": {
+        "tm_vehicle_type": "4x4",
+        "tm_seats": 7,
+        "tm_baggage_capacity": "2 valises",
+        "tm_daily_price": "800.00",
+        "tm_availability": true
+      }
+    },
+    {
+      "title": "Minibus 16 places",
+      "content": "Grand véhicule pour les groupes importants. Idéal pour les transferts aéroport et les excursions de groupe. Confortable et spacieux.",
+      "meta": {
+        "tm_vehicle_type": "minibus",
+        "tm_seats": 16,
+        "tm_baggage_capacity": "8 valises",
+        "tm_daily_price": "1200.00",
+        "tm_availability": true
+      }
+    },
+    {
+      "title": "Mercedes Sprinter 19 places",
+      "content": "Véhicule de grande capacité pour les groupes très importants. Confort premium, climatisation, sièges ergonomiques. Parfait pour les événements et groupes touristiques.",
+      "meta": {
+        "tm_vehicle_type": "minibus",
+        "tm_seats": 19,
+        "tm_baggage_capacity": "10 valises",
+        "tm_daily_price": "1500.00",
+        "tm_availability": true
+      }
+    },
+    {
+      "title": "Renault Duster 4x4",
+      "content": "Véhicule compact et économique, parfait pour les couples ou petites familles. Idéal pour explorer Marrakech et ses environs.",
+      "meta": {
+        "tm_vehicle_type": "4x4",
+        "tm_seats": 5,
+        "tm_baggage_capacity": "2 valises",
+        "tm_daily_price": "400.00",
+        "tm_availability": true
+      }
+    },
+    {
+      "title": "Volkswagen Caravelle 9 places",
+      "content": "Van premium avec 9 places confortables. Climatisation, système audio, espace généreux. Parfait pour les familles nombreuses.",
+      "meta": {
+        "tm_vehicle_type": "van",
+        "tm_seats": 9,
+        "tm_baggage_capacity": "4 valises",
+        "tm_daily_price": "600.00",
+        "tm_availability": true
+      }
+    },
+    {
+      "title": "Jeep Wrangler 4x4",
+      "content": "Véhicule emblématique pour les aventures dans le désert. Toit ouvrant, tout-terrain performant. Expérience inoubliable garantie.",
+      "meta": {
+        "tm_vehicle_type": "4x4",
+        "tm_seats": 5,
+        "tm_baggage_capacity": "2 valises",
+        "tm_daily_price": "750.00",
+        "tm_availability": true
+      }
+    },
+    {
+      "title": "Mercedes V-Class Luxe",
+      "content": "Van de luxe avec finitions premium. Sièges en cuir, climatisation multi-zones, système multimédia. Pour un voyage haut de gamme.",
+      "meta": {
+        "tm_vehicle_type": "van",
+        "tm_seats": 8,
+        "tm_baggage_capacity": "4 valises",
+        "tm_daily_price": "900.00",
+        "tm_availability": true
+      }
+    }
+  ],
+  "tours": [
+    {
+      "title": "Excursion dans le désert d'Agafay",
+      "content": "Découvrez le désert d'Agafay à seulement 30 minutes de Marrakech. Dîner au coucher du soleil avec vue panoramique. Expérience magique dans un cadre authentique.",
+      "meta": {
+        "tm_location": "Désert d'Agafay",
+        "tm_duration": "6h",
+        "tm_duration_minutes": 360,
+        "tm_price": "450.00",
+        "tm_highlights": "Coucher de soleil, dîner berbère, musique traditionnelle, balade à dos de chameau",
+        "tm_meeting_point": "Hôtel ou riad à Marrakech"
+      }
+    },
+    {
+      "title": "Visite des cascades d'Ouzoud",
+      "content": "Journée complète aux cascades d'Ouzoud, les plus hautes cascades du Maroc. Randonnée, baignade et déjeuner traditionnel dans un cadre naturel exceptionnel.",
+      "meta": {
+        "tm_location": "Cascades d'Ouzoud",
+        "tm_duration": "10h",
+        "tm_duration_minutes": 600,
+        "tm_price": "600.00",
+        "tm_highlights": "Cascades de 110m, randonnée, déjeuner traditionnel, baignade dans les bassins naturels",
+        "tm_meeting_point": "Hôtel ou riad à Marrakech"
+      }
+    },
+    {
+      "title": "Excursion à Essaouira",
+      "content": "Journée complète à Essaouira, la perle de l'Atlantique. Découverte de la médina classée UNESCO, dégustation de poissons frais, promenade sur les remparts.",
+      "meta": {
+        "tm_location": "Essaouira",
+        "tm_duration": "12h",
+        "tm_duration_minutes": 720,
+        "tm_price": "550.00",
+        "tm_highlights": "Médina UNESCO, port de pêche, remparts, dégustation de poissons frais",
+        "tm_meeting_point": "Hôtel ou riad à Marrakech"
+      }
+    },
+    {
+      "title": "Circuit Vallée de l'Ourika",
+      "content": "Découverte de la vallée de l'Ourika et ses villages berbères. Visite d'une coopérative d'huile d'argan, déjeuner dans un restaurant avec vue sur les montagnes.",
+      "meta": {
+        "tm_location": "Vallée de l'Ourika",
+        "tm_duration": "8h",
+        "tm_duration_minutes": 480,
+        "tm_price": "500.00",
+        "tm_highlights": "Villages berbères, coopérative d'huile d'argan, déjeuner traditionnel, randonnée",
+        "tm_meeting_point": "Hôtel ou riad à Marrakech"
+      }
+    },
+    {
+      "title": "Safari dans le désert de Merzouga",
+      "content": "Aventure de 3 jours dans le désert de Merzouga. Nuitée dans un campement berbère, balade à dos de chameau, coucher et lever de soleil dans le désert.",
+      "meta": {
+        "tm_location": "Désert de Merzouga",
+        "tm_duration": "3 jours",
+        "tm_duration_minutes": 4320,
+        "tm_price": "2500.00",
+        "tm_highlights": "Campement berbère, balade à dos de chameau, coucher/lever de soleil, dîner sous les étoiles",
+        "tm_meeting_point": "Hôtel ou riad à Marrakech"
+      }
+    },
+    {
+      "title": "Visite de la médina de Marrakech",
+      "content": "Visite guidée de la médina de Marrakech. Découverte de la place Jemaa el-Fna, des souks, des palais et jardins. Guide professionnel francophone inclus.",
+      "meta": {
+        "tm_location": "Marrakech",
+        "tm_duration": "4h",
+        "tm_duration_minutes": 240,
+        "tm_price": "300.00",
+        "tm_highlights": "Place Jemaa el-Fna, souks, palais Bahia, jardins Majorelle, guide francophone",
+        "tm_meeting_point": "Hôtel ou riad à Marrakech"
+      }
+    },
+    {
+      "title": "Excursion aux montagnes de l'Atlas",
+      "content": "Journée dans les montagnes de l'Atlas. Randonnée, visite d'un village berbère, déjeuner traditionnel avec vue panoramique sur les sommets enneigés.",
+      "meta": {
+        "tm_location": "Montagnes de l'Atlas",
+        "tm_duration": "9h",
+        "tm_duration_minutes": 540,
+        "tm_price": "550.00",
+        "tm_highlights": "Randonnée, village berbère, déjeuner traditionnel, vue panoramique",
+        "tm_meeting_point": "Hôtel ou riad à Marrakech"
+      }
+    },
+    {
+      "title": "Circuit Kasbahs et palmeraies",
+      "content": "Découverte des kasbahs historiques et des palmeraies de la région. Visite de Aït Benhaddou (site UNESCO), déjeuner dans une kasbah restaurée.",
+      "meta": {
+        "tm_location": "Kasbahs et palmeraies",
+        "tm_duration": "11h",
+        "tm_duration_minutes": 660,
+        "tm_price": "650.00",
+        "tm_highlights": "Kasbah Aït Benhaddou (UNESCO), palmeraies, déjeuner dans une kasbah",
+        "tm_meeting_point": "Hôtel ou riad à Marrakech"
+      }
+    }
+  ],
+  "transferts": [
+    {
+      "title": "Transfert Aéroport - Centre-ville",
+      "content": "Transfert confortable depuis l'aéroport de Marrakech vers le centre-ville. Service disponible 24/7 avec accueil personnalisé.",
+      "meta": {
+        "tm_transfer_type": "airport",
+        "tm_price": "150.00",
+        "tm_pickup": "Aéroport Marrakech-Ménara",
+        "tm_dropoff": "Centre-ville Marrakech",
+        "tm_duration_estimate": "20 minutes",
+        "tm_description": "Service de transfert disponible 24/7. Accueil avec panneau nominatif. Véhicule confortable et climatisé. Assistance avec les bagages."
+      }
+    },
+    {
+      "title": "Transfert Hôtel - Aéroport",
+      "content": "Retour vers l'aéroport depuis votre hôtel ou riad. Prise en charge à l'heure convenue pour ne pas rater votre vol.",
+      "meta": {
+        "tm_transfer_type": "airport",
+        "tm_price": "150.00",
+        "tm_pickup": "Hôtel ou riad à Marrakech",
+        "tm_dropoff": "Aéroport Marrakech-Ménara",
+        "tm_duration_estimate": "20-30 minutes",
+        "tm_description": "Prise en charge à l'heure convenue. Service ponctuel et professionnel. Nous vous garantissons d'arriver à l'heure pour votre vol."
+      }
+    },
+    {
+      "title": "Transfert Aéroport - Palmeraie",
+      "content": "Transfert direct depuis l'aéroport vers la palmeraie de Marrakech. Idéal pour les hôtels et riads situés dans la palmeraie.",
+      "meta": {
+        "tm_transfer_type": "airport",
+        "tm_price": "200.00",
+        "tm_pickup": "Aéroport Marrakech-Ménara",
+        "tm_dropoff": "Palmeraie de Marrakech",
+        "tm_duration_estimate": "30-40 minutes",
+        "tm_description": "Transfert direct vers la palmeraie. Service disponible pour tous les hôtels et riads de la zone."
+      }
+    },
+    {
+      "title": "Transfert Hôtel - Hôtel",
+      "content": "Transfert entre deux hôtels ou riads à Marrakech. Service flexible selon vos besoins.",
+      "meta": {
+        "tm_transfer_type": "hotel",
+        "tm_price": "100.00",
+        "tm_pickup": "Hôtel ou riad de départ",
+        "tm_dropoff": "Hôtel ou riad de destination",
+        "tm_duration_estimate": "15-25 minutes",
+        "tm_description": "Transfert pratique entre deux établissements à Marrakech. Service ponctuel et professionnel."
+      }
+    },
+    {
+      "title": "Transfert Gare - Centre-ville",
+      "content": "Transfert depuis la gare de Marrakech vers le centre-ville ou votre hébergement.",
+      "meta": {
+        "tm_transfer_type": "city",
+        "tm_price": "80.00",
+        "tm_pickup": "Gare de Marrakech",
+        "tm_dropoff": "Centre-ville ou hébergement",
+        "tm_duration_estimate": "15 minutes",
+        "tm_description": "Service de transfert depuis la gare. Accueil à l'arrivée du train."
+      }
+    },
+    {
+      "title": "Transfert personnalisé",
+      "content": "Service de transfert sur mesure selon vos besoins. Itinéraire personnalisé, horaires flexibles.",
+      "meta": {
+        "tm_transfer_type": "custom",
+        "tm_price": "200.00",
+        "tm_pickup": "Lieu de votre choix",
+        "tm_dropoff": "Destination de votre choix",
+        "tm_duration_estimate": "Selon destination",
+        "tm_description": "Contactez-nous pour discuter de vos besoins spécifiques. Nous adaptons notre service à vos exigences."
+      }
+    },
+    {
+      "title": "Transfert Aéroport - Essaouira",
+      "content": "Transfert longue distance depuis l'aéroport de Marrakech vers Essaouira. Voyage confortable avec arrêts possibles.",
+      "meta": {
+        "tm_transfer_type": "custom",
+        "tm_price": "400.00",
+        "tm_pickup": "Aéroport Marrakech-Ménara",
+        "tm_dropoff": "Essaouira",
+        "tm_duration_estimate": "2h30",
+        "tm_description": "Transfert longue distance vers Essaouira. Voyage confortable avec possibilité d'arrêts pour photos ou pause."
+      }
+    },
+    {
+      "title": "Transfert VIP Aéroport",
+      "content": "Service VIP depuis l'aéroport. Véhicule haut de gamme, accueil personnalisé, assistance complète.",
+      "meta": {
+        "tm_transfer_type": "airport",
+        "tm_price": "300.00",
+        "tm_pickup": "Aéroport Marrakech-Ménara",
+        "tm_dropoff": "Destination de votre choix",
+        "tm_duration_estimate": "Selon destination",
+        "tm_description": "Service VIP avec véhicule haut de gamme, accueil personnalisé, assistance avec les bagages et formalités."
+      }
+    }
+  ],
+  "instructions": {
+    "note": "Ce fichier contient des exemples de données pour créer des posts de test. Vous pouvez utiliser ces données via l'API REST ou directement dans l'administration WordPress.",
+    "utilisation_rest_api": "Pour créer ces posts via l'API REST, utilisez les endpoints POST correspondants avec les données JSON.",
+    "exemple_curl_vehicule": "curl -X POST \"http://votre-site.local/wp-json/tm/v1/vehicules\" -H \"Content-Type: application/json\" -H \"Authorization: Bearer TOKEN\" -d '{\"title\":\"Mercedes Vito\",\"content\":\"Description\",\"tm_vehicle_type\":\"van\",\"tm_seats\":8,\"tm_daily_price\":\"500.00\",\"tm_availability\":true}'",
+    "exemple_curl_tour": "curl -X POST \"http://votre-site.local/wp-json/tm/v1/tours\" -H \"Content-Type: application/json\" -H \"Authorization: Bearer TOKEN\" -d '{\"title\":\"Excursion désert\",\"content\":\"Description\",\"tm_location\":\"Désert d'Agafay\",\"tm_duration\":\"6h\",\"tm_price\":\"450.00\"}'",
+    "exemple_curl_transfert": "curl -X POST \"http://votre-site.local/wp-json/tm/v1/transferts\" -H \"Content-Type: application/json\" -H \"Authorization: Bearer TOKEN\" -d '{\"title\":\"Transfert Aéroport\",\"content\":\"Description\",\"tm_transfer_type\":\"airport\",\"tm_price\":\"150.00\",\"tm_pickup\":\"Aéroport\",\"tm_dropoff\":\"Centre-ville\"}'",
+    "utilisation_admin": "Vous pouvez également créer ces posts manuellement dans l'administration WordPress (Véhicules > Ajouter, Tours > Ajouter, Transferts > Ajouter)."
+  }
+}

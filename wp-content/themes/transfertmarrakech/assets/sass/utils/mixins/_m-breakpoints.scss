@@ -1,0 +1,27 @@
+@mixin breakpoint($class) {
+  /* --- MIN WIDTH --- */
+
+  @if $class == lg--min-width {
+    @media only screen and (min-width: $screen-lg-desktop) {
+      @content;
+    }
+  }
+
+  @if $class == md--min-width {
+    @media only screen and (min-width: $screen-desktop) {
+      @content;
+    }
+  }
+
+  @if $class == sm--min-width {
+    @media only screen and (min-width: $screen-tablet) {
+      @content;
+    }
+  }
+
+  @if $class == xs--min-width {
+    @media only screen and (min-width: $screen-phone) {
+      @content;
+    }
+  }
+}

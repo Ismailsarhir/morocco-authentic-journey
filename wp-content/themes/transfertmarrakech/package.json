@@ -1,0 +1,35 @@
+{
+  "name": "core",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "sass-watch": "sass --watch --source-map assets/sass:assets/css",
+    "sass-build": "npx stylelint '**/*.scss' --fix && sass --no-source-map --quiet --style=compressed assets/sass:assets/css",
+    "js-watch": "webpack --config webpack.config.js --mode development",
+    "js-build": "webpack --config webpack.config.js --mode production"
+  },
+  "keywords": [],
+  "author": "Ismail Sarhir",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "gsap": "^3.14.2",
+    "swiper": "^11.2.10"
+  },
+  "devDependencies": {
+    "@stylistic/stylelint-plugin": "^4.0.0",
+    "css-loader": "^7.1.2",
+    "prettier": "^3.6.2",
+    "sass": "1.70.0",
+    "style-loader": "^4.0.0",
+    "stylelint": "^16.25.0",
+    "stylelint-declaration-strict-value": "^1.10.11",
+    "stylelint-order": "^6.0.0",
+    "terser-webpack-plugin": "5.3.14",
+    "webpack": "5.99.6",
+    "webpack-cli": "6.0.1"
+  }
+}

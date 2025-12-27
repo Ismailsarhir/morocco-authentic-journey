@@ -1,0 +1,22 @@
+.container {
+  @include make-container;
+
+  @media (min-width: map-get($grid-breakpoints, sm)) {
+    max-width: $container-sm;
+  }
+  @media (min-width: map-get($grid-breakpoints, md)) {
+    max-width: $container-md;
+  }
+  @media (min-width: map-get($grid-breakpoints, lg)) {
+    max-width: $container-lg;
+  }
+  @media (min-width: map-get($grid-breakpoints, xl)) {
+    max-width: $container-xl;
+  }
+}
+
+.row {
+  @include make-row();
+}
+
+@include make-grid-columns;

@@ -1,0 +1,32 @@
+@use "sass:math";
+
+@mixin make-container($gutter: $grid-gutter-width) {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: $gutter * .5;
+  padding-left: $gutter * .5;
+}
+
+@mixin make-row($gutter: $grid-gutter-width) {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -$gutter * .5;
+  margin-left: -$gutter * .5;
+}
+
+@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin make-col($size, $columns: $grid-columns) {
+  flex: 0 0 percentage(math.div($size, $columns));
+  max-width: percentage(math.div($size, $columns));
+}

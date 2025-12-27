@@ -1,0 +1,98 @@
+/*== Media queries breakpoints*/
+/**/
+/*## Define the breakpoints at which your layout will change, adapting to different screen sizes.*/
+
+/* Extra small screen / phone*/
+/*** Deprecated `$screen-xs` as of v3.0.1*/
+$screen-xs: 480px !default;
+/*** Deprecated `$screen-xs-min` as of v3.2.0*/
+$screen-xs-min: $screen-xs !default;
+/*** Deprecated `$screen-phone` as of v3.0.1*/
+$screen-phone: $screen-xs-min !default;
+
+/* Small screen / tablet*/
+/*** Deprecated `$screen-sm` as of v3.0.1*/
+$screen-sm: 768px !default;
+$screen-sm-min: $screen-sm !default;
+/*** Deprecated `$screen-tablet` as of v3.0.1*/
+$screen-tablet: $screen-sm-min !default;
+
+/* Medium screen / desktop*/
+/*** Deprecated `$screen-md` as of v3.0.1*/
+$screen-md: 992px !default;
+$screen-md-min: $screen-md !default;
+/*** Deprecated `$screen-desktop` as of v3.0.1*/
+$screen-desktop: $screen-md-min !default;
+
+/* Large screen / wide desktop*/
+/*** Deprecated `$screen-lg` as of v3.0.1*/
+$screen-lg: 1200px !default;
+$screen-lg-min: $screen-lg !default;
+/*** Deprecated `$screen-lg-desktop` as of v3.0.1*/
+$screen-lg-desktop: $screen-lg-min !default;
+
+/* So media queries don't overlap when required, provide a maximum*/
+$screen-xs-max: (
+  $screen-sm-min - 1) !default;
+$screen-sm-max: (
+  $screen-md-min - 1) !default;
+$screen-md-max: (
+  $screen-lg-min - 1) !default;
+
+$grid-columns: 12 !default;
+$grid-gutter-width: 30px !default;
+
+$container-sm: (
+  720px + $grid-gutter-width) !default;
+$container-md: (
+  940px + $grid-gutter-width) !default;
+$container-lg: 1140px !default;
+
+/* Path*/
+$root_path: "/wp-content/themes/transfertmarrakech/";
+$fonts_path: $root_path + "assets/fonts";
+$path_images: $root_path + "assets/images";
+$path_icons: $path_images + "/icons";
+
+/* Fonts */
+$font-gascone: "Gascone-Regular",
+  sans-serif;
+$font-ibmplexmono: "Ibmplexmono-Regular",
+  sans-serif;
+$font-ppneuemontreal: "PPNeueMontreal-Regular",
+  sans-serif;
+$font-ppneuemontreal-bold: "PPNeueMontreal-Bold",
+  sans-serif;
+
+/* Colors */
+$black-color: #000000;
+$white-color: #FFFFFF;
+
+:root {
+  --blue: #125ed1;
+  --blue-dark: #0a254d;
+  --blue-dark-opacity: rgb(10 37 37 / 10%);
+  --blue-grey-light: #f3f3f3;
+  --blue-grey: #e3e7ec;
+  --ts: .15s;
+  --tm: .25s;
+  --tl: .75s;
+  --bounce: cubic-bezier(.175, .885, .32, 1.275);
+  --smooth: cubic-bezier(.42, .09, .25, 1);
+  --ease-out: cubic-bezier(.37, .72, .55, 1);
+  --ease-in: cubic-bezier(.55, 0, .63, .28);
+  --radius: max(5px, calc(100vw * 5 / var(--w)));
+  --w: 1440;
+  --p: 25;
+  --padding-inline: calc(100vw * var(--p) / var(--w));
+  --gutter: max(10px, calc(var(--padding-inline)));
+  --header-spacing: 86px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --w: 375;
+    --p: 10;
+    --header-spacing: 80px;
+  }
+}

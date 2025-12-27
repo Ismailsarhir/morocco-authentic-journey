@@ -1,0 +1,124 @@
+.transfert-card {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  width: 100%;
+  height: calc(50000svw / var(--w));
+  padding: var(--gutter);
+  text-decoration: none;
+  background: var(--blue-grey);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: all var(--tm) var(--smooth);
+  flex-flow: column nowrap;
+
+  &:hover {
+    color: var(--blue-grey-light);
+    & .transfert-card__infos::before {
+      height: 100%;
+    }
+  }
+
+  &__img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    aspect-ratio: auto;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__infos {
+    position: relative;
+    display: flex;
+    flex-grow: 1;
+    flex-grow: 0;
+    width: 20.7647058824em;
+    max-width: 100%;
+    padding: var(--gutter) var(--gutter) 0;
+    background: var(--blue-grey-light);
+    border-radius: var(--radius);
+    overflow: hidden;
+    flex-flow: column nowrap;
+
+    & > * {
+      position: relative;
+    }
+
+    &:before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+      background: var(--blue-dark);
+      transition: all 0.5s var(--ease-out);
+    }
+
+    &-title {
+      margin-bottom: 1em;
+      font-size: clamp(17.6px, 2200svw / var(--w), 26.4px);
+    }
+
+    .tag {
+      display: inline-block;
+      margin: 0 0.2142857143em 0.2142857143em 0;
+      padding: 0.5714285714em 0.4285714286em;
+      font-size: max(14px, 1400svw / var(--w));
+      line-height: 1;
+      white-space: nowrap;
+      border-radius: var(--radius);
+      outline: 1px solid;
+      outline-offset: -1px;
+    }
+
+    &-table {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      margin-top: 6.103286385%;
+      padding: 0;
+      font-size: clamp(9.6px, 1200svw / var(--w), 14.4px);
+      border-top: 2px dotted;
+
+      ul,
+      div {
+        padding-block: 1.2352941176em 1.5294117647em;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 1em;
+        list-style: disc;
+
+        li {
+          margin: 0;
+          line-height: 1.23;
+        }
+      }
+
+      div {
+        width: 50%;
+        margin-top: 2px;
+        padding-left: 5.6338028169%;
+        white-space: nowrap;
+        border-left: 2px dotted;
+
+        strong {
+          display: block;
+          margin-top: 0.1481481481em;
+          font-size: 1.5882352941em;
+        }
+      }
+    }
+  }
+}

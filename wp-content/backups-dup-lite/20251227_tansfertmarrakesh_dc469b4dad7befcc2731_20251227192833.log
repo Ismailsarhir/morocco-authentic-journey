@@ -1,0 +1,77 @@
+********************************************************************************
+DUPLICATOR-LITE PACKAGE-LOG: 27 December 2025 19h28
+NOTICE: Do NOT post to public sites or forums 
+********************************************************************************
+VERSION:	1.5.14
+WORDPRESS:	6.8.3
+PHP INFO:	8.4.15 | SAPI: fpm-fcgi
+SERVER:		nginx/1.29.2 
+PHP TIME LIMIT: (0) no time limit imposed 
+PHP MAX MEMORY: 4294967296 (256M default) 
+MEMORY STACK: 4MB
+
+********************************************************************************
+DATABASE:
+********************************************************************************
+BUILD MODE:   PHP(query limit - 100)
+MYSQLTIMEOUT: 5000
+MYSQLDUMP:    Is Supported
+TABLES: total:13 | filtered:0 | create:13
+FILTERED: []
+SQL CREATED: 20251227_tansfertmarrakesh_dc469b4dad7befcc2731_20251227192833_database.sql
+SQL FILE SIZE: 1.25MB (1309002)
+SQL FILE TIME: 2025-12-27 19:28:42
+SQL RUNTIME: 0.20 sec.
+
+********************************************************************************
+ARCHIVE (ZIP):
+********************************************************************************
+ARCHIVE DIR:  /var/www/html
+ARCHIVE FILE: 20251227_tansfertmarrakesh_dc469b4dad7befcc2731_20251227192833_archive.zip
+FILTERS: *OFF*
+DIRS:
+	not set
+FILES:
+	not set
+EXTS:  not set
+----------------------------------------
+COMPRESSING
+SIZE:	152.02MB
+STATS:	Dirs 1,677 | Files 10,871
+SQL ADDED: 20251227_tansfertmarrakesh_dc469b4dad7befcc2731_20251227192833_database.sql
+ZipArchive Object
+(
+    [lastId] => 12547
+    [status] => 0
+    [statusSys] => 0
+    [numFiles] => 12548
+    [filename] => /var/www/html/wp-content/backups-dup-lite/tmp/20251227_tansfertmarrakesh_dc469b4dad7befcc2731_20251227192833_archive.zip
+    [comment] => 
+)
+
+FILE ADDED TO ZIP: 12547
+[PHP ERR][NOTICE] MSG:ob_flush(): Failed to flush buffer. No buffer to flush [CODE:8|FILE:/var/www/html/wp-content/plugins/duplicator/classes/utilities/class.u.php|LINE:173]
+do_action('wp_ajax_duplicator_package_build'), WP_Hook->do_action, WP_Hook->apply_filters, duplicator_package_build, DUP_Package->runZipBuild, DUP_Archive->build, DUP_Zip::create, DUP_Util::fcgiFlush, ob_flush, DUP_Handler::error, DUP_Handler::getMessage
+COMPRESSION RESULT: '1'
+COMPRESSED SIZE: 61.77MB
+ARCHIVE RUNTIME: 28.07 sec.
+MEMORY STACK: 8MB
+building installer
+TEST DE COHÉRENCE D’ARCHIVE : RÉUSSITE
+
+********************************************************************************
+INTEGRITY CHECKS:
+********************************************************************************
+SQL FILE: 1.25MB
+INSTALLER FILE: 73.5KB
+ARCHIVE FILE: 63.74MB 
+COMPTE ATTENDU DE FICHIERS/RÉPERTOIRES : 12,548
+COMPTE ACTUEL DE FICHIERS/RÉPERTOIRES : 12,547
+TEST DE COHÉRENCE D’ARCHIVE : Bon
+
+********************************************************************************
+RECORD ID:[3]
+TOTAL PROCESS RUNTIME: 30.24 sec.
+PEAK PHP MEMORY USED: 10MB
+DONE PROCESSING => 20251227_tansfertmarrakesh 27 December 2025 19h29
+

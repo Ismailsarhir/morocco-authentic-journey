@@ -1,0 +1,15 @@
+.toursList {
+  &__list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  &__inner {
+    &,
+    .home & {
+      padding-top: calc(5800svw / var(--w));
+    }
+  }
+  &__title {
+    margin-bottom: 1em;
+    text-align: center;
+  }
+}

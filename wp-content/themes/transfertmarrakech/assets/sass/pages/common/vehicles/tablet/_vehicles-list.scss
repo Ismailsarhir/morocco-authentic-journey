@@ -1,0 +1,32 @@
+/**
+ * Vehicles List Styles
+ */
+
+.vehiclesList {
+  &__inner {
+    &,
+    .home & {
+      padding-top: calc(5800svw / var(--w));
+    }
+  }
+  &__title {
+    margin-bottom: 1em;
+    text-align: center;
+  }
+
+  .wrapper {
+    .box {
+      width: 25vw;
+      height: 25vw;
+    }
+  }
+  
+  .modal {
+    .content {
+      height: 70vh;
+      .modal__title {
+        font-size: max(40px, 4000svw / var(--w));
+      }
+    }
+  }
+}

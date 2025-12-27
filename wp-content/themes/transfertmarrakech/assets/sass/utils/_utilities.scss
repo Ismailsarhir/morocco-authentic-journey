@@ -1,0 +1,77 @@
+/**
+ * Utility classes for visibility control with animations
+ * 
+ * Classes to show/hide elements based on device type
+ * using opacity and visibility for smooth animations
+ * and display: none to remove from layout flow
+ */
+
+/* Mobile only (< 768px) */
+.in_mobile {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--ts) var(--smooth), visibility var(--ts) var(--smooth);
+
+  @include breakpoint(sm--min-width) {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Tablet only (768px - 991px) */
+.in_tablet {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--ts) var(--smooth), visibility var(--ts) var(--smooth);
+
+  @include breakpoint(sm--min-width) {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  @include breakpoint(md--min-width) {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Desktop only (>= 992px) */
+.in_desktop {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--ts) var(--smooth), visibility var(--ts) var(--smooth);
+
+  @include breakpoint(md--min-width) {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+
+.blue-bg {
+  padding-block: calc(1500svw / var(--w));
+  background: var(--blue-grey);
+}
+
+.modules .module {
+  margin-block: max(35px, 3500svw / var(--w));
+
+  &.carrousel {
+    margin-block: max(20px, 2000svw / var(--w));
+  }
+
+  @include breakpoint(md--min-width) {
+    margin: max(105px, 10500svw / var(--w)) var(--gutter);
+
+    &.carrousel {
+      margin: max(60px, 6000svw / var(--w)) 0;
+    }
+  }
+}

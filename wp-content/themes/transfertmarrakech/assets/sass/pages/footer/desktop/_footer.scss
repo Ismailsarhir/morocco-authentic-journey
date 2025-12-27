@@ -1,0 +1,28 @@
+.footer {
+  &__top {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: calc(2400svw / var(--w));
+    padding-block: max(68px, 6800svw / var(--w)) max(86px, 8600svw / var(--w));
+    &>div {
+      width: calc(44700svw / var(--w));
+      &:first-child {
+        .cta {
+          &:not(:last-child) {
+            margin-bottom: max(17px, 1700svw / var(--w));
+          }
+        }
+      }
+    }
+  }
+  &__logo-link {
+    margin-bottom: max(52px, 5200svw / var(--w));
+    img {
+      width: max(120px, 12000svw / var(--w));
+    }
+  }
+  &__bottom {
+    text-align: center;
+  }
+}

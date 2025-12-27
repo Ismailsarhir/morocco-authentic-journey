@@ -1,0 +1,8 @@
+@mixin typographic($fontFamily, $fontSize, $fontWight: 400, $textColor: $black-color, $lineHieght: normal, $lettreSpacing: normal) {
+  font-family: $fontFamily;
+  font-size: $fontSize;
+  font-weight: $fontWight;
+  line-height: $lineHieght;
+  letter-spacing: $lettreSpacing;
+  color: $textColor;
+}
