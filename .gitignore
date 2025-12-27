@@ -1,0 +1,6 @@
+dockers/volumes
+wp/wp-config.php
+wp/wp-content/uploads
+wp/wp-content/themes/transfertmarrakech/node_modules
+wp/wp-content/themes/transfertmarrakech/package-lock.json
+wp/wp-content/themes/transfertmarrakech/assets/css/*.css.map
