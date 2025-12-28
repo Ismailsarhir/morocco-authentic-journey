@@ -210,7 +210,14 @@ class TourPostType extends PostType {
 				'auth_callback'     => function() {
 					return \current_user_can( 'edit_posts' );
 				},
-				'show_in_rest'      => true,
+				'show_in_rest'      => [
+					'schema' => [
+						'type'  => 'array',
+						'items' => [
+							'type' => 'integer',
+						],
+					],
+				],
 			]
 		);
 		

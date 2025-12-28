@@ -15,6 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 </div><!-- #container -->
 </div><!-- #page -->
 
+<?php
+// Prefooter section
+get_template_part( 'template-parts/prefooter' );
+?>
+
 <footer class="footer__wrapper">
 	<div class="footer">
 		<div class="footer__top">

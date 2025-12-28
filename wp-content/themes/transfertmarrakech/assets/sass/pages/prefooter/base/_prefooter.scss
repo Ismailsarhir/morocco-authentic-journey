@@ -1,0 +1,30 @@
+.prefooter {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 0;
+  padding: calc(6100svw / var(--w)) calc(3600svw / var(--w))
+    calc(8600svw / var(--w));
+  text-align: center;
+  color: var(--blue-grey-light);
+  background: var(--blue-dark);
+  overflow: hidden;
+
+  &__wrapper {
+    position: relative;
+    z-index: 3;
+  }
+
+  &__inner {
+    max-width: none;
+  }
+
+  &__title {
+    margin-bottom: .75em;
+  }
+
+  &__txt {
+    margin-bottom: 1.7647058824em;
+  }
+}

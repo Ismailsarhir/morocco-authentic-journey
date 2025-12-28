@@ -25,7 +25,7 @@ body {
   background: inherit;
   overflow-x: hidden;
   overflow-y: scroll;
-  @include typographic($font-ppneuemontreal, 16px, var(--body-text-color, $black-color));
+  @include typographic($font-ppneuemontreal, max(17px, 1700svw / var(--w)), var(--body-text-color, $black-color));
 
   &.home {
     background-color: var(--blue-grey-light);

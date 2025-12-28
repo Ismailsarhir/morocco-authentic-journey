@@ -1,0 +1,16 @@
+.prefooter {
+  min-height: max(830px, 55svw);
+  padding: min(calc(18500svw / var(--w)), 185px) var(--gutter);
+
+  &__inner {
+    max-width: 32.9411764706em;
+  }
+
+  &__title {
+    margin-bottom: 0.4em;
+  }
+
+  &__txt {
+    margin-bottom: 3.4117647059em;
+  }
+}

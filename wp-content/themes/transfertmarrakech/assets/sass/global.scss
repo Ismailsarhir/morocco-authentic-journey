@@ -4,6 +4,7 @@
 
 @import "pages/common/index";
 @import "pages/header/base/index";
+@import "pages/prefooter/base/index";
 @import "pages/footer/base/index";
 
 #page {
@@ -11,7 +12,9 @@
 }
 
 /* Tablet */
-@include breakpoint(sm--min-width) {}
+@include breakpoint(sm--min-width) {
+  @import "pages/prefooter/tablet/index";
+}
 
 /* Desktop */
 @include breakpoint(md--min-width) {
