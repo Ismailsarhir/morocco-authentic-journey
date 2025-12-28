@@ -1,6 +1,6 @@
 dockers/volumes
-wp/wp-config.php
-wp/wp-content/uploads
-wp/wp-content/themes/transfertmarrakech/node_modules
-wp/wp-content/themes/transfertmarrakech/package-lock.json
-wp/wp-content/themes/transfertmarrakech/assets/css/*.css.map
+wp-config.php
+wp-content/uploads
+wp-content/themes/transfertmarrakech/node_modules
+wp-content/themes/transfertmarrakech/package-lock.json
+wp-content/themes/transfertmarrakech/assets/css/*.css.map
