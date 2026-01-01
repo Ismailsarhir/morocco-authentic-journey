@@ -47,7 +47,10 @@ class Renderer {
 		}
 		
 		// Extrait les données pour les rendre accessibles dans le template
-		\extract( $data, EXTR_SKIP );
+		// EXTR_SKIP évite d'écraser les variables existantes
+		if ( ! empty( $data ) ) {
+			\extract( $data, EXTR_SKIP );
+		}
 		
 		// Inclut le template
 		include $template_file;

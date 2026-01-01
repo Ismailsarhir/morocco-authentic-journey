@@ -1,23 +1,27 @@
 <?php
-
 /**
- * Template part pour la liste des véhicules vedettes
+ * Template part pour la liste des véhicules (réutilisable)
  * 
  * @package TransfertMarrakech
  * @since 1.0.0
  * 
- * @var array $vehicles Tableau des véhicules avec leurs données
+ * @var array  $vehicles Tableau des véhicules avec leurs données
+ * @var string $title    Titre de la section (optionnel)
  */
+
 if (! isset($vehicles) || empty($vehicles) || ! is_array($vehicles)) {
   return;
 }
+
+// Titre par défaut si non fourni
+$section_title = $title ?? __('Véhicules disponibles', 'transfertmarrakech');
 ?>
 
 <div class="modules">
   <div class="module vehiclesList">
     <div class="vehiclesList__inner">
       <h2 class="vehiclesList__title animated-title">
-        <?php esc_html_e('Véhicules vedettes', 'transfertmarrakech'); ?>
+        <?php echo esc_html($section_title); ?>
       </h2>
       <div class="wrapper">
         <div class="boxes-container">
@@ -26,11 +30,11 @@ if (! isset($vehicles) || empty($vehicles) || ! is_array($vehicles)) {
               continue;
             }
             
-            $vehicle_id = isset($vehicle_data['vehicle_id']) ? (int) $vehicle_data['vehicle_id'] : 0;
-            $thumbnail = isset($vehicle_data['thumbnail']) ? $vehicle_data['thumbnail'] : '';
-            $title = isset($vehicle_data['title']) ? $vehicle_data['title'] : '';
+            $vehicle_id = $vehicle_data['vehicle_id'] ?? 0;
+            $thumbnail = $vehicle_data['thumbnail'] ?? '';
+            $title = $vehicle_data['title'] ?? '';
       
-            if (empty($thumbnail) || $vehicle_id <= 0) {
+            if (empty($thumbnail) || empty($vehicle_id)) {
               continue;
             }
           ?>
@@ -49,3 +53,4 @@ if (! isset($vehicles) || empty($vehicles) || ! is_array($vehicles)) {
     </div>
   </div>
 </div>
+

@@ -88,9 +88,17 @@ class PostRepository {
 	 * @return array
 	 */
 	public function get_related_vehicles_for_tour( int $tour_id ): array {
-		// Utilise le helper pour normaliser les IDs
 		$tour_meta = \TM\Utils\MetaHelper::get_tour_meta( $tour_id );
 		$vehicle_ids = $tour_meta['tm_vehicles'] ?? [];
+		
+		if ( empty( $vehicle_ids ) || ! is_array( $vehicle_ids ) ) {
+			return [];
+		}
+		
+		// Normalise et filtre les IDs valides
+		$vehicle_ids = array_values( array_filter( array_map( 'absint', $vehicle_ids ), function( $id ) {
+			return $id > 0;
+		} ) );
 		
 		if ( empty( $vehicle_ids ) ) {
 			return [];
@@ -98,7 +106,7 @@ class PostRepository {
 		
 		return $this->get_by_args( 'vehicules', [
 			'post__in' => $vehicle_ids,
-			'orderby'  => 'post__in', // Préserve l'ordre des IDs
+			'orderby'  => 'post__in',
 		] );
 	}
 	
@@ -165,18 +173,20 @@ class PostRepository {
 	 * @return array
 	 */
 	public function format_post( $post ): array {
-		if ( ! $post ) {
+		if ( ! $post instanceof \WP_Post ) {
 			return [];
 		}
 		
-		// Optimisation : utilise les propriétés de l'objet post directement quand possible
+		// Optimisation : utilise les propriétés de l'objet post directement
 		$post_id = $post->ID;
+		$title = $post->post_title;
+		$excerpt = $post->post_excerpt;
 		
 		return [
 			'id'          => $post_id,
-			'title'       => $post->post_title ?: \get_the_title( $post_id ),
+			'title'       => $title ?: \get_the_title( $post_id ),
 			'content'     => \apply_filters( 'the_content', $post->post_content ),
-			'excerpt'     => $post->post_excerpt ?: \get_the_excerpt( $post_id ),
+			'excerpt'     => $excerpt ?: \get_the_excerpt( $post_id ),
 			'permalink'   => \get_permalink( $post_id ),
 			'thumbnail'   => \get_the_post_thumbnail_url( $post_id, 'medium' ),
 			'date'        => \get_the_date( '', $post_id ),

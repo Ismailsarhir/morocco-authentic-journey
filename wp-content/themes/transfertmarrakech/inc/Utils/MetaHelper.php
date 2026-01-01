@@ -32,12 +32,15 @@ class MetaHelper {
 			} ) );
 		}
 		
-		if ( is_string( $value ) && ! empty( trim( $value ) ) ) {
-			// Si c'est une chaîne, on la convertit en tableau
-			$ids = array_filter( array_map( 'absint', explode( ',', trim( $value ) ) ), function( $id ) {
-				return $id > 0;
-			} );
-			return array_values( $ids );
+		if ( is_string( $value ) ) {
+			$trimmed = trim( $value );
+			if ( ! empty( $trimmed ) ) {
+				// Si c'est une chaîne, on la convertit en tableau
+				$ids = array_filter( array_map( 'absint', explode( ',', $trimmed ) ), function( $id ) {
+					return $id > 0;
+				} );
+				return array_values( $ids );
+			}
 		}
 		
 		if ( is_numeric( $value ) ) {
@@ -97,7 +100,7 @@ class MetaHelper {
 		$meta['tm_availability'] = (bool) ( $meta['tm_availability'] ?? false );
 		
 		// Normalise les entiers
-		$meta['tm_seats'] = ! empty( $meta['tm_seats'] ) ? absint( $meta['tm_seats'] ) : 0;
+		$meta['tm_seats'] = absint( $meta['tm_seats'] ?? 0 );
 		
 		return $meta;
 	}
@@ -113,6 +116,8 @@ class MetaHelper {
 			'tm_location',
 			'tm_duration',
 			'tm_duration_minutes',
+			'tm_nights',
+			'tm_meals',
 			'tm_price',
 			'tm_vehicles',
 			'tm_highlights',
@@ -122,8 +127,10 @@ class MetaHelper {
 		// Normalise les véhicules
 		$meta['tm_vehicles'] = self::normalize_ids_array( $meta['tm_vehicles'] ?? null );
 		
-		// Normalise les entiers
-		$meta['tm_duration_minutes'] = ! empty( $meta['tm_duration_minutes'] ) ? absint( $meta['tm_duration_minutes'] ) : 0;
+		// Normalise les entiers (optimisé : absint gère déjà les valeurs vides)
+		$meta['tm_duration_minutes'] = absint( $meta['tm_duration_minutes'] ?? 0 );
+		$meta['tm_nights'] = absint( $meta['tm_nights'] ?? 0 );
+		$meta['tm_meals'] = absint( $meta['tm_meals'] ?? 0 );
 		
 		return $meta;
 	}
@@ -146,7 +153,7 @@ class MetaHelper {
 		] );
 		
 		// Normalise le véhicule (ID unique)
-		$meta['tm_vehicle'] = ! empty( $meta['tm_vehicle'] ) ? absint( $meta['tm_vehicle'] ) : 0;
+		$meta['tm_vehicle'] = absint( $meta['tm_vehicle'] ?? 0 );
 		
 		return $meta;
 	}

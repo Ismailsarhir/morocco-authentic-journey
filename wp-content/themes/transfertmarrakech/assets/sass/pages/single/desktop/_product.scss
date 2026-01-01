@@ -1,0 +1,28 @@
+.product {
+  height: -moz-min-content;
+  height: min-content;
+  min-height: 115svh;
+  padding: calc(var(--header-spacing) + max(150px, 15000svw / var(--w))) var(--gutter) max(85px, 8500svw / var(--w));
+
+  &__inner {
+    max-width: 55.8823529412em;
+    margin: 0 auto;
+  }
+
+  &__title {
+    margin-bottom: 1.5em;
+  }
+
+  &__card {
+    width: 58.8235294118%;
+    padding: calc(var(--gutter) / 2);
+    &-img-wrapper {
+      display: block;
+    }
+    &-infos {
+      padding: 5.625% 1.0416666667% 3.125%;
+      font-size: max(17px,1700svw / var(--w));
+    }
+  }
+  
+}

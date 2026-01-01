@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   if (headerElement) {
     let lastScrollTop = 0;
-    const scrollThreshold = 100;
+    const scrollThreshold = 10;
     let ticking = false;
 
     const handleScroll = () => {
