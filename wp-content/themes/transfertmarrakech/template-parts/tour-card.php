@@ -18,7 +18,7 @@ if ( ! $tour || ! $tour instanceof \WP_Post ) {
 }
 
 // Extraction des données (déjà formatées dans ToursList)
-$tour_id         = (int) ( $tour_data['tour_id'] ?? $tour->ID );
+$tour_id         = (int) ( $tour_data['tour_id'] ?? ( $tour ? $tour->ID : 0 ) );
 $title           = $tour_data['title'] ?? '';
 $permalink       = $tour_data['permalink'] ?? '';
 $thumbnail       = $tour_data['thumbnail'] ?? '';
@@ -50,14 +50,16 @@ if ( ! empty( $duration ) ) {
 
 <a class="tour-card" href="<?php echo \esc_url( $permalink ); ?>">
 	<div class="tour-card__img-wrapper">
-		<img 
-			class="tour-card__img"
-			src="<?php echo \esc_url( $thumbnail ); ?>" 
-			alt="<?php echo \esc_attr( $title ); ?>" 
-			fetchpriority="low" 
-			decoding="async" 
-			loading="lazy"
-		>
+		<div class="parallax">
+			<img 
+				class="tour-card__img"
+				src="<?php echo \esc_url( $thumbnail ); ?>" 
+				alt="<?php echo \esc_attr( $title ); ?>" 
+				fetchpriority="low" 
+				decoding="async" 
+				loading="lazy"
+			>
+		</div>
 		<?php if ( ! empty( $location ) ) : ?>
 			<div class="tag"><?php echo \esc_html( $location ); ?></div>
 		<?php endif; ?>
@@ -66,10 +68,12 @@ if ( ! empty( $duration ) ) {
 		<h5 class="tour-card__infos-title">
 			<?php echo \esc_html( $title ); ?>
 		</h5>
-		<?php if ( ! empty( $vehicle_names ) ) : ?>
+		<?php if ( ! empty( $vehicle_names ) && is_array( $vehicle_names ) ) : ?>
 			<div class="tour-card__infos-tags">
 				<?php foreach ( $vehicle_names as $vehicle_name ) : ?>
-					<div class="tag"><?php echo \esc_html( $vehicle_name ); ?></div>
+					<?php if ( ! empty( $vehicle_name ) ) : ?>
+						<div class="tag"><?php echo \esc_html( $vehicle_name ); ?></div>
+					<?php endif; ?>
 				<?php endforeach; ?>
 			</div>
 		<?php endif; ?>

@@ -10,6 +10,7 @@ module.exports = (env, argv) => {
                 './assets/js/components/global.js',
                 './assets/js/animated-title.js',
                 './assets/js/animated-lines.js',
+                './assets/js/parallax.js',
             ],
             home: [
                 './assets/js/carousel.js',

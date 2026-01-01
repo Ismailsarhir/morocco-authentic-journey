@@ -131,6 +131,11 @@ abstract class PostType {
 			return;
 		}
 		
+		// Vérifier que $post est valide
+		if ( ! $post || ! ( $post instanceof \WP_Post ) ) {
+			return;
+		}
+		
 		if ( $post->post_type !== $this->post_type ) {
 			return;
 		}
