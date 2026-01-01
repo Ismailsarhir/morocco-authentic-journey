@@ -8,25 +8,17 @@
   position: relative;
   display: inline-block;
   min-width: 4em;
-  margin-block: -0.1em;
+  margin-block: -.1em;
   padding: 1.4666666667em;
   text-align: center;
   text-transform: uppercase;
   white-space: nowrap;
-  @include typographic(
-    $font-ibmplexmono,
-    max(13px, 1500svw / var(--w)),
-    400,
-    var(--blue-grey-light),
-    1.2
-  );
+  @include typographic($font-ibmplexmono, max(13px, 1500svw / var(--w)), 400, var(--blue-grey-light), 1.2);
   background: var(--blue-dark);
   border-radius: var(--radius);
   outline-offset: -1px;
   overflow: hidden;
-  transition:
-    all var(--tm) var(--smooth),
-    color 0s;
+  transition: all var(--tm) var(--smooth), color 0s;
 
   [data-label] {
     display: block;
@@ -79,7 +71,7 @@
   }
 
   &.is-small {
-    padding: 0.6em 0.8em;
+    padding: .6em .8em;
   }
 
   &.secondary {
@@ -109,8 +101,7 @@
 
       &::before,
       &::after {
-        filter: invert(90%) sepia(29%) saturate(4567%) hue-rotate(200deg)
-          brightness(89%) contrast(95%);
+        filter: invert(90%) sepia(29%) saturate(4567%) hue-rotate(200deg) brightness(89%) contrast(95%);
       }
     }
 

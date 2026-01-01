@@ -18,7 +18,7 @@ if ( ! $transfer || ! $transfer instanceof \WP_Post ) {
 }
 
 // Extraction des données
-$transfer_id   = (int) ( $transfer_data['transfer_id'] ?? $transfer->ID );
+$transfer_id   = (int) ( $transfer_data['transfer_id'] ?? ( $transfer ? $transfer->ID : 0 ) );
 $title         = $transfer_data['title'] ?? '';
 $permalink     = $transfer_data['permalink'] ?? '';
 $thumbnail     = $transfer_data['thumbnail'] ?? '';
@@ -38,13 +38,15 @@ if ( empty( $title ) || empty( $permalink ) || empty( $thumbnail ) ) {
 
 <a class="transfert-card varianteVedette" href="<?php echo \esc_url( $permalink ); ?>">
 	<div class="transfert-card__img">
-		<img 
-			src="<?php echo \esc_url( $thumbnail ); ?>" 
-			alt="<?php echo \esc_attr( $title ); ?>"
-			fetchpriority="low" 
-			decoding="async" 
-			loading="lazy"
-		>
+		<div class="parallax">
+			<img 
+					src="<?php echo \esc_url( $thumbnail ); ?>" 
+					alt="<?php echo \esc_attr( $title ); ?>"
+					fetchpriority="low" 
+					decoding="async" 
+					loading="lazy"
+				>
+		</div>
 	</div>
 	<div class="transfert-card__infos">
 		<h5 class="transfert-card__infos-title">

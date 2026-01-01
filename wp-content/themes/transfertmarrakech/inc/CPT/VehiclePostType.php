@@ -196,7 +196,6 @@ class VehiclePostType extends PostType {
 				},
 				'show_in_rest'      => [
 					'schema' => [
-						'type'  => 'array',
 						'items' => [
 							'type' => 'integer',
 						],
