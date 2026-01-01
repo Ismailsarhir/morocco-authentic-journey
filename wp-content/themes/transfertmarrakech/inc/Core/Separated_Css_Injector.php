@@ -61,6 +61,14 @@ class Separated_Css_Injector {
 				'dependencies' => [ 'global_css' ],
 				'dequeues' => [],
 			],
+			'single-tours' => [
+				'condition' => function() {
+					return \is_singular( 'tours' );
+				},
+				'file_name' => 'single-tours',
+				'dependencies' => [ 'global_css' ],
+				'dequeues' => [],
+			],
 			'page-404' => [
 				'condition' => function() {
 					return \is_404();

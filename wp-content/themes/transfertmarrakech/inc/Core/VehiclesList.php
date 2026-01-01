@@ -110,7 +110,8 @@ class VehiclesList {
 				continue;
 			}
 			
-			$title = \get_the_title( $vehicle_id );
+			// Optimisation : utilise post_title directement
+			$title = $vehicle->post_title ?: \get_the_title( $vehicle_id );
 			$permalink = \get_permalink( $vehicle_id );
 			
 			if ( empty( $title ) || empty( $permalink ) ) {

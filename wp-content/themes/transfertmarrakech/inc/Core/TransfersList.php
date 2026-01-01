@@ -109,7 +109,8 @@ class TransfersList {
 				continue;
 			}
 			
-			$title = \get_the_title( $transfer_id );
+			// Optimisation : utilise post_title directement
+			$title = $transfer->post_title ?: \get_the_title( $transfer_id );
 			$permalink = \get_permalink( $transfer_id );
 			
 			if ( empty( $title ) || empty( $permalink ) ) {
@@ -117,12 +118,12 @@ class TransfersList {
 			}
 			
 			// Récupération du véhicule associé
-			$vehicle_id = $transfer_meta['tm_vehicle'] ?? 0;
+			$vehicle_id = (int) ( $transfer_meta['tm_vehicle'] ?? 0 );
 			$vehicle_name = '';
 			if ( $vehicle_id > 0 ) {
-				$vehicle = $this->repository->get_by_id( (int) $vehicle_id );
-				if ( $vehicle ) {
-					$vehicle_name = \get_the_title( $vehicle->ID );
+				$vehicle = $this->repository->get_by_id( $vehicle_id );
+				if ( $vehicle instanceof \WP_Post ) {
+					$vehicle_name = $vehicle->post_title ?: \get_the_title( $vehicle->ID );
 				}
 			}
 			
@@ -139,7 +140,7 @@ class TransfersList {
 				'dropoff'       => $transfer_meta['tm_dropoff'] ?? '',
 				'duration'      => $transfer_meta['tm_duration_estimate'] ?? '',
 				'price'         => $price,
-				'price_formatted' => ! empty( $price ) ? number_format( floatval( $price ), 0, ',', ' ' ) : '',
+				'price_formatted' => ! empty( $price ) ? \number_format( (float) $price, 0, ',', ' ' ) : '',
 				'vehicle_id'    => $vehicle_id,
 				'vehicle_name'  => $vehicle_name,
 			];

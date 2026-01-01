@@ -39,6 +39,8 @@ class TourMeta extends MetaBox {
 		$location      = $meta['tm_location'] ?? '';
 		$duration      = $meta['tm_duration'] ?? '';
 		$duration_min  = $meta['tm_duration_minutes'] ?? 0;
+		$nights        = $meta['tm_nights'] ?? 0;
+		$meals         = $meta['tm_meals'] ?? 0;
 		$price         = $meta['tm_price'] ?? '';
 		$vehicle_ids   = $meta['tm_vehicles'] ?? [];
 		$highlights    = $meta['tm_highlights'] ?? '';
@@ -52,6 +54,12 @@ class TourMeta extends MetaBox {
 		
 		// Durée en minutes - Nombre de jours du tour
 		$this->number_field( 'tm_duration_minutes', __( 'Nombre de jours du tour', 'transfertmarrakech' ), $duration_min );
+		
+		// Nombre de nuits
+		$this->number_field( 'tm_nights', __( 'Nombre de nuits', 'transfertmarrakech' ), $nights );
+		
+		// Nombre de repas
+		$this->number_field( 'tm_meals', __( 'Nombre de repas', 'transfertmarrakech' ), $meals );
 		
 		// Prix
 		$this->text_field( 'tm_price', __( 'Prix (MAD)', 'transfertmarrakech' ), $price, '0.00' );
@@ -99,6 +107,16 @@ class TourMeta extends MetaBox {
 		// Nombre de jours du tour
 		if ( isset( $_POST['tm_duration_minutes'] ) ) {
 			\update_post_meta( $post_id, 'tm_duration_minutes', \absint( $_POST['tm_duration_minutes'] ) );
+		}
+		
+		// Nombre de nuits
+		if ( isset( $_POST['tm_nights'] ) ) {
+			\update_post_meta( $post_id, 'tm_nights', \absint( $_POST['tm_nights'] ) );
+		}
+		
+		// Nombre de repas
+		if ( isset( $_POST['tm_meals'] ) ) {
+			\update_post_meta( $post_id, 'tm_meals', \absint( $_POST['tm_meals'] ) );
 		}
 		
 		// Prix

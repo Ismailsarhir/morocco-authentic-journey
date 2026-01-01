@@ -1,0 +1,30 @@
+.keywords {
+  padding: calc(6200svw / var(--w)) var(--gutter) calc(5600svw / var(--w));
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: calc(900svw / var(--w));
+    .tag {
+      margin: 0;
+      padding: 0.5714285714em 0.4285714286em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      border-radius: var(--radius);
+      outline: 1px solid;
+      outline-offset: -1px;
+      @include typographic(
+        $font-ibmplexmono,
+        max(14px, 1400svw / var(--w)),
+        400,
+        inherit,
+        1
+      );
+      &.secondary {
+        color: var(--blue-grey-light);
+        background: var(--blue);
+        outline-color: var(--blue);
+      }
+    }
+  }
+}

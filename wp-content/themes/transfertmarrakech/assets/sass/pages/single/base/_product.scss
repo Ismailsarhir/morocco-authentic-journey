@@ -1,0 +1,107 @@
+.product {
+  position: relative;
+  display: flex;
+  height: auto;
+  min-height: 100svh;
+  margin-bottom: 0;
+  padding: calc(var(--header-spacing) + max(132px, 13200svw / var(--w)))
+    var(--gutter) var(--gutter);
+  flex-flow: column nowrap;
+  color: var(--blue-grey-light);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background-color: $black-color;
+    opacity: 0.2;
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    max-width: none;
+    margin: 0;
+    flex-flow: column nowrap;
+  }
+
+  &__title {
+    min-height: 1.8em;
+    margin-block: 0;
+    text-align: center;
+  }
+
+  &__card {
+    width: 100%;
+    margin: 0 auto;
+    margin-top: auto;
+    padding: calc(var(--gutter) * 2);
+    color: var(--blue-dark);
+    background: var(--blue-grey);
+    border-radius: var(--radius);
+    animation: none;
+
+    &-img {
+      -o-object-fit: cover;
+      object-fit: cover;
+      width: 100%;
+      pointer-events: none;
+      &-wrapper {
+        aspect-ratio: 1;
+        position: relative;
+        display: none;
+        line-height: 0;
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+    }
+
+    &-infos {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      padding: 0;
+      font-size: max(12px, 1200svw / var(--w));
+      ul {
+        margin: 0;
+        padding-left: 1em;
+        list-style: disc;
+        li {
+          margin: 0;
+          line-height: 1.23;
+        }
+      }
+      div {
+        padding: 0 10.6837606838% 2.1367521368%;
+        white-space: nowrap;
+        border-left: 2px dotted;
+        strong {
+          display: block;
+          margin-top: 0.1142857143em;
+          font-family: $font-ppneuemontreal-bold;
+          font-size: 2.0588235294em;
+        }
+      }
+    }
+  }
+
+  &__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    &-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}

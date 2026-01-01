@@ -99,27 +99,30 @@ class ToursList {
 			
 			$price = $tour_meta['tm_price'] ?? '';
 			
-			// Récupération des noms des véhicules associés
+			// Récupération des noms des véhicules associés (optimisé)
 			$vehicle_names = [];
 			$vehicle_posts = $this->repository->get_related_vehicles_for_tour( $tour_id );
 			if ( ! empty( $vehicle_posts ) ) {
 				foreach ( $vehicle_posts as $vehicle ) {
 					if ( $vehicle instanceof \WP_Post ) {
-						$vehicle_names[] = \get_the_title( $vehicle->ID );
+						$vehicle_names[] = $vehicle->post_title ?: \get_the_title( $vehicle->ID );
 					}
 				}
 			}
 			
+			// Optimisation : utilise post_title directement
+			$tour_title = $tour->post_title ?: \get_the_title( $tour_id );
+			
 			$featured_tours[] = [
 				'tour'         => $tour,
 				'tour_id'      => $tour_id,
-				'title'        => \get_the_title( $tour_id ),
+				'title'        => $tour_title,
 				'permalink'    => \get_permalink( $tour_id ),
 				'thumbnail'    => $thumbnail_url,
 				'duration'     => $tour_meta['tm_duration'] ?? '',
 				'days'         => $tour_meta['tm_duration_minutes'] ?? 0,
 				'price'        => $price,
-				'price_formatted' => ! empty( $price ) ? number_format( floatval( $price ), 0, ',', ' ' ) : '',
+				'price_formatted' => ! empty( $price ) ? \number_format( (float) $price, 0, ',', ' ' ) : '',
 				'location'     => $tour_meta['tm_location'] ?? '',
 				'vehicle_names' => $vehicle_names,
 			];

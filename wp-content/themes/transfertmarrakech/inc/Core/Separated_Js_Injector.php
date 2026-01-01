@@ -61,6 +61,14 @@ class Separated_Js_Injector {
 				'dependencies' => [ 'default_js' ],
 				'dequeues' => [],
 			],
+			'single-tours' => [
+				'condition' => function() {
+					return \is_singular( 'tours' );
+				},
+				'file_name' => 'singleTours',
+				'dependencies' => [ 'default_js' ],
+				'dequeues' => [],
+			],
 			'page-404' => [
 				'condition' => function() {
 					return \is_404();

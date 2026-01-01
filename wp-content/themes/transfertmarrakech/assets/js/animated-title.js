@@ -17,20 +17,58 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * Splits text into characters and wraps each in a span with 'char' class
+   * Splits text into lines, words, and characters
+   * Structure: .line > .word > .char
    */
   const splitTextIntoChars = (element) => {
     const text = element.textContent.trim();
     
     element.innerHTML = '';
     
-    // Split text into individual characters, preserving spaces
-    text.split('').forEach((char) => {
-      const charSpan = document.createElement('span');
-      charSpan.className = 'char';
-      charSpan.style.display = 'inline-block';
-      charSpan.textContent = char === ' ' ? '\u00A0' : char; // Use non-breaking space for regular spaces
-      element.appendChild(charSpan);
+    // Split text into lines (by newlines or by detecting natural line breaks)
+    // For now, we'll split by actual newlines, but you can add logic to detect line breaks
+    const lines = text.split(/\n/).filter(line => line.trim().length > 0);
+    
+    // If no newlines, treat entire text as one line
+    if (lines.length === 0) {
+      lines.push(text);
+    }
+    
+    lines.forEach((lineText) => {
+      // Create line wrapper
+      const lineSpan = document.createElement('div');
+      lineSpan.className = 'line';
+      lineSpan.style.display = 'block';
+      lineSpan.style.textAlign = 'center';
+      lineSpan.style.width = '100%';
+      
+      // Split line into words (by spaces)
+      const words = lineText.trim().split(/\s+/).filter(word => word.length > 0);
+      
+      words.forEach((word, wordIndex) => {
+        // Create word wrapper
+        const wordSpan = document.createElement('span');
+        wordSpan.className = 'word';
+        wordSpan.style.display = 'inline-block';
+        
+        // Split word into characters
+        word.split('').forEach((char) => {
+          const charSpan = document.createElement('span');
+          charSpan.className = 'char';
+          charSpan.style.display = 'inline-block';
+          charSpan.textContent = char;
+          wordSpan.appendChild(charSpan);
+        });
+        
+        lineSpan.appendChild(wordSpan);
+        
+        // Add space between words (except after last word)
+        if (wordIndex < words.length - 1) {
+          lineSpan.appendChild(document.createTextNode(' '));
+        }
+      });
+      
+      element.appendChild(lineSpan);
     });
   };
 
