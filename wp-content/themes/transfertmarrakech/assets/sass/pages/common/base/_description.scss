@@ -6,7 +6,7 @@
   gap: var(--gutter);
   margin: calc(6000svw / var(--w)) var(--gutter);
 
-  &__main {
+  &__inner {
     flex-grow: 1;
   }
 

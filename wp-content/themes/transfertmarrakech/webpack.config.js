@@ -16,8 +16,12 @@ module.exports = (env, argv) => {
                 './assets/js/carousel.js',
                 './assets/js/vehicles.js',
             ],
-            singleTours: [
-                './assets/js/single-tours.js',
+            singleProduct: [
+                './assets/js/single-product.js',
+                './assets/js/vehicles.js',
+            ],
+            singleTransfers: [
+                './assets/js/single-product.js',
                 './assets/js/vehicles.js',
             ],
         },
