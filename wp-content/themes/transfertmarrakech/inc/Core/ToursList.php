@@ -72,7 +72,7 @@ class ToursList {
 	 * @return array
 	 */
 	private function get_featured_tours( int $limit = self::MAX_TOURS ): array {
-		$tours = $this->repository->get_by_args( 'tours', [
+		$tours = $this->repository->get_by_args( Constants::POST_TYPE_TOUR, [
 			'posts_per_page' => $limit,
 			'orderby'        => 'date',
 			'order'          => 'DESC',
@@ -92,12 +92,12 @@ class ToursList {
 			$tour_id = $tour->ID;
 			$tour_meta = MetaHelper::get_tour_meta( $tour_id );
 			
-			$thumbnail_url = \get_the_post_thumbnail_url( $tour_id, 'large' );
+			$thumbnail_url = MetaHelper::get_post_thumbnail_url_with_fallback( $tour_id );
 			if ( ! $thumbnail_url ) {
 				continue; // Skip tours without thumbnail
 			}
 			
-			$price = $tour_meta['tm_price'] ?? '';
+			$price = $tour_meta[ Constants::META_TOUR_PRICE ] ?? '';
 			
 			// Récupération des noms des véhicules associés (optimisé)
 			$vehicle_names = [];
@@ -105,13 +105,13 @@ class ToursList {
 			if ( ! empty( $vehicle_posts ) ) {
 				foreach ( $vehicle_posts as $vehicle ) {
 					if ( $vehicle instanceof \WP_Post ) {
-						$vehicle_names[] = $vehicle->post_title ?: \get_the_title( $vehicle->ID );
+						$vehicle_names[] = MetaHelper::get_post_title( $vehicle );
 					}
 				}
 			}
 			
 			// Optimisation : utilise post_title directement
-			$tour_title = $tour->post_title ?: \get_the_title( $tour_id );
+			$tour_title = MetaHelper::get_post_title( $tour );
 			
 			$featured_tours[] = [
 				'tour'         => $tour,
@@ -119,11 +119,11 @@ class ToursList {
 				'title'        => $tour_title,
 				'permalink'    => \get_permalink( $tour_id ),
 				'thumbnail'    => $thumbnail_url,
-				'duration'     => $tour_meta['tm_duration'] ?? '',
-				'days'         => $tour_meta['tm_duration_minutes'] ?? 0,
+				'duration'     => $tour_meta[ Constants::META_TOUR_DURATION ] ?? '',
+				'days'         => $tour_meta[ Constants::META_TOUR_DURATION_MINUTES ] ?? 0,
 				'price'        => $price,
-				'price_formatted' => ! empty( $price ) ? \number_format( (float) $price, 0, ',', ' ' ) : '',
-				'location'     => $tour_meta['tm_location'] ?? '',
+				'price_formatted' => MetaHelper::format_price( $price ),
+				'location'     => $tour_meta[ Constants::META_TOUR_LOCATION ] ?? '',
 				'vehicle_names' => $vehicle_names,
 			];
 		}
@@ -158,4 +158,3 @@ class ToursList {
 		return ! empty( $tours );
 	}
 }
-

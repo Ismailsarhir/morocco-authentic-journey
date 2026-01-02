@@ -8,6 +8,7 @@
     var(--gutter) var(--gutter);
   flex-flow: column nowrap;
   color: var(--blue-grey-light);
+  overflow-x: hidden;
 
   &::before {
     content: "";

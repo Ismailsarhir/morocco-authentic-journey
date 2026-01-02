@@ -75,7 +75,7 @@ class TransfersList {
 		// Request more transfers to account for those without images
 		$request_limit = $limit * 3;
 		
-		$transfers = $this->repository->get_by_args( 'transferts', [
+		$transfers = $this->repository->get_by_args( Constants::POST_TYPE_TRANSFER, [
 			'posts_per_page' => $request_limit,
 			'orderby'        => 'date',
 			'order'          => 'DESC',
@@ -100,9 +100,7 @@ class TransfersList {
 			$transfer_id = $transfer->ID;
 			$transfer_meta = MetaHelper::get_transfer_meta( $transfer_id );
 			
-			$thumbnail_url = \get_the_post_thumbnail_url( $transfer_id, 'large' )
-				?: \get_the_post_thumbnail_url( $transfer_id, 'medium' )
-				?: \get_the_post_thumbnail_url( $transfer_id, 'thumbnail' );
+			$thumbnail_url = MetaHelper::get_post_thumbnail_url_with_fallback( $transfer_id );
 			
 			// Skip transfers without thumbnail
 			if ( ! $thumbnail_url ) {
@@ -110,7 +108,7 @@ class TransfersList {
 			}
 			
 			// Optimisation : utilise post_title directement
-			$title = $transfer->post_title ?: \get_the_title( $transfer_id );
+			$title = MetaHelper::get_post_title( $transfer );
 			$permalink = \get_permalink( $transfer_id );
 			
 			if ( empty( $title ) || empty( $permalink ) ) {
@@ -118,16 +116,16 @@ class TransfersList {
 			}
 			
 			// Récupération du véhicule associé
-			$vehicle_id = (int) ( $transfer_meta['tm_vehicle'] ?? 0 );
+			$vehicle_id = (int) ( $transfer_meta[ Constants::META_TRANSFER_VEHICLE ] ?? 0 );
 			$vehicle_name = '';
 			if ( $vehicle_id > 0 ) {
 				$vehicle = $this->repository->get_by_id( $vehicle_id );
 				if ( $vehicle instanceof \WP_Post ) {
-					$vehicle_name = $vehicle->post_title ?: \get_the_title( $vehicle->ID );
+					$vehicle_name = MetaHelper::get_post_title( $vehicle );
 				}
 			}
 			
-			$price = $transfer_meta['tm_price'] ?? '';
+			$price = $transfer_meta[ Constants::META_TRANSFER_PRICE ] ?? '';
 			
 			$featured_transfers[] = [
 				'transfer'      => $transfer,
@@ -135,12 +133,12 @@ class TransfersList {
 				'title'         => $title,
 				'permalink'     => $permalink,
 				'thumbnail'     => $thumbnail_url,
-				'type'          => $transfer_meta['tm_transfer_type'] ?? '',
-				'pickup'        => $transfer_meta['tm_pickup'] ?? '',
-				'dropoff'       => $transfer_meta['tm_dropoff'] ?? '',
-				'duration'      => $transfer_meta['tm_duration_estimate'] ?? '',
+				'type'          => $transfer_meta[ Constants::META_TRANSFER_TYPE ] ?? '',
+				'pickup'        => $transfer_meta[ Constants::META_TRANSFER_PICKUP ] ?? '',
+				'dropoff'       => $transfer_meta[ Constants::META_TRANSFER_DROPOFF ] ?? '',
+				'duration'      => $transfer_meta[ Constants::META_TRANSFER_DURATION_ESTIMATE ] ?? '',
 				'price'         => $price,
-				'price_formatted' => ! empty( $price ) ? \number_format( (float) $price, 0, ',', ' ' ) : '',
+				'price_formatted' => MetaHelper::format_price( $price ),
 				'vehicle_id'    => $vehicle_id,
 				'vehicle_name'  => $vehicle_name,
 			];
@@ -176,4 +174,3 @@ class TransfersList {
 		return ! empty( $transfers );
 	}
 }
-

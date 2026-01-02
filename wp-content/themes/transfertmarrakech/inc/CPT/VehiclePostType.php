@@ -8,6 +8,7 @@
 
 namespace TM\CPT;
 
+use TM\Core\Constants;
 use TM\Meta\VehicleMeta;
 
 /**
@@ -26,7 +27,7 @@ class VehiclePostType extends PostType {
 	 * Constructeur
 	 */
 	public function __construct() {
-		parent::__construct( 'vehicules' );
+		parent::__construct( Constants::POST_TYPE_VEHICLE );
 		$this->meta_handler = new VehicleMeta();
 	}
 	

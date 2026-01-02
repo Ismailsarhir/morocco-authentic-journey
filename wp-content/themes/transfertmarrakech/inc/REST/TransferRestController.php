@@ -13,6 +13,7 @@ use WP_REST_Server;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
+use TM\Core\Constants;
 use TM\Repository\PostRepository;
 
 /**
@@ -32,7 +33,7 @@ class TransferRestController extends WP_REST_Controller {
 	 * 
 	 * @var string
 	 */
-	protected $rest_base = 'transferts';
+	protected $rest_base = Constants::POST_TYPE_TRANSFER;
 	
 	/**
 	 * Repository
@@ -107,7 +108,7 @@ class TransferRestController extends WP_REST_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function get_items( $request ) {
-		$posts = $this->repository->get_by_args( 'transferts' );
+		$posts = $this->repository->get_by_args( Constants::POST_TYPE_TRANSFER );
 		$data  = [];
 		
 		foreach ( $posts as $post ) {
@@ -138,7 +139,7 @@ class TransferRestController extends WP_REST_Controller {
 		$id   = (int) $request->get_param( 'id' );
 		$post = $this->repository->get_by_id( $id );
 		
-		if ( ! $post || $post->post_type !== 'transferts' ) {
+		if ( ! $post || $post->post_type !== Constants::POST_TYPE_TRANSFER ) {
 			return new \WP_Error(
 				'rest_transfer_not_found',
 				__( 'Transfert non trouvé', 'transfertmarrakech' ),
@@ -175,7 +176,7 @@ class TransferRestController extends WP_REST_Controller {
 	 */
 	public function create_item( $request ) {
 		$post_id = \wp_insert_post( [
-			'post_type'    => 'transferts',
+			'post_type'    => Constants::POST_TYPE_TRANSFER,
 			'post_title'   => \sanitize_text_field( $request->get_param( 'title' ) ),
 			'post_content' => \wp_kses_post( $request->get_param( 'content' ) ),
 			'post_status'  => 'publish',

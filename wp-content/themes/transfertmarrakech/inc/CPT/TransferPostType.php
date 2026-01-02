@@ -8,6 +8,7 @@
 
 namespace TM\CPT;
 
+use TM\Core\Constants;
 use TM\Meta\TransferMeta;
 
 /**
@@ -26,7 +27,7 @@ class TransferPostType extends PostType {
 	 * Constructeur
 	 */
 	public function __construct() {
-		parent::__construct( 'transferts' );
+		parent::__construct( Constants::POST_TYPE_TRANSFER );
 		$this->meta_handler = new TransferMeta();
 	}
 	

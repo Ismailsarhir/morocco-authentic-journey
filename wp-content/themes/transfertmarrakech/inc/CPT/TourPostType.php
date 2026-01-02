@@ -8,6 +8,7 @@
 
 namespace TM\CPT;
 
+use TM\Core\Constants;
 use TM\Meta\TourMeta;
 
 /**
@@ -26,7 +27,7 @@ class TourPostType extends PostType {
 	 * Constructeur
 	 */
 	public function __construct() {
-		parent::__construct( 'tours' );
+		parent::__construct( Constants::POST_TYPE_TOUR );
 		$this->meta_handler = new TourMeta();
 	}
 	

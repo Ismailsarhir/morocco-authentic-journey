@@ -75,7 +75,7 @@ class VehiclesList {
 		// Request more vehicles to account for those without images
 		$request_limit = $limit * 3;
 		
-		$vehicles = $this->repository->get_by_args( 'vehicules', [
+		$vehicles = $this->repository->get_by_args( Constants::POST_TYPE_VEHICLE, [
 			'posts_per_page' => $request_limit,
 			'orderby'        => 'date',
 			'order'          => 'DESC',
@@ -101,9 +101,7 @@ class VehiclesList {
 			
 			$vehicle_meta = MetaHelper::get_vehicle_meta( $vehicle_id );
 			
-			$thumbnail_url = \get_the_post_thumbnail_url( $vehicle_id, 'large' )
-				?: \get_the_post_thumbnail_url( $vehicle_id, 'medium' )
-				?: \get_the_post_thumbnail_url( $vehicle_id, 'thumbnail' );
+			$thumbnail_url = MetaHelper::get_post_thumbnail_url_with_fallback( $vehicle_id );
 			
 			// Skip vehicles without featured image
 			if ( ! $thumbnail_url ) {
@@ -111,15 +109,15 @@ class VehiclesList {
 			}
 			
 			// Optimisation : utilise post_title directement
-			$title = $vehicle->post_title ?: \get_the_title( $vehicle_id );
+			$title = MetaHelper::get_post_title( $vehicle );
 			$permalink = \get_permalink( $vehicle_id );
 			
 			if ( empty( $title ) || empty( $permalink ) ) {
 				continue;
 			}
 			
-			$daily_price = $vehicle_meta['tm_daily_price'] ?? '';
-			$gallery_ids = $vehicle_meta['tm_gallery'] ?? [];
+			$daily_price = $vehicle_meta[ Constants::META_VEHICLE_DAILY_PRICE ] ?? '';
+			$gallery_ids = $vehicle_meta[ Constants::META_VEHICLE_GALLERY ] ?? [];
 			
 			// Récupère les URLs de la galerie
 			$gallery_urls = [];
@@ -140,12 +138,12 @@ class VehiclesList {
 				'title'           => $title,
 				'permalink'       => $permalink,
 				'thumbnail'       => $thumbnail_url,
-				'type'            => $vehicle_meta['tm_vehicle_type'] ?? '',
-				'seats'           => $vehicle_meta['tm_seats'] ?? 0,
-				'baggage_capacity' => $vehicle_meta['tm_baggage_capacity'] ?? '',
+				'type'            => $vehicle_meta[ Constants::META_VEHICLE_TYPE ] ?? '',
+				'seats'           => $vehicle_meta[ Constants::META_VEHICLE_SEATS ] ?? 0,
+				'baggage_capacity' => $vehicle_meta[ Constants::META_VEHICLE_BAGGAGE_CAPACITY ] ?? '',
 				'daily_price'     => $daily_price,
-				'daily_price_formatted' => ! empty( $daily_price ) ? number_format( floatval( $daily_price ), 0, ',', ' ' ) : '',
-				'availability'    => $vehicle_meta['tm_availability'] ?? false,
+				'daily_price_formatted' => MetaHelper::format_price( $daily_price ),
+				'availability'    => $vehicle_meta[ Constants::META_VEHICLE_AVAILABILITY ] ?? false,
 				'gallery'         => $gallery_urls,
 			];
 		}
@@ -180,4 +178,3 @@ class VehiclesList {
 		return ! empty( $vehicles );
 	}
 }
-

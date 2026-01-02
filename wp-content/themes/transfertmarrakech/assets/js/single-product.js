@@ -12,102 +12,171 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Wait a bit for the page to be fully loaded
   setTimeout(() => {
-    const product = document.querySelector('main.product');
-    const title = document.querySelector('.product__title');
-    const card = document.querySelector('.product__card');
-    console.log('Product title found');
-    
-    if (!product || !title) {
-      console.log('Product or title not found');
+    // Cache DOM elements
+    const elements = {
+      product: document.querySelector('main.product'),
+      title: document.querySelector('.product__title'),
+      card: document.querySelector('.product__card'),
+      productBody: document.querySelector('.product-body'),
+      banner: document.querySelector('.banner'),
+      prefooterWrapper: document.querySelector('.prefooter__wrapper'),
+    };
+
+    // Early return if essential elements are missing
+    if (!elements.product || !elements.title) {
       return;
     }
 
-    // Create a media query for desktop (min-width: 768px)
     const mediaQuery = window.matchMedia('(min-width: 768px)');
-    
-    const setupAnimations = () => {
-      // Kill any existing ScrollTriggers for these elements
+    const triggers = {
+      title: null,
+      card: null,
+      bannerVisible: null,
+      bannerLight: null,
+    };
+
+    // Kill specific ScrollTriggers by trigger element
+    const killTriggersByElement = (element) => {
+      if (!element) return;
       ScrollTrigger.getAll().forEach(trigger => {
-        if (trigger.trigger === title || (trigger.vars && trigger.vars.trigger === title)) {
-          trigger.kill();
-        }
-        if (card && (trigger.trigger === card || (trigger.vars && trigger.vars.trigger === card))) {
+        if (trigger.trigger === element || (trigger.vars?.trigger === element)) {
           trigger.kill();
         }
       });
+    };
 
-      if (mediaQuery.matches) {
-        // Refresh ScrollTrigger to recalculate positions
-        ScrollTrigger.refresh();
-        
-        // Set initial state: translate(0px, 0px) - no scale, no translate percentage
-        gsap.set(title, {
-          x: 0,
-          y: 0,
-          scale: 1,
-          transformOrigin: 'center center'
-        });
-        
-        // Animate title on scroll based on product element scroll position
-        // Final state: translate(0%, -200%) scale(2, 2)
-        gsap.to(title, {
-          xPercent: 0,
-          yPercent: -400,
-          scale: 4,
-          ease: 'none', // Linear easing for smooth scroll-linked animation
+    // Setup desktop-only animations
+    const setupDesktopAnimations = () => {
+      if (!mediaQuery.matches) return;
+
+      ScrollTrigger.refresh();
+
+      // Kill existing triggers
+      killTriggersByElement(elements.title);
+      killTriggersByElement(elements.card);
+
+      // Title animation
+      gsap.set(elements.title, {
+        x: 0,
+        y: 0,
+        scale: 1,
+        transformOrigin: 'center center',
+      });
+
+      triggers.title = gsap.to(elements.title, {
+        xPercent: 0,
+        yPercent: -400,
+        scale: 4,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: elements.product,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      // Card animation
+      if (elements.card) {
+        gsap.set(elements.card, { x: 0, y: 0 });
+
+        triggers.card = gsap.to(elements.card, {
+          y: -500,
+          ease: 'none',
           scrollTrigger: {
-            trigger: product,
+            trigger: elements.product,
             start: 'top top',
             end: 'bottom top',
-            scrub: 1, // Smooth scrubbing (1 second lag for smoother feel)
-            invalidateOnRefresh: true
-          }
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
         });
-
-        // Animate product card on scroll
-        if (card) {
-          // Set initial state: translate(0px, 0px)
-          gsap.set(card, {
-            x: 0,
-            y: 0
-          });
-
-          // Final state: translate(0px, -300px)
-          gsap.to(card, {
-            y: -500,
-            ease: 'none', // Linear easing for smooth scroll-linked animation
-            scrollTrigger: {
-              trigger: product,
-              start: 'top top',
-              end: 'bottom top',
-              scrub: 1, // Smooth scrubbing (1 second lag for smoother feel)
-              invalidateOnRefresh: true
-            }
-          });
-        }
       }
     };
 
-    // Setup animations initially
+    // Setup banner visibility animation (mobile & desktop)
+    const setupBannerVisibility = () => {
+      if (!elements.productBody || !elements.banner) return;
+
+      killTriggersByElement(elements.productBody);
+
+      triggers.bannerVisible = ScrollTrigger.create({
+        trigger: elements.productBody,
+        start: 'top bottom',
+        onEnter: () => elements.banner.classList.add('is-visible'),
+        onLeaveBack: () => elements.banner.classList.remove('is-visible'),
+      });
+    };
+
+    // Setup banner light class animation (mobile & desktop)
+    const setupBannerLight = () => {
+      if (!elements.prefooterWrapper || !elements.banner) return;
+
+      killTriggersByElement(elements.prefooterWrapper);
+
+      const checkBannerInPrefooter = () => {
+        const bannerRect = elements.banner.getBoundingClientRect();
+        const prefooterRect = elements.prefooterWrapper.getBoundingClientRect();
+        const isInside = bannerRect.top >= prefooterRect.top && 
+                        bannerRect.bottom <= prefooterRect.bottom;
+
+        elements.banner.classList.toggle('is-light', isInside);
+      };
+
+      triggers.bannerLight = ScrollTrigger.create({
+        trigger: elements.prefooterWrapper,
+        start: 'top bottom',
+        end: 'bottom top',
+        onEnter: checkBannerInPrefooter,
+        onLeave: () => elements.banner.classList.remove('is-light'),
+        onEnterBack: checkBannerInPrefooter,
+        onLeaveBack: () => elements.banner.classList.remove('is-light'),
+        onUpdate: (self) => {
+          if (self.isActive) checkBannerInPrefooter();
+        },
+      });
+    };
+
+    // Main setup function
+    const setupAnimations = () => {
+      setupDesktopAnimations();
+      setupBannerVisibility();
+      setupBannerLight();
+    };
+
+    // Cleanup function
+    const cleanup = () => {
+      Object.values(triggers).forEach(trigger => {
+        if (trigger) trigger.kill();
+      });
+      Object.keys(triggers).forEach(key => {
+        triggers[key] = null;
+      });
+    };
+
+    // Initial setup
     setupAnimations();
 
-    // Re-setup animations when media query changes
+    // Handle media query changes
     mediaQuery.addEventListener('change', () => {
+      cleanup();
       ScrollTrigger.refresh();
       setupAnimations();
     });
 
-    // Refresh on window resize
+    // Handle window resize with debounce
     let resizeTimer;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
+        cleanup();
         ScrollTrigger.refresh();
         setupAnimations();
       }, 250);
     });
+
   }, 1500);
 });
 
