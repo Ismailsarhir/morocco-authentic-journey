@@ -15,13 +15,7 @@ if (! defined('ABSPATH')) {
 get_header();
 
 // Récupère le post actuel
-$tour = \get_queried_object();
-if (! $tour instanceof \WP_Post) {
-	// Si pas de post, on utilise le post global
-	global $post;
-	$tour = $post;
-}
-
+$tour = \TM\Utils\MetaHelper::get_current_post();
 if (! $tour instanceof \WP_Post) {
 	\get_footer();
 	return;
@@ -32,17 +26,17 @@ $tour_id = $tour->ID;
 // Récupère les meta du tour
 $tour_meta = \TM\Utils\MetaHelper::get_tour_meta($tour_id);
 
-// Extraction des données (optimisé : utilise les propriétés de l'objet quand possible)
-$title = $tour->post_title ?: \get_the_title($tour_id);
+// Extraction des données
+$title = \TM\Utils\MetaHelper::get_post_title($tour);
 $content = \apply_filters('the_content', $tour->post_content);
 $thumbnail_id = \get_post_thumbnail_id($tour_id);
-$location = $tour_meta['tm_location'] ?? '';
-$duration = $tour_meta['tm_duration'] ?? '';
-$duration_minutes = $tour_meta['tm_duration_minutes'] ?? 0;
-$price = $tour_meta['tm_price'] ?? '';
-$price_formatted = ! empty($price) ? \number_format((float) $price, 0, ',', ' ') : '';
-$highlights = $tour_meta['tm_highlights'] ?? '';
-$meeting_point = $tour_meta['tm_meeting_point'] ?? '';
+$location = $tour_meta[\TM\Core\Constants::META_TOUR_LOCATION] ?? '';
+$duration = $tour_meta[\TM\Core\Constants::META_TOUR_DURATION] ?? '';
+$duration_minutes = $tour_meta[\TM\Core\Constants::META_TOUR_DURATION_MINUTES] ?? 0;
+$price = $tour_meta[\TM\Core\Constants::META_TOUR_PRICE] ?? '';
+$price_formatted = \TM\Utils\MetaHelper::format_price($price);
+$highlights = $tour_meta[\TM\Core\Constants::META_TOUR_HIGHLIGHTS] ?? '';
+$meeting_point = $tour_meta[\TM\Core\Constants::META_TOUR_MEETING_POINT] ?? '';
 
 // Villes visitées : utilise la localisation
 $country_visited = $location;
@@ -63,16 +57,14 @@ if (! empty($vehicle_posts)) {
 		if (! $vehicle instanceof \WP_Post) {
 			continue;
 		}
-		
+
 		$vehicle_id = $vehicle->ID;
-		
+
 		// Récupère l'image avec fallback sur différentes tailles
-		$thumbnail_url = \get_the_post_thumbnail_url( $vehicle_id, 'large' )
-			?: \get_the_post_thumbnail_url( $vehicle_id, 'medium' )
-			?: \get_the_post_thumbnail_url( $vehicle_id, 'thumbnail' );
-		
+		$thumbnail_url = \TM\Utils\MetaHelper::get_post_thumbnail_url_with_fallback($vehicle_id);
+
 		// Skip vehicles without featured image
-		if ( ! $thumbnail_url ) {
+		if (! $thumbnail_url) {
 			continue;
 		}
 
@@ -85,227 +77,154 @@ if (! empty($vehicle_posts)) {
 }
 
 // Formatage de la durée
-$duration_display = '';
-if (! empty($duration)) {
-	$duration_escaped = esc_html($duration);
-	if (preg_match('/(\d+)h/i', $duration, $matches)) {
-		$hours = (int) $matches[1];
-		$duration_display = sprintf(
-			'%s %s',
-			$duration_escaped,
-			esc_html(_n('heure', 'heures', $hours, 'transfertmarrakech'))
-		);
-	} else {
-		$duration_display = $duration_escaped . ' ' . esc_html__('heures', 'transfertmarrakech');
-	}
-}
+$duration_display = \TM\Utils\MetaHelper::format_duration($duration);
 
 // Calcul des jours et récupération des nuits et repas
 $days = max(0, (int) $duration_minutes);
-$nights = max(0, (int) ($tour_meta['tm_nights'] ?? max(0, $days - 1)));
-$meals = max(0, (int) ($tour_meta['tm_meals'] ?? 0));
+$nights = max(0, (int) ($tour_meta[\TM\Core\Constants::META_TOUR_NIGHTS] ?? max(0, $days - 1)));
+$meals = max(0, (int) ($tour_meta[\TM\Core\Constants::META_TOUR_MEALS] ?? 0));
 
-// Récupère les termes de destination pour le backlink
-$destinations = \get_the_terms($tour_id, 'destination');
-$destination_link = '#';
-$destination_name = '';
-if (! empty($destinations) && ! \is_wp_error($destinations)) {
-	$destination = \reset($destinations);
-	if ($destination instanceof \WP_Term) {
-		$destination_link = \get_term_link($destination);
-		$destination_name = $destination->name;
-	}
+// Récupère les données de destination pour le backlink
+$destination_data = \TM\Utils\MetaHelper::get_destination_backlink($tour_id);
+$destination_link = $destination_data['link'];
+$destination_name = $destination_data['name'];
+
+// URL de partage
+$share_url = \get_permalink($tour_id);
+$share_title = \esc_attr($title);
+
+// Préparation des données pour les templates
+$renderer = new \TM\Template\Renderer();
+
+// Card info items pour le header
+$card_info_items = [];
+if ($days > 0) {
+	$card_info_items[] = [
+		'label' => '',
+		'value' => sprintf(
+			/* translators: %d: Number of days */
+			esc_html__('%d jours', 'transfertmarrakech'),
+			$days
+		),
+	];
+}
+if ($nights > 0) {
+	$card_info_items[] = [
+		'label' => '',
+		'value' => sprintf(
+			/* translators: %d: Number of nights */
+			esc_html__('%d nuits', 'transfertmarrakech'),
+			$nights
+		),
+	];
+}
+if ($meals > 0) {
+	$card_info_items[] = [
+		'label' => '',
+		'value' => sprintf(
+			/* translators: %d: Number of meals */
+			esc_html__('%d repas', 'transfertmarrakech'),
+			$meals
+		),
+	];
+}
+
+// Affiche le header du produit
+$renderer->render('product-header', [
+	'title'           => $title,
+	'thumbnail_id'    => $thumbnail_id,
+	'card_info_items' => $card_info_items,
+	'price_formatted' => $price_formatted,
+	'post_id'         => $tour_id,
+]);
+
+// Affiche le backlink
+if (! empty($destination_name)) {
+	$renderer->render('product-backlink', [
+		'destination_link' => $destination_link,
+		'destination_name' => $destination_name,
+	]);
 }
 ?>
 
-
-<main class="product">
-	<div class="product__inner">
-		<h1 class="product__title animated-title">
-			<?php echo esc_html($title); ?>
-		</h1>
-
-		<?php if (! empty($thumbnail_id)) : ?>
-
-			<div class="product__card">
-				<div class="product__card-img-wrapper">
-					<div class="parallax">
-						<?php
-						echo wp_get_attachment_image(
-							$thumbnail_id,
-							'large',
-							false,
-							[
-								'class' => 'product__card-img',
-								'alt'   => esc_attr($title),
-							]
-						);
-						?>
-					</div>
-				</div>
-
-				<div class="product__card-infos">
-					<ul>
-						<?php if ($days > 0) : ?>
-							<li>
-								<?php
-								/* translators: %d: Number of days */
-								printf(
-									esc_html__('%d jours', 'transfertmarrakech'),
-									$days
-								);
-								?>
-							</li>
-						<?php endif; ?>
-
-						<?php if ($nights > 0) : ?>
-							<li>
-								<?php
-								/* translators: %d: Number of nights */
-								printf(
-									esc_html__('%d nuits', 'transfertmarrakech'),
-									$nights
-								);
-								?>
-							</li>
-						<?php endif; ?>
-
-						<?php if ($meals > 0) : ?>
-							<li>
-								<?php
-								/* translators: %d: Number of meals */
-								printf(
-									esc_html__('%d repas', 'transfertmarrakech'),
-									$meals
-								);
-								?>
-							</li>
-						<?php endif; ?>
-					</ul>
-
-					<?php if (! empty($price_formatted)) : ?>
-						<div>
-							<?php esc_html_e('À partir de :', 'transfertmarrakech'); ?>
-							<strong><?php echo esc_html($price_formatted); ?> <?php esc_html_e('MAD*', 'transfertmarrakech'); ?></strong>
-						</div>
-					<?php endif; ?>
-				</div>
-			</div>
-		<?php endif; ?>
-	</div>
-
-	<?php if (! empty($thumbnail_id)) : ?>
-		<div class="product__bg">
-			<div class="parallax">
-				<?php echo wp_get_attachment_image(
-					$thumbnail_id,
-					'large',
-					false,
-					[
-						'class' => 'product__bg-img',
-						'alt'   => esc_attr($title),
-					]
-				); ?>
-			</div>
-		</div>
-	<?php endif; ?>
-
-	<?php if (! empty($destination_name)) : ?>
-		<a href="<?php echo esc_url($destination_link); ?>" class="backlink">
-			<button class="cta primary left is-arrow is-white">
-				<span class="cta__inner"></span>
-			</button>
-			<span class="backlink__txt">
-				<?php echo esc_html($destination_name); ?>
-			</span>
-		</a>
-	<?php endif; ?>
-</main>
-
 <main class="product-body">
-	<div class="keywords">
-		<div class="keywords__tags">
-			<?php if (! empty($location)) : ?>
-				<div class="tag">
-					<?php echo esc_html($location); ?>
-				</div>
-			<?php endif; ?>
-			
-			<?php if (! empty($meeting_point)) : ?>
-				<div class="tag">
-					<?php echo esc_html($meeting_point); ?>
-				</div>
-			<?php endif; ?>
-			
-			<div class="tag secondary">
-				<?php esc_html_e('Départ garanti', 'transfertmarrakech'); ?>
-			</div>
-		
-			<div class="tag secondary">
-				<?php esc_html_e('Coup de coeur', 'transfertmarrakech'); ?>
-			</div>
-		
-			<div class="tag secondary">
-				<?php esc_html_e('Nouvel itinéraire', 'transfertmarrakech'); ?>
-			</div>
-		</div>
-	</div>
-	
-	<div class="description">
-		<div class="description__inner">
-			<?php if (! empty($country_visited)) : ?>
-				<div class="description__list-wrapper">
-					<div class="description__title">
-						<?php esc_html_e('Villes visitées', 'transfertmarrakech'); ?>
-					</div>
-					<ul class="description__list is-bold">
-						<li>
-							<?php echo esc_html($country_visited); ?>
-						</li>
-					</ul>
-				</div>
-			<?php endif; ?>
-			
-			<?php if (! empty($highlights_list)) : ?>
-				<div class="description__list-wrapper cities">
-					<div class="description__title">
-						<?php esc_html_e('Places visitées', 'transfertmarrakech'); ?>
-					</div>
-					<ul class="description__list is-bold">
-						<?php foreach ($highlights_list as $index => $highlight) : ?>
-							<li>
-								<?php if ($index > 0) : ?>/ <?php endif; ?><?php echo esc_html($highlight); ?>
-							</li>
-						<?php endforeach; ?>
-					</ul>
-				</div>
-			<?php endif; ?>
-			
-			<?php if (! empty($content)) : ?>
-				<div class="description__list-wrapper summary">
-					<div class="description__title">
-						<?php esc_html_e('Sommaire', 'transfertmarrakech'); ?>
-					</div>
-					<div class="description__list">
-						<?php echo $content; // Déjà filtré avec apply_filters('the_content') ?>
-					</div>
-				</div>
-			<?php endif; ?>
-		</div>
-	</div>
-	
 	<?php
+	// Affiche les keywords/tags
+	$renderer->render('product-keywords', [
+		'primary_tags' => array_filter([$location, $meeting_point]),
+		'secondary_tags' => [
+			esc_html__('Départ garanti', 'transfertmarrakech'),
+			esc_html__('Coup de coeur', 'transfertmarrakech'),
+			esc_html__('Nouvel itinéraire', 'transfertmarrakech'),
+		],
+	]);
+
+	// Préparation des sections de description
+	$description_sections = [];
+	
+	if (! empty($country_visited)) {
+		$description_sections[] = [
+			'title'   => esc_html__('Villes visitées', 'transfertmarrakech'),
+			'content' => [$country_visited],
+			'type'    => 'list',
+			'class'   => '',
+		];
+	}
+	
+	if (! empty($highlights_list)) {
+		$description_sections[] = [
+			'title'   => esc_html__('Places visitées', 'transfertmarrakech'),
+			'content' => $highlights_list,
+			'type'    => 'list',
+			'class'   => 'cities',
+		];
+	}
+	
+	if (! empty($content)) {
+		$description_sections[] = [
+			'title'   => esc_html__('Sommaire', 'transfertmarrakech'),
+			'content' => $content,
+			'type'    => 'text',
+			'class'   => 'summary',
+		];
+	}
+
+	// Affiche la description
+	if (! empty($description_sections)) {
+		$renderer->render('product-description', [
+			'sections' => $description_sections,
+		]);
+	}
+
 	// Affiche les véhicules assignés au tour
 	if (! empty($tour_vehicles_data)) {
-		$renderer = new \TM\Template\Renderer();
 		$renderer->render('vehicles-grid', [
 			'vehicles' => $tour_vehicles_data,
 			'title'    => esc_html__('Véhicules disponibles pour ce tour', 'transfertmarrakech'),
 		]);
 	}
+
+	// Construit le message WhatsApp
+	$whatsapp_message = sprintf(
+		'Bonjour, %sje suis intéressé(e) par : %s%s%s',
+		"\n",
+		esc_html($title) . ' ' . esc_html__('à partir de', 'transfertmarrakech') . ' ' . esc_html($price_formatted) . ' ' . esc_html__('MAD*', 'transfertmarrakech') . ' ' . esc_html__('pour un tour de', 'transfertmarrakech') . ' ' . esc_html($meeting_point) . ' ' . esc_html__('à', 'transfertmarrakech') . ' ' . esc_html($location) . ' ',
+		"\n",
+		esc_url($share_url)
+	);
+	$whatsapp_url = \TM\Utils\MetaHelper::build_whatsapp_url($whatsapp_message);
+
+	// Affiche la bannière
+	$renderer->render('product-banner', [
+		'title'         => $title,
+		'thumbnail_id'  => $thumbnail_id,
+		'share_url'     => $share_url,
+		'share_title'   => $share_title,
+		'whatsapp_url'  => $whatsapp_url,
+		'whatsapp_label' => esc_html__('Contacter une agence', 'transfertmarrakech'),
+	]);
 	?>
 </main>
-
 
 <?php
 get_footer();

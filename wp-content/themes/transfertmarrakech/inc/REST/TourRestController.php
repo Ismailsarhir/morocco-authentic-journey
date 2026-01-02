@@ -13,6 +13,7 @@ use WP_REST_Server;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
+use TM\Core\Constants;
 use TM\Repository\PostRepository;
 
 /**
@@ -32,7 +33,7 @@ class TourRestController extends WP_REST_Controller {
 	 * 
 	 * @var string
 	 */
-	protected $rest_base = 'tours';
+	protected $rest_base = Constants::POST_TYPE_TOUR;
 	
 	/**
 	 * Repository
@@ -107,7 +108,7 @@ class TourRestController extends WP_REST_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function get_items( $request ) {
-		$posts = $this->repository->get_by_args( 'tours' );
+		$posts = $this->repository->get_by_args( Constants::POST_TYPE_TOUR );
 		$data  = [];
 		
 		foreach ( $posts as $post ) {
@@ -138,7 +139,7 @@ class TourRestController extends WP_REST_Controller {
 		$id   = (int) $request->get_param( 'id' );
 		$post = $this->repository->get_by_id( $id );
 		
-		if ( ! $post || $post->post_type !== 'tours' ) {
+		if ( ! $post || $post->post_type !== Constants::POST_TYPE_TOUR ) {
 			return new \WP_Error(
 				'rest_tour_not_found',
 				__( 'Tour non trouvé', 'transfertmarrakech' ),
@@ -175,7 +176,7 @@ class TourRestController extends WP_REST_Controller {
 	 */
 	public function create_item( $request ) {
 		$post_id = \wp_insert_post( [
-			'post_type'    => 'tours',
+			'post_type'    => Constants::POST_TYPE_TOUR,
 			'post_title'   => \sanitize_text_field( $request->get_param( 'title' ) ),
 			'post_content' => \wp_kses_post( $request->get_param( 'content' ) ),
 			'post_status'  => 'publish',
@@ -256,7 +257,7 @@ class TourRestController extends WP_REST_Controller {
 		
 		if ( ! empty( $vehicle_ids ) ) {
 			// Récupère tous les véhicules en une seule requête
-			$vehicle_posts = $this->repository->get_by_args( 'vehicules', [
+			$vehicle_posts = $this->repository->get_by_args( Constants::POST_TYPE_VEHICLE, [
 				'post__in' => $vehicle_ids,
 				'orderby'  => 'post__in', // Préserve l'ordre des IDs
 			] );

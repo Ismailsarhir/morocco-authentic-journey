@@ -8,6 +8,8 @@
 
 namespace TM\Meta;
 
+use TM\Core\Constants;
+
 /**
  * Classe pour gérer les meta boxes des transferts
  */
@@ -36,13 +38,13 @@ class TransferMeta extends MetaBox {
 		// Utilise le helper pour récupérer toutes les meta en une fois (plus efficace)
 		$meta = \TM\Utils\MetaHelper::get_transfer_meta( $post->ID );
 		
-		$transfer_type     = $meta['tm_transfer_type'] ?? '';
-		$vehicle_id        = $meta['tm_vehicle'] ?? '';
-		$price             = $meta['tm_price'] ?? '';
-		$pickup            = $meta['tm_pickup'] ?? '';
-		$dropoff           = $meta['tm_dropoff'] ?? '';
-		$duration_estimate = $meta['tm_duration_estimate'] ?? '';
-		$description       = $meta['tm_description'] ?? '';
+		$transfer_type     = $meta[ Constants::META_TRANSFER_TYPE ] ?? '';
+		$vehicle_id        = $meta[ Constants::META_TRANSFER_VEHICLE ] ?? '';
+		$price             = $meta[ Constants::META_TRANSFER_PRICE ] ?? '';
+		$pickup            = $meta[ Constants::META_TRANSFER_PICKUP ] ?? '';
+		$dropoff           = $meta[ Constants::META_TRANSFER_DROPOFF ] ?? '';
+		$duration_estimate = $meta[ Constants::META_TRANSFER_DURATION_ESTIMATE ] ?? '';
+		$description       = $meta[ Constants::META_TRANSFER_DESCRIPTION ] ?? '';
 		
 		// Type de transfert
 		$type_options = [
@@ -51,25 +53,25 @@ class TransferMeta extends MetaBox {
 			'city'        => __( 'Ville', 'transfertmarrakech' ),
 			'custom'      => __( 'Personnalisé', 'transfertmarrakech' ),
 		];
-		$this->select_field( 'tm_transfer_type', __( 'Type de transfert', 'transfertmarrakech' ), $type_options, $transfer_type );
+		$this->select_field( Constants::META_TRANSFER_TYPE, __( 'Type de transfert', 'transfertmarrakech' ), $type_options, $transfer_type );
 		
 		// Véhicule associé
-		$this->single_post_select_field( 'tm_vehicle', __( 'Véhicule', 'transfertmarrakech' ), 'vehicules', $vehicle_id );
+		$this->single_post_select_field( Constants::META_TRANSFER_VEHICLE, __( 'Véhicule', 'transfertmarrakech' ), Constants::POST_TYPE_VEHICLE, $vehicle_id );
 		
 		// Prix
-		$this->text_field( 'tm_price', __( 'Prix (MAD)', 'transfertmarrakech' ), $price, '0.00' );
+		$this->text_field( Constants::META_TRANSFER_PRICE, __( 'Prix (MAD)', 'transfertmarrakech' ), $price, '0.00' );
 		
 		// Point de prise en charge
-		$this->text_field( 'tm_pickup', __( 'Point de prise en charge', 'transfertmarrakech' ), $pickup );
+		$this->text_field( Constants::META_TRANSFER_PICKUP, __( 'Point de prise en charge', 'transfertmarrakech' ), $pickup );
 		
 		// Point de dépose
-		$this->text_field( 'tm_dropoff', __( 'Point de dépose', 'transfertmarrakech' ), $dropoff );
+		$this->text_field( Constants::META_TRANSFER_DROPOFF, __( 'Point de dépose', 'transfertmarrakech' ), $dropoff );
 		
 		// Estimation de durée
-		$this->text_field( 'tm_duration_estimate', __( 'Estimation de durée', 'transfertmarrakech' ), $duration_estimate, __( 'Ex: 30 minutes', 'transfertmarrakech' ) );
+		$this->text_field( Constants::META_TRANSFER_DURATION_ESTIMATE, __( 'Estimation de durée', 'transfertmarrakech' ), $duration_estimate, __( 'Ex: 30 minutes', 'transfertmarrakech' ) );
 		
 		// Description
-		$this->textarea_field( 'tm_description', __( 'Description détaillée', 'transfertmarrakech' ), $description, 5 );
+		$this->textarea_field( Constants::META_TRANSFER_DESCRIPTION, __( 'Description détaillée', 'transfertmarrakech' ), $description, 5 );
 	}
 	
 	/**
@@ -93,40 +95,40 @@ class TransferMeta extends MetaBox {
 		}
 		
 		// Type de transfert
-		if ( isset( $_POST['tm_transfer_type'] ) ) {
-			\update_post_meta( $post_id, 'tm_transfer_type', \sanitize_text_field( $_POST['tm_transfer_type'] ) );
+		if ( isset( $_POST[ Constants::META_TRANSFER_TYPE ] ) ) {
+			\update_post_meta( $post_id, Constants::META_TRANSFER_TYPE, \sanitize_text_field( $_POST[ Constants::META_TRANSFER_TYPE ] ) );
 		}
 		
 		// Véhicule associé
-		if ( isset( $_POST['tm_vehicle'] ) ) {
-			$vehicle_id = \absint( $_POST['tm_vehicle'] );
-			\update_post_meta( $post_id, 'tm_vehicle', $vehicle_id > 0 ? $vehicle_id : '' );
+		if ( isset( $_POST[ Constants::META_TRANSFER_VEHICLE ] ) ) {
+			$vehicle_id = \absint( $_POST[ Constants::META_TRANSFER_VEHICLE ] );
+			\update_post_meta( $post_id, Constants::META_TRANSFER_VEHICLE, $vehicle_id > 0 ? $vehicle_id : '' );
 		}
 		
 		// Prix
-		if ( isset( $_POST['tm_price'] ) ) {
-			$price = \floatval( $_POST['tm_price'] );
-			\update_post_meta( $post_id, 'tm_price', \number_format( $price, 2, '.', '' ) );
+		if ( isset( $_POST[ Constants::META_TRANSFER_PRICE ] ) ) {
+			$price = \TM\Utils\MetaHelper::format_price_for_save( $_POST[ Constants::META_TRANSFER_PRICE ] );
+			\update_post_meta( $post_id, Constants::META_TRANSFER_PRICE, $price );
 		}
 		
 		// Point de prise en charge
-		if ( isset( $_POST['tm_pickup'] ) ) {
-			\update_post_meta( $post_id, 'tm_pickup', \sanitize_text_field( $_POST['tm_pickup'] ) );
+		if ( isset( $_POST[ Constants::META_TRANSFER_PICKUP ] ) ) {
+			\update_post_meta( $post_id, Constants::META_TRANSFER_PICKUP, \sanitize_text_field( $_POST[ Constants::META_TRANSFER_PICKUP ] ) );
 		}
 		
 		// Point de dépose
-		if ( isset( $_POST['tm_dropoff'] ) ) {
-			\update_post_meta( $post_id, 'tm_dropoff', \sanitize_text_field( $_POST['tm_dropoff'] ) );
+		if ( isset( $_POST[ Constants::META_TRANSFER_DROPOFF ] ) ) {
+			\update_post_meta( $post_id, Constants::META_TRANSFER_DROPOFF, \sanitize_text_field( $_POST[ Constants::META_TRANSFER_DROPOFF ] ) );
 		}
 		
 		// Estimation de durée
-		if ( isset( $_POST['tm_duration_estimate'] ) ) {
-			\update_post_meta( $post_id, 'tm_duration_estimate', \sanitize_text_field( $_POST['tm_duration_estimate'] ) );
+		if ( isset( $_POST[ Constants::META_TRANSFER_DURATION_ESTIMATE ] ) ) {
+			\update_post_meta( $post_id, Constants::META_TRANSFER_DURATION_ESTIMATE, \sanitize_text_field( $_POST[ Constants::META_TRANSFER_DURATION_ESTIMATE ] ) );
 		}
 		
 		// Description
-		if ( isset( $_POST['tm_description'] ) ) {
-			\update_post_meta( $post_id, 'tm_description', \sanitize_textarea_field( $_POST['tm_description'] ) );
+		if ( isset( $_POST[ Constants::META_TRANSFER_DESCRIPTION ] ) ) {
+			\update_post_meta( $post_id, Constants::META_TRANSFER_DESCRIPTION, \sanitize_textarea_field( $_POST[ Constants::META_TRANSFER_DESCRIPTION ] ) );
 		}
 	}
 }

@@ -154,7 +154,10 @@ class HeaderHelper {
 	 * @return string
 	 */
 	public static function get_agent_portal_url(): string {
+		// Récupère le numéro WhatsApp depuis les options
+		$phone_number = \TM\Utils\MetaHelper::get_whatsapp_phone();
+		
 		// Format WhatsApp: https://wa.me/[country_code][phone_number] (sans espaces, sans +, sans tirets)
-		return 'https://wa.me/212661887020';
+		return 'https://wa.me/' . $phone_number;
 	}
 }

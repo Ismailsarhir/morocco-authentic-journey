@@ -8,6 +8,8 @@
 
 namespace TM\Repository;
 
+use TM\Core\Constants;
+
 /**
  * Classe Repository pour les requêtes de posts
  * Utilise le pattern Singleton pour partager une instance unique
@@ -104,7 +106,7 @@ class PostRepository {
 			return [];
 		}
 		
-		return $this->get_by_args( 'vehicules', [
+		return $this->get_by_args( Constants::POST_TYPE_VEHICLE, [
 			'post__in' => $vehicle_ids,
 			'orderby'  => 'post__in',
 		] );
@@ -117,11 +119,11 @@ class PostRepository {
 	 * @return array
 	 */
 	public function get_available_vehicles( int $limit = -1 ): array {
-		return $this->get_by_args( 'vehicules', [
+		return $this->get_by_args( Constants::POST_TYPE_VEHICLE, [
 			'posts_per_page' => $limit,
 			'meta_query'      => [
 				[
-					'key'   => 'tm_availability',
+					'key'   => Constants::META_VEHICLE_AVAILABILITY,
 					'value' => '1',
 					'compare' => '=',
 				],
@@ -136,10 +138,10 @@ class PostRepository {
 	 * @return array
 	 */
 	public function get_tours_by_location( string $location ): array {
-		return $this->get_by_args( 'tours', [
+		return $this->get_by_args( Constants::POST_TYPE_TOUR, [
 			'meta_query' => [
 				[
-					'key'     => 'tm_location',
+					'key'     => Constants::META_TOUR_LOCATION,
 					'value'   => $location,
 					'compare' => 'LIKE',
 				],
@@ -154,10 +156,10 @@ class PostRepository {
 	 * @return array
 	 */
 	public function get_transfers_by_type( string $type ): array {
-		return $this->get_by_args( 'transferts', [
+		return $this->get_by_args( Constants::POST_TYPE_TRANSFER, [
 			'meta_query' => [
 				[
-					'key'     => 'tm_transfer_type',
+					'key'     => Constants::META_TRANSFER_TYPE,
 					'value'   => $type,
 					'compare' => '=',
 				],

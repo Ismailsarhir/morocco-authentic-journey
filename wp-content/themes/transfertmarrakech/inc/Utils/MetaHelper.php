@@ -85,22 +85,22 @@ class MetaHelper {
 	 */
 	public static function get_vehicle_meta( int $vehicle_id ): array {
 		$meta = self::get_all_meta( $vehicle_id, [
-			'tm_vehicle_type',
-			'tm_seats',
-			'tm_baggage_capacity',
-			'tm_gallery',
-			'tm_availability',
-			'tm_daily_price',
+			\TM\Core\Constants::META_VEHICLE_TYPE,
+			\TM\Core\Constants::META_VEHICLE_SEATS,
+			\TM\Core\Constants::META_VEHICLE_BAGGAGE_CAPACITY,
+			\TM\Core\Constants::META_VEHICLE_GALLERY,
+			\TM\Core\Constants::META_VEHICLE_AVAILABILITY,
+			\TM\Core\Constants::META_VEHICLE_DAILY_PRICE,
 		] );
 		
 		// Normalise la galerie
-		$meta['tm_gallery'] = self::normalize_ids_array( $meta['tm_gallery'] ?? null );
+		$meta[ \TM\Core\Constants::META_VEHICLE_GALLERY ] = self::normalize_ids_array( $meta[ \TM\Core\Constants::META_VEHICLE_GALLERY ] ?? null );
 		
 		// Normalise les booléens
-		$meta['tm_availability'] = (bool) ( $meta['tm_availability'] ?? false );
+		$meta[ \TM\Core\Constants::META_VEHICLE_AVAILABILITY ] = (bool) ( $meta[ \TM\Core\Constants::META_VEHICLE_AVAILABILITY ] ?? false );
 		
 		// Normalise les entiers
-		$meta['tm_seats'] = absint( $meta['tm_seats'] ?? 0 );
+		$meta[ \TM\Core\Constants::META_VEHICLE_SEATS ] = absint( $meta[ \TM\Core\Constants::META_VEHICLE_SEATS ] ?? 0 );
 		
 		return $meta;
 	}
@@ -113,24 +113,24 @@ class MetaHelper {
 	 */
 	public static function get_tour_meta( int $tour_id ): array {
 		$meta = self::get_all_meta( $tour_id, [
-			'tm_location',
-			'tm_duration',
-			'tm_duration_minutes',
-			'tm_nights',
-			'tm_meals',
-			'tm_price',
-			'tm_vehicles',
-			'tm_highlights',
-			'tm_meeting_point',
+			\TM\Core\Constants::META_TOUR_LOCATION,
+			\TM\Core\Constants::META_TOUR_DURATION,
+			\TM\Core\Constants::META_TOUR_DURATION_MINUTES,
+			\TM\Core\Constants::META_TOUR_NIGHTS,
+			\TM\Core\Constants::META_TOUR_MEALS,
+			\TM\Core\Constants::META_TOUR_PRICE,
+			\TM\Core\Constants::META_TOUR_VEHICLES,
+			\TM\Core\Constants::META_TOUR_HIGHLIGHTS,
+			\TM\Core\Constants::META_TOUR_MEETING_POINT,
 		] );
 		
 		// Normalise les véhicules
-		$meta['tm_vehicles'] = self::normalize_ids_array( $meta['tm_vehicles'] ?? null );
+		$meta[ \TM\Core\Constants::META_TOUR_VEHICLES ] = self::normalize_ids_array( $meta[ \TM\Core\Constants::META_TOUR_VEHICLES ] ?? null );
 		
 		// Normalise les entiers (optimisé : absint gère déjà les valeurs vides)
-		$meta['tm_duration_minutes'] = absint( $meta['tm_duration_minutes'] ?? 0 );
-		$meta['tm_nights'] = absint( $meta['tm_nights'] ?? 0 );
-		$meta['tm_meals'] = absint( $meta['tm_meals'] ?? 0 );
+		$meta[ \TM\Core\Constants::META_TOUR_DURATION_MINUTES ] = absint( $meta[ \TM\Core\Constants::META_TOUR_DURATION_MINUTES ] ?? 0 );
+		$meta[ \TM\Core\Constants::META_TOUR_NIGHTS ] = absint( $meta[ \TM\Core\Constants::META_TOUR_NIGHTS ] ?? 0 );
+		$meta[ \TM\Core\Constants::META_TOUR_MEALS ] = absint( $meta[ \TM\Core\Constants::META_TOUR_MEALS ] ?? 0 );
 		
 		return $meta;
 	}
@@ -143,19 +143,150 @@ class MetaHelper {
 	 */
 	public static function get_transfer_meta( int $transfer_id ): array {
 		$meta = self::get_all_meta( $transfer_id, [
-			'tm_transfer_type',
-			'tm_vehicle',
-			'tm_price',
-			'tm_pickup',
-			'tm_dropoff',
-			'tm_duration_estimate',
-			'tm_description',
+			\TM\Core\Constants::META_TRANSFER_TYPE,
+			\TM\Core\Constants::META_TRANSFER_VEHICLE,
+			\TM\Core\Constants::META_TRANSFER_PRICE,
+			\TM\Core\Constants::META_TRANSFER_PICKUP,
+			\TM\Core\Constants::META_TRANSFER_DROPOFF,
+			\TM\Core\Constants::META_TRANSFER_DURATION_ESTIMATE,
+			\TM\Core\Constants::META_TRANSFER_DESCRIPTION,
 		] );
 		
 		// Normalise le véhicule (ID unique)
-		$meta['tm_vehicle'] = absint( $meta['tm_vehicle'] ?? 0 );
+		$meta[ \TM\Core\Constants::META_TRANSFER_VEHICLE ] = absint( $meta[ \TM\Core\Constants::META_TRANSFER_VEHICLE ] ?? 0 );
 		
 		return $meta;
+	}
+	
+	/**
+	 * Récupère le numéro WhatsApp depuis les options
+	 * 
+	 * @return string
+	 */
+	public static function get_whatsapp_phone(): string {
+		return \get_option( \TM\Core\Constants::OPTION_WHATSAPP_PHONE, \TM\Core\Constants::OPTION_WHATSAPP_PHONE_DEFAULT );
+	}
+	
+	/**
+	 * Récupère le post actuel (queried object ou post global)
+	 * 
+	 * @return \WP_Post|null
+	 */
+	public static function get_current_post(): ?\WP_Post {
+		$post = \get_queried_object();
+		if ( ! $post instanceof \WP_Post ) {
+			global $post;
+		}
+		return ( $post instanceof \WP_Post ) ? $post : null;
+	}
+	
+	/**
+	 * Formate la durée avec "heure(s)" en français
+	 * 
+	 * @param string $duration Durée brute (ex: "9h", "2 heures")
+	 * @return string Durée formatée
+	 */
+	public static function format_duration( string $duration ): string {
+		if ( empty( $duration ) ) {
+			return '';
+		}
+		
+		$duration_escaped = esc_html( $duration );
+		if ( preg_match( '/(\d+)h/i', $duration, $matches ) ) {
+			$hours = (int) $matches[1];
+			return sprintf(
+				'%s %s',
+				$duration_escaped,
+				esc_html( _n( 'heure', 'heures', $hours, 'transfertmarrakech' ) )
+			);
+		}
+		
+		return $duration_escaped . ' ' . esc_html__( 'heures', 'transfertmarrakech' );
+	}
+	
+	/**
+	 * Formate un prix avec séparateurs de milliers
+	 * 
+	 * @param mixed $price Prix brut
+	 * @return string Prix formaté
+	 */
+	public static function format_price( $price ): string {
+		if ( empty( $price ) ) {
+			return '';
+		}
+		return \number_format( (float) $price, 0, ',', ' ' );
+	}
+	
+	/**
+	 * Construit l'URL WhatsApp avec message pré-rempli
+	 * 
+	 * @param string $message Message à envoyer
+	 * @return string URL WhatsApp
+	 */
+	public static function build_whatsapp_url( string $message ): string {
+		$phone_number = self::get_whatsapp_phone();
+		$encoded = urlencode( $message );
+		return 'https://wa.me/' . $phone_number . '?text=' . $encoded;
+	}
+	
+	/**
+	 * Récupère le lien et nom de destination pour le backlink
+	 * 
+	 * @param int $post_id ID du post
+	 * @return array ['link' => string, 'name' => string]
+	 */
+	public static function get_destination_backlink( int $post_id ): array {
+		$destinations = \get_the_terms( $post_id, \TM\Core\Constants::TAXONOMY_DESTINATION );
+		$destination_link = '#';
+		$destination_name = '';
+		
+		if ( ! empty( $destinations ) && ! \is_wp_error( $destinations ) ) {
+			$destination = \reset( $destinations );
+			if ( $destination instanceof \WP_Term ) {
+				$destination_link = \get_term_link( $destination );
+				$destination_name = $destination->name;
+			}
+		}
+		
+		return [
+			'link' => $destination_link,
+			'name' => $destination_name,
+		];
+	}
+	
+	/**
+	 * Récupère l'URL de l'image mise en avant avec fallback sur différentes tailles
+	 * 
+	 * @param int $post_id ID du post
+	 * @return string URL de l'image ou chaîne vide
+	 */
+	public static function get_post_thumbnail_url_with_fallback( int $post_id ): string {
+		$thumbnail_url = \get_the_post_thumbnail_url( $post_id, 'large' )
+			?: \get_the_post_thumbnail_url( $post_id, 'medium' )
+			?: \get_the_post_thumbnail_url( $post_id, 'thumbnail' );
+		
+		return $thumbnail_url ?: '';
+	}
+	
+	/**
+	 * Récupère le titre d'un post avec fallback
+	 * 
+	 * @param \WP_Post $post Objet post WordPress
+	 * @return string Titre du post
+	 */
+	public static function get_post_title( \WP_Post $post ): string {
+		return $post->post_title ?: \get_the_title( $post->ID );
+	}
+	
+	/**
+	 * Formate un prix pour la sauvegarde en base (2 décimales avec point)
+	 * 
+	 * @param mixed $price Prix brut
+	 * @return string Prix formaté pour la sauvegarde
+	 */
+	public static function format_price_for_save( $price ): string {
+		$price = \floatval( $price );
+		return \number_format( $price, 2, '.', '' );
 	}
 }
 

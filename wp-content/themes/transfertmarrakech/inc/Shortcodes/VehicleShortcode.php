@@ -8,6 +8,8 @@
 
 namespace TM\Shortcodes;
 
+use TM\Core\Constants;
+
 /**
  * Classe pour le shortcode [tm_vehicules]
  */
@@ -43,10 +45,10 @@ class VehicleShortcode extends BaseShortcode {
 		// Construit les critères de meta_query
 		$meta_criteria = [];
 		if ( $atts['available'] === 'true' ) {
-			$meta_criteria['tm_availability'] = '1';
+			$meta_criteria[ Constants::META_VEHICLE_AVAILABILITY ] = '1';
 		}
 		if ( ! empty( $atts['type'] ) ) {
-			$meta_criteria['tm_vehicle_type'] = $atts['type'];
+			$meta_criteria[ Constants::META_VEHICLE_TYPE ] = $atts['type'];
 		}
 		
 		$meta_query = $this->build_meta_query( $meta_criteria );
@@ -54,7 +56,7 @@ class VehicleShortcode extends BaseShortcode {
 			$args['meta_query'] = $meta_query;
 		}
 		
-		$vehicles = self::$repository->get_by_args( 'vehicules', $args );
+		$vehicles = self::$repository->get_by_args( Constants::POST_TYPE_VEHICLE, $args );
 		
 		if ( empty( $vehicles ) ) {
 			return '<p>' . esc_html__( 'Aucun véhicule trouvé', 'transfertmarrakech' ) . '</p>';

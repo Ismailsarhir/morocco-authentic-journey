@@ -13,6 +13,7 @@ use WP_REST_Server;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
+use TM\Core\Constants;
 use TM\Repository\PostRepository;
 use TM\Utils\Sanitizer;
 
@@ -33,7 +34,7 @@ class VehicleRestController extends WP_REST_Controller {
 	 * 
 	 * @var string
 	 */
-	protected $rest_base = 'vehicules';
+	protected $rest_base = Constants::POST_TYPE_VEHICLE;
 	
 	/**
 	 * Repository
@@ -141,7 +142,7 @@ class VehicleRestController extends WP_REST_Controller {
 			];
 		}
 		
-		$posts = $this->repository->get_by_args( 'vehicules', $args );
+		$posts = $this->repository->get_by_args( Constants::POST_TYPE_VEHICLE, $args );
 		$data  = [];
 		
 		foreach ( $posts as $post ) {
@@ -172,7 +173,7 @@ class VehicleRestController extends WP_REST_Controller {
 		$id   = (int) $request->get_param( 'id' );
 		$post = $this->repository->get_by_id( $id );
 		
-		if ( ! $post || $post->post_type !== 'vehicules' ) {
+		if ( ! $post || $post->post_type !== Constants::POST_TYPE_VEHICLE ) {
 			return new \WP_Error(
 				'rest_vehicle_not_found',
 				__( 'Véhicule non trouvé', 'transfertmarrakech' ),
@@ -209,7 +210,7 @@ class VehicleRestController extends WP_REST_Controller {
 	 */
 	public function create_item( $request ) {
 		$post_data = [
-			'post_type'    => 'vehicules',
+			'post_type'    => Constants::POST_TYPE_VEHICLE,
 			'post_title'   => \sanitize_text_field( $request->get_param( 'title' ) ),
 			'post_content' => \wp_kses_post( $request->get_param( 'content' ) ),
 			'post_status'  => 'publish',

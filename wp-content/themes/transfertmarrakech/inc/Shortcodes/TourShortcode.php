@@ -8,6 +8,8 @@
 
 namespace TM\Shortcodes;
 
+use TM\Core\Constants;
+
 /**
  * Classe pour le shortcode [tm_tours]
  */
@@ -43,14 +45,14 @@ class TourShortcode extends BaseShortcode {
 		if ( ! empty( $atts['location'] ) ) {
 			$args['meta_query'] = [
 				[
-					'key'     => 'tm_location',
+					'key'     => Constants::META_TOUR_LOCATION,
 					'value'   => \sanitize_text_field( $atts['location'] ),
 					'compare' => 'LIKE',
 				],
 			];
 		}
 		
-		$tours = self::$repository->get_by_args( 'tours', $args );
+		$tours = self::$repository->get_by_args( Constants::POST_TYPE_TOUR, $args );
 		
 		if ( empty( $tours ) ) {
 			return '<p>' . \esc_html__( 'Aucun tour trouvé', 'transfertmarrakech' ) . '</p>';

@@ -18,6 +18,7 @@ use TM\Shortcodes\ShortcodeManager;
 use TM\Meta\PostMeta;
 use TM\Meta\TermMeta;
 use TM\Admin\FeaturedTextSettings;
+use TM\Admin\WhatsAppSettings;
 
 /**
  * Classe principale du thème qui initialise tous les composants
@@ -116,7 +117,7 @@ class Theme {
 	 * @return void
 	 */
 	public function add_featured_image_support(): void {
-		$post_types = [ 'vehicules', 'tours', 'transferts' ];
+		$post_types = [ Constants::POST_TYPE_VEHICLE, Constants::POST_TYPE_TOUR, Constants::POST_TYPE_TRANSFER ];
 		
 		foreach ( $post_types as $post_type ) {
 			// S'assure que le support thumbnail est activé (déjà fait dans register_post_type, mais on double-vérifie)
@@ -145,7 +146,7 @@ class Theme {
 	 * @return void
 	 */
 	public function ensure_featured_image_meta_box(): void {
-		$post_types = [ 'vehicules', 'tours', 'transferts' ];
+		$post_types = [ Constants::POST_TYPE_VEHICLE, Constants::POST_TYPE_TOUR, Constants::POST_TYPE_TRANSFER ];
 		$screen = \get_current_screen();
 		
 		if ( ! $screen || ! isset( $screen->post_type ) ) {
@@ -202,7 +203,7 @@ class Theme {
 	 */
 	public function enqueue_admin_scripts( string $hook_suffix ): void {
 		// Charge uniquement sur les pages d'édition des CPT
-		$post_types = [ 'vehicules', 'tours', 'transferts' ];
+		$post_types = [ Constants::POST_TYPE_VEHICLE, Constants::POST_TYPE_TOUR, Constants::POST_TYPE_TRANSFER ];
 		$screen = \get_current_screen();
 		
 		if ( ! $screen || ! isset( $screen->post_type ) ) {
@@ -356,6 +357,9 @@ class Theme {
 	private function init_admin_pages(): void {
 		$featured_text_settings = new FeaturedTextSettings();
 		$featured_text_settings->register();
+		
+		$whatsapp_settings = new WhatsAppSettings();
+		$whatsapp_settings->register();
 	}
 	
 	/**

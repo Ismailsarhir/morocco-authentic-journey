@@ -34,17 +34,7 @@ if ( empty( $title ) || empty( $permalink ) || empty( $thumbnail ) ) {
 }
 
 // Formatage de la durée avec "heure(s)" en français
-$duration_display = '';
-if ( ! empty( $duration ) ) {
-	$duration_escaped = \esc_html( $duration );
-	if ( preg_match( '/(\d+)h/i', $duration, $matches ) ) {
-		$hours = (int) $matches[1];
-		$heure_text = ( $hours > 1 ) ? \__( 'heures', 'transfertmarrakech' ) : \__( 'heure', 'transfertmarrakech' );
-		$duration_display = $duration_escaped . ' ' . \esc_html( $heure_text );
-	} else {
-		$duration_display = $duration_escaped . ' ' . \esc_html__( 'heures', 'transfertmarrakech' );
-	}
-}
+$duration_display = \TM\Utils\MetaHelper::format_duration( $duration );
 
 ?>
 

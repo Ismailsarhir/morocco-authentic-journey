@@ -55,12 +55,11 @@ class HeroHelper {
 	 * Récupère le titre du Hero (titre du post)
 	 * Optimisé pour utiliser la propriété de l'objet directement
 	 * 
-	 * @param WP_Post $post Post object
+	 * @param \WP_Post $post Post object
 	 * @return string
 	 */
-	public static function get_hero_title( $post ): string {
-		// Utilise la propriété directement si disponible (plus rapide)
-		return $post->post_title ?: \get_the_title( $post->ID );
+	public static function get_hero_title( \WP_Post $post ): string {
+		return \TM\Utils\MetaHelper::get_post_title( $post );
 	}
 	
 	/**

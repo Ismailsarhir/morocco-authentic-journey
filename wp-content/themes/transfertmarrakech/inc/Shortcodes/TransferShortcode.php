@@ -8,6 +8,8 @@
 
 namespace TM\Shortcodes;
 
+use TM\Core\Constants;
+
 /**
  * Classe pour le shortcode [tm_transferts]
  */
@@ -43,14 +45,14 @@ class TransferShortcode extends BaseShortcode {
 		if ( ! empty( $atts['type'] ) ) {
 			$args['meta_query'] = [
 				[
-					'key'     => 'tm_transfer_type',
+					'key'     => Constants::META_TRANSFER_TYPE,
 					'value'   => \sanitize_text_field( $atts['type'] ),
 					'compare' => '=',
 				],
 			];
 		}
 		
-		$transfers = self::$repository->get_by_args( 'transferts', $args );
+		$transfers = self::$repository->get_by_args( Constants::POST_TYPE_TRANSFER, $args );
 		
 		if ( empty( $transfers ) ) {
 			return '<p>' . \esc_html__( 'Aucun transfert trouvé', 'transfertmarrakech' ) . '</p>';

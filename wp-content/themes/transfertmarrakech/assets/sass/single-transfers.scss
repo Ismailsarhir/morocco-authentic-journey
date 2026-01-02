@@ -3,9 +3,15 @@
 @import "pages/common/vehicles/base/vehicles-list";
 @import "pages/common/base/keywords";
 @import "pages/common/base/description";
+@import "pages/common/base/banner";
 
 @import "pages/single/base/index";
 
+
+/* Tablet */
+@include breakpoint(sm--min-width) {
+  @import "pages/common/tablet/banner";
+}
 
 /* Desktop */
 @include breakpoint(md--min-width) {
