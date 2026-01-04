@@ -23,18 +23,14 @@ $title           = $tour_data['title'] ?? '';
 $permalink       = $tour_data['permalink'] ?? '';
 $thumbnail       = $tour_data['thumbnail'] ?? '';
 $duration        = $tour_data['duration'] ?? '';
-$days            = (int) ( $tour_data['days'] ?? 0 );
 $price_formatted = $tour_data['price_formatted'] ?? '';
 $location        = $tour_data['location'] ?? '';
-$vehicle_names   = $tour_data['vehicle_names'] ?? [];
+$tag_labels      = $tour_data['tag_labels'] ?? [];
 
 // Validation des données essentielles
 if ( empty( $title ) || empty( $permalink ) || empty( $thumbnail ) ) {
 	return;
 }
-
-// Formatage de la durée avec "heure(s)" en français
-$duration_display = \TM\Utils\MetaHelper::format_duration( $duration );
 
 ?>
 
@@ -58,43 +54,27 @@ $duration_display = \TM\Utils\MetaHelper::format_duration( $duration );
 		<h5 class="tour-card__infos-title">
 			<?php echo \esc_html( $title ); ?>
 		</h5>
-		<?php if ( ! empty( $vehicle_names ) && is_array( $vehicle_names ) ) : ?>
+		<?php if ( ! empty( $tag_labels ) && is_array( $tag_labels ) ) : ?>
 			<div class="tour-card__infos-tags">
-				<?php foreach ( $vehicle_names as $vehicle_name ) : ?>
-					<?php if ( ! empty( $vehicle_name ) ) : ?>
-						<div class="tag"><?php echo \esc_html( $vehicle_name ); ?></div>
+				<?php foreach ( $tag_labels as $tag_label ) : ?>
+					<?php if ( ! empty( $tag_label ) ) : ?>
+						<div class="tag"><?php echo \esc_html( $tag_label ); ?></div>
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</div>
 		<?php endif; ?>
 		<div class="tour-card__infos-table">
-			<?php if ( ! empty( $duration_display ) || ( $days > 0 ) ) : ?>
+			<?php if ( ! empty( $duration ) ) : ?>
 				<ul>
-					<?php if ( ! empty( $duration_display ) ) : ?>
-						<li>
-							<?php 
-							/* translators: %s: Duration (e.g., "9 heures") */
-							echo $duration_display . ' ' . \esc_html__( 'de route', 'transfertmarrakech' );
-							?>
-						</li>
-					<?php endif; ?>
-					<?php if ( $days > 0 ) : ?>
-						<li>
-							<?php 
-							/* translators: %d: Number of days */
-							printf( 
-								\esc_html__( '%d jours de séjour', 'transfertmarrakech' ),
-								$days
-							);
-							?>
-						</li>
-					<?php endif; ?>
+					<li>
+						<?php echo \esc_html( $duration ); ?>
+					</li>
 				</ul>
 			<?php endif; ?>
 			<?php if ( ! empty( $price_formatted ) ) : ?>
 				<div>
-					<?php \esc_html_e( 'À partir de :', 'transfertmarrakech' ); ?> 
-					<strong><?php echo \esc_html( $price_formatted ); ?> <?php \esc_html_e( 'MAD*', 'transfertmarrakech' ); ?></strong>
+					<?php \esc_html_e( 'À partir de :', 'transfertmarrakech' ); ?>
+					<strong><?php echo \esc_html( $price_formatted ); ?></strong>
 				</div>
 			<?php endif; ?>
 		</div>

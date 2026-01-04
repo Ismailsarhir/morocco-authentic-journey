@@ -4,6 +4,8 @@
 @import "pages/common/base/keywords";
 @import "pages/common/base/description";
 @import "pages/common/base/banner";
+@import "pages/common/base/prices-table";
+@import "pages/common/base/links-list";
 
 @import "pages/single/base/index";
 
@@ -15,6 +17,8 @@
 /* Desktop */
 @include breakpoint(md--min-width) {
   @import "pages/common/vehicles/tablet/vehicles-list";
+  @import "pages/common/tablet/prices-table";
+  @import "pages/common/tablet/links-list";
   
   @import "pages/single/desktop/index";
   @import "pages/single/tablet/vehicles-list";

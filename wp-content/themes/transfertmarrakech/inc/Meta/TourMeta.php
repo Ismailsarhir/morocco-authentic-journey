@@ -40,40 +40,101 @@ class TourMeta extends MetaBox {
 		
 		$location      = $meta[ Constants::META_TOUR_LOCATION ] ?? '';
 		$duration      = $meta[ Constants::META_TOUR_DURATION ] ?? '';
-		$duration_min  = $meta[ Constants::META_TOUR_DURATION_MINUTES ] ?? 0;
-		$nights        = $meta[ Constants::META_TOUR_NIGHTS ] ?? 0;
-		$meals         = $meta[ Constants::META_TOUR_MEALS ] ?? 0;
-		$price         = $meta[ Constants::META_TOUR_PRICE ] ?? '';
-		$vehicle_ids   = $meta[ Constants::META_TOUR_VEHICLES ] ?? [];
+		$duration_unit = $meta[ Constants::META_TOUR_DURATION_UNIT ] ?? 'hours';
 		$highlights    = $meta[ Constants::META_TOUR_HIGHLIGHTS ] ?? '';
 		$meeting_point = $meta[ Constants::META_TOUR_MEETING_POINT ] ?? '';
+		$tour_type     = $meta[ Constants::META_TOUR_TYPE ] ?? '';
+		$difficulty    = $meta[ Constants::META_TOUR_DIFFICULTY ] ?? '';
+		$languages         = $meta[ Constants::META_TOUR_LANGUAGES ] ?? [];
+		$tags              = $meta[ Constants::META_TOUR_TAGS ] ?? [];
+		$itinerary_title   = $meta[ Constants::META_TOUR_ITINERARY_TITLE ] ?? '';
+		$itinerary_places   = $meta[ Constants::META_TOUR_ITINERARY ] ?? [];
+		$included          = $meta[ Constants::META_TOUR_INCLUDED ] ?? '';
+		$excluded      = $meta[ Constants::META_TOUR_EXCLUDED ] ?? '';
+		$cancellation  = $meta[ Constants::META_TOUR_CANCELLATION ] ?? '';
+		$price_tiers   = $meta[ Constants::META_TOUR_PRICE_TIERS ] ?? [];
+		$vehicle_ids   = $meta[ Constants::META_TOUR_VEHICLES ] ?? [];
 		
 		// Localisation
-		$this->text_field( Constants::META_TOUR_LOCATION, __( 'Localisation', 'transfertmarrakech' ), $location );
+		$this->text_field( Constants::META_TOUR_LOCATION, __( 'Localisation', 'transfertmarrakech' ), $location, __( 'Ex: Essaouira, Marrakech', 'transfertmarrakech' ) );
 		
-		// Durée (affichage) - Temps de route vers la destination
-		$this->text_field( Constants::META_TOUR_DURATION, __( 'Durée (affichage)', 'transfertmarrakech' ), $duration, __( 'Ex: 2h30 (temps de route vers la destination)', 'transfertmarrakech' ) );
+		// Durée
+		$this->text_field( Constants::META_TOUR_DURATION, __( 'Durée (nombre)', 'transfertmarrakech' ), $duration, __( 'Ex: 10', 'transfertmarrakech' ) );
 		
-		// Durée en minutes - Nombre de jours du tour
-		$this->number_field( Constants::META_TOUR_DURATION_MINUTES, __( 'Nombre de jours du tour', 'transfertmarrakech' ), $duration_min );
+		// Unité de durée
+		$duration_unit_options = [
+			'hours' => __( 'Heures', 'transfertmarrakech' ),
+			'days'  => __( 'Jours', 'transfertmarrakech' ),
+		];
+		$this->select_field( Constants::META_TOUR_DURATION_UNIT, __( 'Unité de durée', 'transfertmarrakech' ), $duration_unit_options, $duration_unit );
 		
-		// Nombre de nuits
-		$this->number_field( Constants::META_TOUR_NIGHTS, __( 'Nombre de nuits', 'transfertmarrakech' ), $nights );
+		// Type de tour
+		$tour_type_options = [
+			'group'   => __( 'Group Tour', 'transfertmarrakech' ),
+			'private' => __( 'Private Tour', 'transfertmarrakech' ),
+			'shared'  => __( 'Shared Group', 'transfertmarrakech' ),
+		];
+		$this->select_field( Constants::META_TOUR_TYPE, __( 'Type de tour', 'transfertmarrakech' ), $tour_type_options, $tour_type );
 		
-		// Nombre de repas
-		$this->number_field( Constants::META_TOUR_MEALS, __( 'Nombre de repas', 'transfertmarrakech' ), $meals );
+		// Difficulté
+		$difficulty_options = [
+			'easy'   => __( 'Easy', 'transfertmarrakech' ),
+			'medium' => __( 'Medium', 'transfertmarrakech' ),
+			'hard'   => __( 'Hard', 'transfertmarrakech' ),
+		];
+		$this->select_field( Constants::META_TOUR_DIFFICULTY, __( 'Difficulté', 'transfertmarrakech' ), $difficulty_options, $difficulty );
 		
-		// Prix
-		$this->text_field( Constants::META_TOUR_PRICE, __( 'Prix (MAD)', 'transfertmarrakech' ), $price, '0.00' );
+		// Langues (multi-select)
+		$language_options = [
+			'english' => __( 'English', 'transfertmarrakech' ),
+			'french'  => __( 'French', 'transfertmarrakech' ),
+			'spanish' => __( 'Spanish', 'transfertmarrakech' ),
+			'arabic'  => __( 'Arabic', 'transfertmarrakech' ),
+			'german'  => __( 'German', 'transfertmarrakech' ),
+			'italian' => __( 'Italian', 'transfertmarrakech' ),
+		];
+		$this->multi_checkbox_field( Constants::META_TOUR_LANGUAGES, __( 'Langues disponibles', 'transfertmarrakech' ), $language_options, $languages );
+		
+		// Tags/Catégories (multi-select)
+		$tag_options = [
+			'photography' => __( 'Photography', 'transfertmarrakech' ),
+			'historical'  => __( 'Historical', 'transfertmarrakech' ),
+			'sightseeing' => __( 'Sightseeing', 'transfertmarrakech' ),
+			'adventure'   => __( 'Adventure', 'transfertmarrakech' ),
+			'cultural'    => __( 'Cultural', 'transfertmarrakech' ),
+			'nature'     => __( 'Nature', 'transfertmarrakech' ),
+		];
+		$this->multi_checkbox_field( Constants::META_TOUR_TAGS, __( 'Tags/Catégories', 'transfertmarrakech' ), $tag_options, $tags );
+		
+		// Points forts (Highlights)
+		$this->textarea_field( Constants::META_TOUR_HIGHLIGHTS, __( 'Highlights (une ligne par point fort)', 'transfertmarrakech' ), $highlights, 5 );
+		
+		// Point de rendez-vous (Meeting Point)
+		$this->text_field( Constants::META_TOUR_MEETING_POINT, __( 'Meeting Point', 'transfertmarrakech' ), $meeting_point, __( 'Ex: Marrakech, Maroc', 'transfertmarrakech' ) );
+		
+		// Prix par nombre de personnes
+		$this->price_tiers_field( Constants::META_TOUR_PRICE_TIERS, __( 'Prix par nombre de personnes', 'transfertmarrakech' ), $price_tiers );
 		
 		// Véhicules associés
 		$this->post_select_field( Constants::META_TOUR_VEHICLES, __( 'Véhicules disponibles', 'transfertmarrakech' ), Constants::POST_TYPE_VEHICLE, $vehicle_ids );
 		
-		// Points forts
-		$this->textarea_field( Constants::META_TOUR_HIGHLIGHTS, __( 'Points forts', 'transfertmarrakech' ), $highlights, 5 );
+		// Itinéraire
+		$this->itinerary_field( 
+			Constants::META_TOUR_ITINERARY_TITLE, 
+			Constants::META_TOUR_ITINERARY, 
+			__( 'Itinerary', 'transfertmarrakech' ), 
+			$itinerary_title, 
+			$itinerary_places 
+		);
 		
-		// Point de rendez-vous
-		$this->text_field( Constants::META_TOUR_MEETING_POINT, __( 'Point de rendez-vous', 'transfertmarrakech' ), $meeting_point );
+		// Inclus (What's Included)
+		$this->textarea_field( Constants::META_TOUR_INCLUDED, __( 'What\'s Included (une ligne par item)', 'transfertmarrakech' ), $included, 5 );
+		
+		// Exclus (What's Excluded)
+		$this->textarea_field( Constants::META_TOUR_EXCLUDED, __( 'What\'s Excluded (une ligne par item)', 'transfertmarrakech' ), $excluded, 5 );
+		
+		// Politique d'annulation (Cancellation Policy)
+		$this->textarea_field( Constants::META_TOUR_CANCELLATION, __( 'Cancellation Policy', 'transfertmarrakech' ), $cancellation, 3 );
 	}
 	
 	/**
@@ -101,34 +162,28 @@ class TourMeta extends MetaBox {
 			\update_post_meta( $post_id, Constants::META_TOUR_LOCATION, \sanitize_text_field( $_POST[ Constants::META_TOUR_LOCATION ] ) );
 		}
 		
-		// Durée (affichage) - Temps de route vers la destination
+		// Durée
 		if ( isset( $_POST[ Constants::META_TOUR_DURATION ] ) ) {
 			\update_post_meta( $post_id, Constants::META_TOUR_DURATION, \sanitize_text_field( $_POST[ Constants::META_TOUR_DURATION ] ) );
 		}
 		
-		// Nombre de jours du tour
-		if ( isset( $_POST[ Constants::META_TOUR_DURATION_MINUTES ] ) ) {
-			\update_post_meta( $post_id, Constants::META_TOUR_DURATION_MINUTES, \absint( $_POST[ Constants::META_TOUR_DURATION_MINUTES ] ) );
+		// Unité de durée
+		if ( isset( $_POST[ Constants::META_TOUR_DURATION_UNIT ] ) ) {
+			$duration_unit = \sanitize_text_field( $_POST[ Constants::META_TOUR_DURATION_UNIT ] );
+			// Valide que c'est soit 'hours' soit 'days'
+			if ( in_array( $duration_unit, [ 'hours', 'days' ], true ) ) {
+				\update_post_meta( $post_id, Constants::META_TOUR_DURATION_UNIT, $duration_unit );
+			} else {
+				\update_post_meta( $post_id, Constants::META_TOUR_DURATION_UNIT, 'hours' );
+			}
 		}
 		
-		// Nombre de nuits
-		if ( isset( $_POST[ Constants::META_TOUR_NIGHTS ] ) ) {
-			\update_post_meta( $post_id, Constants::META_TOUR_NIGHTS, \absint( $_POST[ Constants::META_TOUR_NIGHTS ] ) );
-		}
-		
-		// Nombre de repas
-		if ( isset( $_POST[ Constants::META_TOUR_MEALS ] ) ) {
-			\update_post_meta( $post_id, Constants::META_TOUR_MEALS, \absint( $_POST[ Constants::META_TOUR_MEALS ] ) );
-		}
-		
-		// Prix
-		if ( isset( $_POST[ Constants::META_TOUR_PRICE ] ) ) {
-			$price = \TM\Utils\MetaHelper::format_price_for_save( $_POST[ Constants::META_TOUR_PRICE ] );
-			\update_post_meta( $post_id, Constants::META_TOUR_PRICE, $price );
+		// Points forts (Highlights)
+		if ( isset( $_POST[ Constants::META_TOUR_HIGHLIGHTS ] ) ) {
+			\update_post_meta( $post_id, Constants::META_TOUR_HIGHLIGHTS, \sanitize_textarea_field( $_POST[ Constants::META_TOUR_HIGHLIGHTS ] ) );
 		}
 		
 		// Véhicules associés
-		// Le champ hidden garantit que $_POST['tm_vehicles'] existe toujours
 		if ( isset( $_POST[ Constants::META_TOUR_VEHICLES ] ) && is_array( $_POST[ Constants::META_TOUR_VEHICLES ] ) ) {
 			// Filtre les valeurs vides et convertit en entiers
 			$vehicle_ids = array_filter( 
@@ -145,14 +200,117 @@ class TourMeta extends MetaBox {
 			\update_post_meta( $post_id, Constants::META_TOUR_VEHICLES, [] );
 		}
 		
-		// Points forts
-		if ( isset( $_POST[ Constants::META_TOUR_HIGHLIGHTS ] ) ) {
-			\update_post_meta( $post_id, Constants::META_TOUR_HIGHLIGHTS, \sanitize_textarea_field( $_POST[ Constants::META_TOUR_HIGHLIGHTS ] ) );
-		}
-		
 		// Point de rendez-vous
 		if ( isset( $_POST[ Constants::META_TOUR_MEETING_POINT ] ) ) {
 			\update_post_meta( $post_id, Constants::META_TOUR_MEETING_POINT, \sanitize_text_field( $_POST[ Constants::META_TOUR_MEETING_POINT ] ) );
+		}
+		
+		// Type de tour
+		if ( isset( $_POST[ Constants::META_TOUR_TYPE ] ) ) {
+			\update_post_meta( $post_id, Constants::META_TOUR_TYPE, \sanitize_text_field( $_POST[ Constants::META_TOUR_TYPE ] ) );
+		}
+		
+		// Difficulté
+		if ( isset( $_POST[ Constants::META_TOUR_DIFFICULTY ] ) ) {
+			\update_post_meta( $post_id, Constants::META_TOUR_DIFFICULTY, \sanitize_text_field( $_POST[ Constants::META_TOUR_DIFFICULTY ] ) );
+		}
+		
+		// Langues
+		if ( isset( $_POST[ Constants::META_TOUR_LANGUAGES ] ) && is_array( $_POST[ Constants::META_TOUR_LANGUAGES ] ) ) {
+			$languages = array_map( 'sanitize_text_field', $_POST[ Constants::META_TOUR_LANGUAGES ] );
+			// Filtre les valeurs vides (chaînes vides, null, false)
+			$languages = array_values( array_filter( $languages, function( $item ) {
+				return ! empty( $item ) && is_string( $item );
+			} ) );
+			\update_post_meta( $post_id, Constants::META_TOUR_LANGUAGES, $languages );
+		} else {
+			\update_post_meta( $post_id, Constants::META_TOUR_LANGUAGES, [] );
+		}
+		
+		// Tags
+		if ( isset( $_POST[ Constants::META_TOUR_TAGS ] ) && is_array( $_POST[ Constants::META_TOUR_TAGS ] ) ) {
+			$tags = array_map( 'sanitize_text_field', $_POST[ Constants::META_TOUR_TAGS ] );
+			// Filtre les valeurs vides (chaînes vides, null, false)
+			$tags = array_values( array_filter( $tags, function( $item ) {
+				return ! empty( $item ) && is_string( $item );
+			} ) );
+			\update_post_meta( $post_id, Constants::META_TOUR_TAGS, $tags );
+		} else {
+			\update_post_meta( $post_id, Constants::META_TOUR_TAGS, [] );
+		}
+		
+		// Titre de l'itinéraire
+		if ( isset( $_POST[ Constants::META_TOUR_ITINERARY_TITLE ] ) ) {
+			\update_post_meta( $post_id, Constants::META_TOUR_ITINERARY_TITLE, \sanitize_text_field( $_POST[ Constants::META_TOUR_ITINERARY_TITLE ] ) );
+		}
+		
+		// Places de l'itinéraire
+		if ( isset( $_POST[ Constants::META_TOUR_ITINERARY ] ) && is_array( $_POST[ Constants::META_TOUR_ITINERARY ] ) ) {
+			$places = [];
+			foreach ( $_POST[ Constants::META_TOUR_ITINERARY ] as $place ) {
+				if ( ! is_array( $place ) ) {
+					continue;
+				}
+				
+				$time = isset( $place['time'] ) ? \sanitize_text_field( $place['time'] ) : '';
+				$title = isset( $place['title'] ) ? \sanitize_text_field( $place['title'] ) : '';
+				$description = isset( $place['description'] ) ? \sanitize_textarea_field( $place['description'] ) : '';
+				
+				// Ne garde que les places avec au moins un titre ou une description
+				if ( ! empty( $title ) || ! empty( $description ) ) {
+					$places[] = [
+						'time'        => $time,
+						'title'       => $title,
+						'description' => $description,
+					];
+				}
+			}
+			\update_post_meta( $post_id, Constants::META_TOUR_ITINERARY, $places );
+		} else {
+			\update_post_meta( $post_id, Constants::META_TOUR_ITINERARY, [] );
+		}
+		
+		// Inclus
+		if ( isset( $_POST[ Constants::META_TOUR_INCLUDED ] ) ) {
+			\update_post_meta( $post_id, Constants::META_TOUR_INCLUDED, \sanitize_textarea_field( $_POST[ Constants::META_TOUR_INCLUDED ] ) );
+		}
+		
+		// Exclus
+		if ( isset( $_POST[ Constants::META_TOUR_EXCLUDED ] ) ) {
+			\update_post_meta( $post_id, Constants::META_TOUR_EXCLUDED, \sanitize_textarea_field( $_POST[ Constants::META_TOUR_EXCLUDED ] ) );
+		}
+		
+		// Politique d'annulation
+		if ( isset( $_POST[ Constants::META_TOUR_CANCELLATION ] ) ) {
+			\update_post_meta( $post_id, Constants::META_TOUR_CANCELLATION, \sanitize_textarea_field( $_POST[ Constants::META_TOUR_CANCELLATION ] ) );
+		}
+		
+		// Prix par nombre de personnes (flexible)
+		if ( isset( $_POST[ Constants::META_TOUR_PRICE_TIERS ] ) && is_array( $_POST[ Constants::META_TOUR_PRICE_TIERS ] ) ) {
+			$tiers = [];
+			foreach ( $_POST[ Constants::META_TOUR_PRICE_TIERS ] as $tier ) {
+				if ( ! is_array( $tier ) ) {
+					continue;
+				}
+				
+				$min_persons = isset( $tier['min_persons'] ) ? absint( $tier['min_persons'] ) : 0;
+				$max_persons = isset( $tier['max_persons'] ) ? absint( $tier['max_persons'] ) : 0;
+				$price_value = isset( $tier['price'] ) ? \TM\Utils\MetaHelper::format_price_for_save( $tier['price'] ) : '';
+				$tier_type = isset( $tier['type'] ) ? \sanitize_text_field( $tier['type'] ) : '';
+				
+				// Valide que min <= max et que le prix est défini
+				if ( $min_persons > 0 && $max_persons >= $min_persons && ! empty( $price_value ) ) {
+					$tiers[] = [
+						'min_persons' => $min_persons,
+						'max_persons' => $max_persons,
+						'price'       => $price_value,
+						'type'        => $tier_type,
+					];
+				}
+			}
+			\update_post_meta( $post_id, Constants::META_TOUR_PRICE_TIERS, $tiers );
+		} else {
+			\update_post_meta( $post_id, Constants::META_TOUR_PRICE_TIERS, [] );
 		}
 	}
 }

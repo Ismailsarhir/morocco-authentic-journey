@@ -1,0 +1,108 @@
+.prices {
+  padding: calc(5000svw / var(--w)) var(--gutter);
+  background: var(--blue-grey);
+
+  &__title {
+    margin: 0;
+    text-align: center;
+  }
+
+  &__subtitle {
+    max-width: 17.5333333333em;
+    margin: 1.4666666667em auto 0;
+    font-family: $font-ibmplexmono;
+    font-size: 15px;
+    line-height: 1.5;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .table-wrapper2 {
+    position: relative;
+  }
+
+  .table-wrapper {
+    width: calc(100% + var(--gutter) * 2);
+    margin: calc(6800svw / var(--w)) calc(var(--gutter) * -1)
+      calc(2500svw / var(--w));
+    margin-block: calc(5000svw / var(--w)) calc(2800svw / var(--w));
+    padding-bottom: 2px;
+    padding-inline: var(--gutter);
+    overflow: auto;
+    scroll-behavior: smooth;
+  }
+
+  &__table {
+    width: 100%;
+    margin: 0;
+    font-size: max(14px, 1400svw / var(--w));
+    border-collapse: collapse;
+
+    th {
+      position: relative;
+      padding: 0.8571428571em 1.6666666667em;
+      font-family: $font-ibmplexmono;
+      font-size: max(12px, 1200svw / var(--w));
+      font-weight: 500;
+      text-align: center;
+      white-space: nowrap;
+      color: var(--blue-grey-light);
+      background: var(--blue-dark);
+      overflow: hidden;
+
+      &:not(:last-child) {
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          height: 100%;
+          border-right: 2px dotted;
+        }
+      }
+
+      &.rounded-top-left {
+        border-top-left-radius: var(--radius);
+      }
+
+      &.rounded-bottom-left {
+        border-bottom-left-radius: var(--radius);
+      }
+
+      &.rounded-top-right {
+        border-top-right-radius: var(--radius);
+      }
+
+      &.rounded-bottom-right {
+        border-bottom-right-radius: var(--radius);
+      }
+    }
+
+    td {
+      position: relative;
+      padding: 1.4285714286em;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        border-bottom: 2px solid;
+        opacity: 0.1;
+      }
+
+      &.bold {
+        font-weight: 700;
+      }
+
+      &.nowrap {
+        white-space: nowrap;
+      }
+
+      &.center {
+        text-align: center;
+      }
+    }
+  }
+}
