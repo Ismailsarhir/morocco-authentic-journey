@@ -6,12 +6,14 @@
 @import "pages/common/base/banner";
 @import "pages/common/base/prices-table";
 @import "pages/common/base/links-list";
+@import "pages/common/base/places-list";
 
 @import "pages/single/base/index";
 
 /* Tablet */
 @include breakpoint(sm--min-width) {
   @import "pages/common/tablet/banner";
+  @import "pages/common/tablet/places-list";
 }
 
 /* Desktop */

@@ -172,23 +172,6 @@ if (! empty($destination_name)) {
 	}
 	
 	
-	// Itinéraire
-	if (! empty($itinerary_title) || ! empty($itinerary_places)) {
-		$itinerary_content = [];
-		if (! empty($itinerary_title)) {
-			$itinerary_content['title'] = $itinerary_title;
-		}
-		if (! empty($itinerary_places) && is_array($itinerary_places)) {
-			$itinerary_content['places'] = $itinerary_places;
-		}
-		$description_sections[] = [
-			'title'   => esc_html__('Itinerary', 'transfertmarrakech'),
-			'content' => $itinerary_content,
-			'type'    => 'itinerary',
-			'class'   => 'itinerary',
-		];
-	}
-	
 	// Affiche la description
 	if (! empty($description_sections)) {
 		$renderer->render('product-description', [
@@ -214,6 +197,14 @@ if (! empty($destination_name)) {
 		$renderer->render('links-list', [
 			'block_title' => esc_html__('Ce qui est inclus et exclus', 'transfertmarrakech'),
 			'sections' => $links_list_sections,
+		]);
+	}
+
+	// Affiche Places / Étapes
+	if (! empty($itinerary_places) && is_array($itinerary_places)) {
+		$renderer->render('places-list', [
+			'title' => $itinerary_title ?? esc_html__('Places / Étapes', 'transfertmarrakech'),
+			'places' => $itinerary_places,
 		]);
 	}
 
