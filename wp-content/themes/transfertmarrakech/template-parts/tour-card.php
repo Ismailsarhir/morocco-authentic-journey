@@ -67,7 +67,7 @@ if ( empty( $title ) || empty( $permalink ) || empty( $thumbnail ) ) {
 			<?php if ( ! empty( $duration ) ) : ?>
 				<ul>
 					<li>
-						<?php echo \esc_html( $duration ); ?>
+						<?php \esc_html_e( 'Durée :', 'transfertmarrakech' ); ?> <?php echo \esc_html( $duration ); ?>
 					</li>
 				</ul>
 			<?php endif; ?>

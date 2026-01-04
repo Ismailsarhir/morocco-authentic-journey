@@ -99,12 +99,27 @@ class ToursList {
 			
 			$price_tiers = $tour_meta[ Constants::META_TOUR_PRICE_TIERS ] ?? [];
 			
-			// Récupère le prix minimum depuis les tiers
+			// Récupère le prix minimum depuis les tiers (gère les valeurs numériques et textuelles)
 			$min_price = '';
+			$price_text = '';
 			if ( ! empty( $price_tiers ) && is_array( $price_tiers ) ) {
 				$prices = array_filter( array_column( $price_tiers, 'price' ) );
 				if ( ! empty( $prices ) ) {
-					$min_price = min( array_map( 'floatval', $prices ) );
+					$numeric_prices = [];
+					foreach ( $prices as $price ) {
+						if ( is_numeric( $price ) ) {
+							$numeric_prices[] = (float) $price;
+						} elseif ( empty( $price_text ) ) {
+							// Prend la première valeur textuelle trouvée
+							$price_text = $price;
+						}
+					}
+					
+					if ( ! empty( $numeric_prices ) ) {
+						$min_price = min( $numeric_prices );
+					} elseif ( ! empty( $price_text ) ) {
+						$min_price = $price_text;
+					}
 				}
 			}
 			
@@ -145,7 +160,7 @@ class ToursList {
 				'thumbnail'    => $thumbnail_url,
 				'duration'     => $duration_formatted,
 				'price'        => $min_price,
-				'price_formatted' => $min_price ? MetaHelper::format_price_usd( $min_price ) : '',
+				'price_formatted' => $min_price ? ( is_numeric( $min_price ) ? MetaHelper::format_price_usd( $min_price ) : $min_price ) : '',
 				'location'     => $tour_meta[ Constants::META_TOUR_LOCATION ] ?? '',
 				'tag_labels'   => $tag_labels,
 			];

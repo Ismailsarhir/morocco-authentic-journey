@@ -92,8 +92,13 @@ $tour_type_labels = \TM\Core\Constants::get_tour_type_labels();
 						$type_label = esc_html__( 'Tous types', 'transfertmarrakech' );
 					}
 					
-					// Format du prix
-					$price_formatted = number_format( floatval( $price ), 2, '.', ' ' ) . ' USD';
+					// Format du prix - support pour valeurs numériques et chaînes de caractères
+					if ( is_numeric( $price ) ) {
+						$price_formatted = number_format( floatval( $price ), 2, '.', ' ' ) . ' USD';
+					} else {
+						// Si c'est une chaîne (ex: "Ask walid"), on l'affiche telle quelle
+						$price_formatted = esc_html( $price );
+					}
 					?>
 					<tr>
 						<td class="bold nowrap">
@@ -103,7 +108,7 @@ $tour_type_labels = \TM\Core\Constants::get_tour_type_labels();
 							<?php echo esc_html( $type_label ); ?>
 						</td>
 						<td class="bold center nowrap">
-							<?php echo esc_html( $price_formatted ); ?>
+							<?php echo $price_formatted; ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
