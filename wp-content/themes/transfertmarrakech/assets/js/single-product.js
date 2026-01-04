@@ -102,12 +102,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
       killTriggersByElement(elements.productBody);
 
+      const placesListBlock = document.querySelector('.placesList');
+
+      // Setup ScrollTrigger for banner visibility
       triggers.bannerVisible = ScrollTrigger.create({
         trigger: elements.productBody,
         start: 'top bottom',
         onEnter: () => elements.banner.classList.add('is-visible'),
         onLeaveBack: () => elements.banner.classList.remove('is-visible'),
       });
+
+      // Setup ScrollTrigger to hide banner when placesList is in view
+      if (placesListBlock) {
+        ScrollTrigger.create({
+          trigger: placesListBlock,
+          start: 'top bottom',
+          end: 'bottom top',
+          onEnter: () => elements.banner.classList.remove('is-visible'),
+          onLeave: () => elements.banner.classList.add('is-visible'),
+          onEnterBack: () => elements.banner.classList.remove('is-visible'),
+          onLeaveBack: () => elements.banner.classList.add('is-visible'),
+        });
+      }
     };
 
     // Setup banner light class animation (mobile & desktop)

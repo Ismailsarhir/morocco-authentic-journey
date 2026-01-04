@@ -1,0 +1,19 @@
+.placesList {
+  &__inner {
+    padding-top: calc(5800svw / var(--w));
+  }
+
+  .card {
+    &-content {
+      &-header {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+    &-description {
+      font-size: max(20px, 2000svw / var(--w));
+    }
+  }
+}
+
+
