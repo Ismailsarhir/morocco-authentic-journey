@@ -18,10 +18,12 @@ module.exports = (env, argv) => {
             ],
             singleProduct: [
                 './assets/js/single-product.js',
+                './assets/js/links-list.js',
                 './assets/js/vehicles.js',
             ],
             singleTransfers: [
                 './assets/js/single-product.js',
+                './assets/js/links-list.js',
                 './assets/js/vehicles.js',
             ],
         },

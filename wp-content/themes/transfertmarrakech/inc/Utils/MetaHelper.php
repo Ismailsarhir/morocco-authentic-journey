@@ -53,6 +53,64 @@ class MetaHelper {
 	}
 	
 	/**
+	 * Normalise un tableau de chaînes (pour langues, tags, etc.)
+	 * 
+	 * @param mixed $value Valeur à normaliser
+	 * @return array Tableau de chaînes normalisées
+	 */
+	public static function normalize_string_array( $value ): array {
+		if ( empty( $value ) ) {
+			return [];
+		}
+		
+		// Si c'est déjà un tableau, on le nettoie directement
+		if ( is_array( $value ) ) {
+			// Filtre les valeurs vides (chaînes vides, null, false)
+			$filtered = array_filter( $value, function( $item ) {
+				return ! empty( $item ) && is_string( $item );
+			} );
+			// Nettoie et réindexe
+			return array_values( array_map( 'trim', $filtered ) );
+		}
+		
+		// Si c'est une chaîne, on essaie de la désérialiser
+		if ( is_string( $value ) ) {
+			$trimmed = trim( $value );
+			if ( empty( $trimmed ) ) {
+				return [];
+			}
+			
+			// WordPress stocke les tableaux comme sérialisés PHP
+			// On essaie de désérialiser d'abord
+			$unserialized = @unserialize( $trimmed );
+			if ( $unserialized !== false && is_array( $unserialized ) ) {
+				$filtered = array_filter( $unserialized, function( $item ) {
+					return ! empty( $item ) && is_string( $item );
+				} );
+				return array_values( array_map( 'trim', $filtered ) );
+			}
+			
+			// Sinon, on essaie JSON
+			$decoded = json_decode( $trimmed, true );
+			if ( json_last_error() === JSON_ERROR_NONE && is_array( $decoded ) ) {
+				$filtered = array_filter( $decoded, function( $item ) {
+					return ! empty( $item ) && is_string( $item );
+				} );
+				return array_values( array_map( 'trim', $filtered ) );
+			}
+			
+			// En dernier recours, on split par virgule
+			$items = array_map( 'trim', explode( ',', $trimmed ) );
+			$filtered = array_filter( $items, function( $item ) {
+				return ! empty( $item );
+			} );
+			return array_values( $filtered );
+		}
+		
+		return [];
+	}
+	
+	/**
 	 * Récupère toutes les meta d'un post en une seule requête
 	 * Plus efficace que plusieurs appels get_post_meta
 	 * Utilise update_post_meta_cache pour optimiser les requêtes SQL
@@ -115,22 +173,40 @@ class MetaHelper {
 		$meta = self::get_all_meta( $tour_id, [
 			\TM\Core\Constants::META_TOUR_LOCATION,
 			\TM\Core\Constants::META_TOUR_DURATION,
-			\TM\Core\Constants::META_TOUR_DURATION_MINUTES,
-			\TM\Core\Constants::META_TOUR_NIGHTS,
-			\TM\Core\Constants::META_TOUR_MEALS,
-			\TM\Core\Constants::META_TOUR_PRICE,
-			\TM\Core\Constants::META_TOUR_VEHICLES,
+			\TM\Core\Constants::META_TOUR_DURATION_UNIT,
 			\TM\Core\Constants::META_TOUR_HIGHLIGHTS,
 			\TM\Core\Constants::META_TOUR_MEETING_POINT,
+			\TM\Core\Constants::META_TOUR_TYPE,
+			\TM\Core\Constants::META_TOUR_DIFFICULTY,
+			\TM\Core\Constants::META_TOUR_LANGUAGES,
+			\TM\Core\Constants::META_TOUR_TAGS,
+			\TM\Core\Constants::META_TOUR_ITINERARY_TITLE,
+			\TM\Core\Constants::META_TOUR_ITINERARY,
+			\TM\Core\Constants::META_TOUR_INCLUDED,
+			\TM\Core\Constants::META_TOUR_EXCLUDED,
+			\TM\Core\Constants::META_TOUR_CANCELLATION,
+			\TM\Core\Constants::META_TOUR_PRICE_TIERS,
+			\TM\Core\Constants::META_TOUR_VEHICLES,
 		] );
 		
 		// Normalise les véhicules
 		$meta[ \TM\Core\Constants::META_TOUR_VEHICLES ] = self::normalize_ids_array( $meta[ \TM\Core\Constants::META_TOUR_VEHICLES ] ?? null );
 		
-		// Normalise les entiers (optimisé : absint gère déjà les valeurs vides)
-		$meta[ \TM\Core\Constants::META_TOUR_DURATION_MINUTES ] = absint( $meta[ \TM\Core\Constants::META_TOUR_DURATION_MINUTES ] ?? 0 );
-		$meta[ \TM\Core\Constants::META_TOUR_NIGHTS ] = absint( $meta[ \TM\Core\Constants::META_TOUR_NIGHTS ] ?? 0 );
-		$meta[ \TM\Core\Constants::META_TOUR_MEALS ] = absint( $meta[ \TM\Core\Constants::META_TOUR_MEALS ] ?? 0 );
+		// Normalise les langues et tags (arrays de chaînes)
+		$meta[ \TM\Core\Constants::META_TOUR_LANGUAGES ] = self::normalize_string_array( $meta[ \TM\Core\Constants::META_TOUR_LANGUAGES ] ?? null );
+		$meta[ \TM\Core\Constants::META_TOUR_TAGS ] = self::normalize_string_array( $meta[ \TM\Core\Constants::META_TOUR_TAGS ] ?? null );
+		
+		// Normalise les price tiers (array)
+		$price_tiers = $meta[ \TM\Core\Constants::META_TOUR_PRICE_TIERS ] ?? [];
+		$meta[ \TM\Core\Constants::META_TOUR_PRICE_TIERS ] = is_array( $price_tiers ) ? $price_tiers : [];
+		
+		// Normalise l'unité de durée (par défaut 'hours')
+		$duration_unit = $meta[ \TM\Core\Constants::META_TOUR_DURATION_UNIT ] ?? 'hours';
+		$meta[ \TM\Core\Constants::META_TOUR_DURATION_UNIT ] = in_array( $duration_unit, [ 'hours', 'days' ], true ) ? $duration_unit : 'hours';
+		
+		// Normalise les places de l'itinéraire (array)
+		$itinerary_places = $meta[ \TM\Core\Constants::META_TOUR_ITINERARY ] ?? [];
+		$meta[ \TM\Core\Constants::META_TOUR_ITINERARY ] = is_array( $itinerary_places ) ? $itinerary_places : [];
 		
 		return $meta;
 	}
@@ -181,27 +257,38 @@ class MetaHelper {
 	}
 	
 	/**
-	 * Formate la durée avec "heure(s)" en français
+	 * Formate la durée avec l'unité appropriée (heures/jours)
 	 * 
-	 * @param string $duration Durée brute (ex: "9h", "2 heures")
+	 * @param string $duration Durée brute (ex: "10", "2")
+	 * @param string $unit Unité ('hours' ou 'days')
 	 * @return string Durée formatée
 	 */
-	public static function format_duration( string $duration ): string {
+	public static function format_duration( string $duration, string $unit = 'hours' ): string {
 		if ( empty( $duration ) ) {
 			return '';
 		}
 		
-		$duration_escaped = esc_html( $duration );
-		if ( preg_match( '/(\d+)h/i', $duration, $matches ) ) {
-			$hours = (int) $matches[1];
+		$duration_num = (int) $duration;
+		if ( $duration_num <= 0 ) {
+			return '';
+		}
+		
+		$duration_escaped = esc_html( $duration_num );
+		
+		if ( $unit === 'days' ) {
 			return sprintf(
 				'%s %s',
 				$duration_escaped,
-				esc_html( _n( 'heure', 'heures', $hours, 'transfertmarrakech' ) )
+				esc_html( _n( 'jour', 'jours', $duration_num, 'transfertmarrakech' ) )
 			);
 		}
 		
-		return $duration_escaped . ' ' . esc_html__( 'heures', 'transfertmarrakech' );
+		// Par défaut, heures
+		return sprintf(
+			'%s %s',
+			$duration_escaped,
+			esc_html( _n( 'heure', 'heures', $duration_num, 'transfertmarrakech' ) )
+		);
 	}
 	
 	/**
@@ -210,11 +297,40 @@ class MetaHelper {
 	 * @param mixed $price Prix brut
 	 * @return string Prix formaté
 	 */
+	/**
+	 * Formate un prix en USD (sans décimales si entier)
+	 * 
+	 * @param mixed $price Prix à formater
+	 * @return string Prix formaté avec USD
+	 */
 	public static function format_price( $price ): string {
 		if ( empty( $price ) ) {
 			return '';
 		}
-		return \number_format( (float) $price, 0, ',', ' ' );
+		$float_price = (float) $price;
+		// Si c'est un nombre entier, pas de décimales
+		if ( $float_price == floor( $float_price ) ) {
+			return \number_format( $float_price, 0, '.', ' ' ) . ' USD';
+		}
+		return \number_format( $float_price, 2, '.', ' ' ) . ' USD';
+	}
+	
+	/**
+	 * Formate un prix en USD pour les tours (sans décimales si entier)
+	 * 
+	 * @param mixed $price Prix à formater
+	 * @return string Prix formaté avec USD
+	 */
+	public static function format_price_usd( $price ): string {
+		if ( empty( $price ) ) {
+			return '';
+		}
+		$float_price = (float) $price;
+		// Si c'est un nombre entier, pas de décimales
+		if ( $float_price == floor( $float_price ) ) {
+			return \number_format( $float_price, 0, '.', ' ' ) . ' USD';
+		}
+		return \number_format( $float_price, 2, '.', ' ' ) . ' USD';
 	}
 	
 	/**

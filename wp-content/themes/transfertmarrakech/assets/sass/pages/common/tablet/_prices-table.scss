@@ -1,0 +1,25 @@
+.prices {
+  padding: calc(12700svw / var(--w)) calc(14400svw / var(--w)) calc(6900svw / var(--w));
+
+  &__title {
+    margin: 0;
+    text-align: center;
+  }
+
+  .table-wrapper {
+    margin: calc(6800svw / var(--w)) calc(var(--gutter) * -1) calc(2500svw / var(--w));
+  }
+
+  &__table {
+    font-size: max(16px, 1600svw / var(--w));
+
+    th {
+      padding: .8571428571em 1em;
+      font-size: max(14px,1400svw / var(--w));
+    }
+    
+    td {
+      padding: 1.5625em;
+    }
+  }
+}

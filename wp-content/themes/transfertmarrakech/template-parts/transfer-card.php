@@ -74,7 +74,7 @@ if ( empty( $title ) || empty( $permalink ) || empty( $thumbnail ) ) {
 			<?php if ( ! empty( $price_formatted ) ) : ?>
 				<div>
 					<?php \esc_html_e( 'À partir de :', 'transfertmarrakech' ); ?> 
-					<strong><?php echo \esc_html( $price_formatted ); ?> <?php \esc_html_e( 'MAD*', 'transfertmarrakech' ); ?></strong>
+					<strong><?php echo \esc_html( $price_formatted ); ?></strong>
 				</div>
 			<?php endif; ?>
 		</div>

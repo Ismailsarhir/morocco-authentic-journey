@@ -97,15 +97,34 @@ class ToursList {
 				continue; // Skip tours without thumbnail
 			}
 			
-			$price = $tour_meta[ Constants::META_TOUR_PRICE ] ?? '';
+			$price_tiers = $tour_meta[ Constants::META_TOUR_PRICE_TIERS ] ?? [];
 			
-			// Récupération des noms des véhicules associés (optimisé)
-			$vehicle_names = [];
-			$vehicle_posts = $this->repository->get_related_vehicles_for_tour( $tour_id );
-			if ( ! empty( $vehicle_posts ) ) {
-				foreach ( $vehicle_posts as $vehicle ) {
-					if ( $vehicle instanceof \WP_Post ) {
-						$vehicle_names[] = MetaHelper::get_post_title( $vehicle );
+			// Récupère le prix minimum depuis les tiers
+			$min_price = '';
+			if ( ! empty( $price_tiers ) && is_array( $price_tiers ) ) {
+				$prices = array_filter( array_column( $price_tiers, 'price' ) );
+				if ( ! empty( $prices ) ) {
+					$min_price = min( array_map( 'floatval', $prices ) );
+				}
+			}
+			
+			// Récupération des tags/catégories
+			$tags = $tour_meta[ Constants::META_TOUR_TAGS ] ?? [];
+			$tag_labels = [];
+			if ( ! empty( $tags ) && is_array( $tags ) ) {
+				// Mapping des valeurs de tags vers leurs labels
+				$tag_options = [
+					'photography' => __( 'Photography', 'transfertmarrakech' ),
+					'historical'  => __( 'Historical', 'transfertmarrakech' ),
+					'sightseeing' => __( 'Sightseeing', 'transfertmarrakech' ),
+					'adventure'   => __( 'Adventure', 'transfertmarrakech' ),
+					'cultural'    => __( 'Cultural', 'transfertmarrakech' ),
+					'nature'      => __( 'Nature', 'transfertmarrakech' ),
+				];
+				
+				foreach ( $tags as $tag_value ) {
+					if ( ! empty( $tag_value ) && isset( $tag_options[ $tag_value ] ) ) {
+						$tag_labels[] = $tag_options[ $tag_value ];
 					}
 				}
 			}
@@ -113,18 +132,22 @@ class ToursList {
 			// Optimisation : utilise post_title directement
 			$tour_title = MetaHelper::get_post_title( $tour );
 			
+			// Formate la durée avec l'unité appropriée
+			$duration_raw = $tour_meta[ Constants::META_TOUR_DURATION ] ?? '';
+			$duration_unit = $tour_meta[ Constants::META_TOUR_DURATION_UNIT ] ?? 'hours';
+			$duration_formatted = ! empty( $duration_raw ) ? MetaHelper::format_duration( $duration_raw, $duration_unit ) : '';
+			
 			$featured_tours[] = [
 				'tour'         => $tour,
 				'tour_id'      => $tour_id,
 				'title'        => $tour_title,
 				'permalink'    => \get_permalink( $tour_id ),
 				'thumbnail'    => $thumbnail_url,
-				'duration'     => $tour_meta[ Constants::META_TOUR_DURATION ] ?? '',
-				'days'         => $tour_meta[ Constants::META_TOUR_DURATION_MINUTES ] ?? 0,
-				'price'        => $price,
-				'price_formatted' => MetaHelper::format_price( $price ),
+				'duration'     => $duration_formatted,
+				'price'        => $min_price,
+				'price_formatted' => $min_price ? MetaHelper::format_price_usd( $min_price ) : '',
 				'location'     => $tour_meta[ Constants::META_TOUR_LOCATION ] ?? '',
-				'vehicle_names' => $vehicle_names,
+				'tag_labels'   => $tag_labels,
 			];
 		}
 		

@@ -31,21 +31,37 @@ $title = \TM\Utils\MetaHelper::get_post_title($tour);
 $content = \apply_filters('the_content', $tour->post_content);
 $thumbnail_id = \get_post_thumbnail_id($tour_id);
 $location = $tour_meta[\TM\Core\Constants::META_TOUR_LOCATION] ?? '';
-$duration = $tour_meta[\TM\Core\Constants::META_TOUR_DURATION] ?? '';
-$duration_minutes = $tour_meta[\TM\Core\Constants::META_TOUR_DURATION_MINUTES] ?? 0;
-$price = $tour_meta[\TM\Core\Constants::META_TOUR_PRICE] ?? '';
-$price_formatted = \TM\Utils\MetaHelper::format_price($price);
+$duration_raw = $tour_meta[\TM\Core\Constants::META_TOUR_DURATION] ?? '';
+$duration_unit = $tour_meta[\TM\Core\Constants::META_TOUR_DURATION_UNIT] ?? 'hours';
+$duration = ! empty( $duration_raw ) ? \TM\Utils\MetaHelper::format_duration( $duration_raw, $duration_unit ) : '';
 $highlights = $tour_meta[\TM\Core\Constants::META_TOUR_HIGHLIGHTS] ?? '';
 $meeting_point = $tour_meta[\TM\Core\Constants::META_TOUR_MEETING_POINT] ?? '';
+$tour_type = $tour_meta[\TM\Core\Constants::META_TOUR_TYPE] ?? '';
+$difficulty = $tour_meta[\TM\Core\Constants::META_TOUR_DIFFICULTY] ?? '';
+$languages = $tour_meta[\TM\Core\Constants::META_TOUR_LANGUAGES] ?? [];
+$tags = $tour_meta[\TM\Core\Constants::META_TOUR_TAGS] ?? [];
+$itinerary_title = $tour_meta[\TM\Core\Constants::META_TOUR_ITINERARY_TITLE] ?? '';
+$itinerary_places = $tour_meta[\TM\Core\Constants::META_TOUR_ITINERARY] ?? [];
+$included = $tour_meta[\TM\Core\Constants::META_TOUR_INCLUDED] ?? '';
+$excluded = $tour_meta[\TM\Core\Constants::META_TOUR_EXCLUDED] ?? '';
+$cancellation = $tour_meta[\TM\Core\Constants::META_TOUR_CANCELLATION] ?? '';
+$price_tiers = $tour_meta[\TM\Core\Constants::META_TOUR_PRICE_TIERS] ?? [];
+
+// Calcule le prix minimum depuis les tiers pour l'affichage
+$min_price = '';
+if (! empty($price_tiers) && is_array($price_tiers)) {
+	$prices = array_filter(array_column($price_tiers, 'price'));
+	if (! empty($prices)) {
+		$min_price = min(array_map('floatval', $prices));
+	}
+}
+$price_formatted = ! empty($min_price) ? \TM\Utils\MetaHelper::format_price_usd($min_price) : '';
 
 // Villes visitées : utilise la localisation
 $country_visited = $location;
 
-// Formate les points forts en liste (séparés par virgules uniquement)
-$highlights_list = [];
-if (! empty($highlights)) {
-	$highlights_list = \array_filter(\array_map('trim', \explode(',', $highlights)));
-}
+// Points forts en texte
+$highlights_text = ! empty($highlights) ? $highlights : '';
 
 // Récupère les véhicules associés
 $repository = \TM\Repository\PostRepository::get_instance();
@@ -76,14 +92,6 @@ if (! empty($vehicle_posts)) {
 	}
 }
 
-// Formatage de la durée
-$duration_display = \TM\Utils\MetaHelper::format_duration($duration);
-
-// Calcul des jours et récupération des nuits et repas
-$days = max(0, (int) $duration_minutes);
-$nights = max(0, (int) ($tour_meta[\TM\Core\Constants::META_TOUR_NIGHTS] ?? max(0, $days - 1)));
-$meals = max(0, (int) ($tour_meta[\TM\Core\Constants::META_TOUR_MEALS] ?? 0));
-
 // Récupère les données de destination pour le backlink
 $destination_data = \TM\Utils\MetaHelper::get_destination_backlink($tour_id);
 $destination_link = $destination_data['link'];
@@ -98,34 +106,23 @@ $renderer = new \TM\Template\Renderer();
 
 // Card info items pour le header
 $card_info_items = [];
-if ($days > 0) {
-	$card_info_items[] = [
-		'label' => '',
-		'value' => sprintf(
-			/* translators: %d: Number of days */
-			esc_html__('%d jours', 'transfertmarrakech'),
-			$days
-		),
-	];
+
+// Tags/Catégories - Affiche tous les tags sélectionnés
+if (! empty($tags) && is_array($tags)) {
+	$tags_text = implode(', ', array_map('esc_html', $tags));
+	if (! empty($tags_text)) {
+		$card_info_items[] = [
+			'label' => '',
+			'value' => $tags_text,
+		];
+	}
 }
-if ($nights > 0) {
+
+// Duration
+if (! empty($duration)) {
 	$card_info_items[] = [
-		'label' => '',
-		'value' => sprintf(
-			/* translators: %d: Number of nights */
-			esc_html__('%d nuits', 'transfertmarrakech'),
-			$nights
-		),
-	];
-}
-if ($meals > 0) {
-	$card_info_items[] = [
-		'label' => '',
-		'value' => sprintf(
-			/* translators: %d: Number of meals */
-			esc_html__('%d repas', 'transfertmarrakech'),
-			$meals
-		),
+		'label' => esc_html__('Durée:', 'transfertmarrakech'),
+		'value' => esc_html($duration),
 	];
 }
 
@@ -151,48 +148,72 @@ if (! empty($destination_name)) {
 	<?php
 	// Affiche les keywords/tags
 	$renderer->render('product-keywords', [
-		'primary_tags' => array_filter([$location, $meeting_point]),
-		'secondary_tags' => [
-			esc_html__('Départ garanti', 'transfertmarrakech'),
-			esc_html__('Coup de coeur', 'transfertmarrakech'),
-			esc_html__('Nouvel itinéraire', 'transfertmarrakech'),
-		],
+		'primary_tags' => array_filter([$meeting_point]),
+		'secondary_tags' => array_merge(
+			$tags ?? [],
+			[
+				$tour_type ? esc_html__('Group Tour', 'transfertmarrakech') : '',
+				$difficulty ? ucfirst($difficulty) : '',
+			]
+		),
 	]);
 
 	// Préparation des sections de description
 	$description_sections = [];
 	
-	if (! empty($country_visited)) {
+	// Highlights
+	if (! empty($highlights_text)) {
 		$description_sections[] = [
-			'title'   => esc_html__('Villes visitées', 'transfertmarrakech'),
-			'content' => [$country_visited],
-			'type'    => 'list',
-			'class'   => '',
-		];
-	}
-	
-	if (! empty($highlights_list)) {
-		$description_sections[] = [
-			'title'   => esc_html__('Places visitées', 'transfertmarrakech'),
-			'content' => $highlights_list,
-			'type'    => 'list',
-			'class'   => 'cities',
-		];
-	}
-	
-	if (! empty($content)) {
-		$description_sections[] = [
-			'title'   => esc_html__('Sommaire', 'transfertmarrakech'),
-			'content' => $content,
+			'title'   => esc_html__('Highlights', 'transfertmarrakech'),
+			'content' => $highlights_text,
 			'type'    => 'text',
-			'class'   => 'summary',
+			'class'   => 'highlights',
 		];
 	}
-
+	
+	
+	// Itinéraire
+	if (! empty($itinerary_title) || ! empty($itinerary_places)) {
+		$itinerary_content = [];
+		if (! empty($itinerary_title)) {
+			$itinerary_content['title'] = $itinerary_title;
+		}
+		if (! empty($itinerary_places) && is_array($itinerary_places)) {
+			$itinerary_content['places'] = $itinerary_places;
+		}
+		$description_sections[] = [
+			'title'   => esc_html__('Itinerary', 'transfertmarrakech'),
+			'content' => $itinerary_content,
+			'type'    => 'itinerary',
+			'class'   => 'itinerary',
+		];
+	}
+	
 	// Affiche la description
 	if (! empty($description_sections)) {
 		$renderer->render('product-description', [
 			'sections' => $description_sections,
+		]);
+	}
+
+	// Affiche What's Included et What's Excluded
+	$links_list_sections = [];
+	if (! empty($included)) {
+		$links_list_sections[] = [
+			'title'   => esc_html__('Inclus', 'transfertmarrakech'),
+			'content' => $included,
+		];
+	}
+	if (! empty($excluded)) {
+		$links_list_sections[] = [
+			'title'   => esc_html__('Exclus', 'transfertmarrakech'),
+			'content' => $excluded,
+		];
+	}
+	if (! empty($links_list_sections)) {
+		$renderer->render('links-list', [
+			'block_title' => esc_html__('Ce qui est inclus et exclus', 'transfertmarrakech'),
+			'sections' => $links_list_sections,
 		]);
 	}
 
@@ -208,7 +229,7 @@ if (! empty($destination_name)) {
 	$whatsapp_message = sprintf(
 		'Bonjour, %sje suis intéressé(e) par : %s%s%s',
 		"\n",
-		esc_html($title) . ' ' . esc_html__('à partir de', 'transfertmarrakech') . ' ' . esc_html($price_formatted) . ' ' . esc_html__('MAD*', 'transfertmarrakech') . ' ' . esc_html__('pour un tour de', 'transfertmarrakech') . ' ' . esc_html($meeting_point) . ' ' . esc_html__('à', 'transfertmarrakech') . ' ' . esc_html($location) . ' ',
+		esc_html($title) . ' ' . esc_html__('à partir de', 'transfertmarrakech') . ' ' . esc_html($price_formatted) . ' ' . esc_html__('pour un tour de', 'transfertmarrakech') . ' ' . esc_html($meeting_point) . ' ' . esc_html__('à', 'transfertmarrakech') . ' ' . esc_html($location) . ' ',
 		"\n",
 		esc_url($share_url)
 	);
@@ -223,6 +244,14 @@ if (! empty($destination_name)) {
 		'whatsapp_url'  => $whatsapp_url,
 		'whatsapp_label' => esc_html__('Contacter une agence', 'transfertmarrakech'),
 	]);
+
+	// Affiche les prix par nombre de personnes (tableau optimisé)
+	if (! empty($price_tiers) && is_array($price_tiers)) {
+		$renderer->render('price-table', [
+			'price_tiers' => $price_tiers,
+			'cancellation' => $cancellation ?? '',
+		]);
+	}
 	?>
 </main>
 
