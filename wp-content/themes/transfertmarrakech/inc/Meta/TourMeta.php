@@ -86,23 +86,32 @@ class TourMeta extends MetaBox {
 		
 		// Langues (multi-select)
 		$language_options = [
-			'english' => __( 'English', 'transfertmarrakech' ),
-			'french'  => __( 'French', 'transfertmarrakech' ),
-			'spanish' => __( 'Spanish', 'transfertmarrakech' ),
-			'arabic'  => __( 'Arabic', 'transfertmarrakech' ),
-			'german'  => __( 'German', 'transfertmarrakech' ),
-			'italian' => __( 'Italian', 'transfertmarrakech' ),
+			'english'   => __( 'English', 'transfertmarrakech' ),
+			'french'    => __( 'French', 'transfertmarrakech' ),
+			'spanish'   => __( 'Spanish', 'transfertmarrakech' ),
+			'arabic'    => __( 'Arabic', 'transfertmarrakech' ),
+			'german'    => __( 'German', 'transfertmarrakech' ),
+			'italian'   => __( 'Italian', 'transfertmarrakech' ),
+			'slovenian' => __( 'Slovenian', 'transfertmarrakech' ),
+			'dutch'     => __( 'Dutch', 'transfertmarrakech' ),
 		];
 		$this->multi_checkbox_field( Constants::META_TOUR_LANGUAGES, __( 'Langues disponibles', 'transfertmarrakech' ), $language_options, $languages );
 		
 		// Tags/Catégories (multi-select)
 		$tag_options = [
-			'photography' => __( 'Photography', 'transfertmarrakech' ),
-			'historical'  => __( 'Historical', 'transfertmarrakech' ),
-			'sightseeing' => __( 'Sightseeing', 'transfertmarrakech' ),
-			'adventure'   => __( 'Adventure', 'transfertmarrakech' ),
-			'cultural'    => __( 'Cultural', 'transfertmarrakech' ),
-			'nature'     => __( 'Nature', 'transfertmarrakech' ),
+			'photography'      => __( 'Photography', 'transfertmarrakech' ),
+			'historical'       => __( 'Historical', 'transfertmarrakech' ),
+			'sightseeing'      => __( 'Sightseeing', 'transfertmarrakech' ),
+			'adventure'        => __( 'Adventure', 'transfertmarrakech' ),
+			'adventure sports' => __( 'Adventure Sports', 'transfertmarrakech' ),
+			'Paragliding'      => __( 'Paragliding', 'transfertmarrakech' ),
+			'ballooning'       => __( 'Ballooning', 'transfertmarrakech' ),
+			'architectural'    => __( 'Architectural', 'transfertmarrakech' ),
+			'cultural'         => __( 'Cultural', 'transfertmarrakech' ),
+			'nature'           => __( 'Nature', 'transfertmarrakech' ),
+			'gastronomical'    => __( 'Gastronomical', 'transfertmarrakech' ),
+			'Desert'           => __( 'Desert', 'transfertmarrakech' ),
+			'atv'              => __( 'ATV', 'transfertmarrakech' ),
 		];
 		$this->multi_checkbox_field( Constants::META_TOUR_TAGS, __( 'Tags/Catégories', 'transfertmarrakech' ), $tag_options, $tags );
 		
@@ -298,7 +307,7 @@ class TourMeta extends MetaBox {
 				$price_value = isset( $tier['price'] ) ? \TM\Utils\MetaHelper::format_price_for_save( $tier['price'] ) : '';
 				$tier_type = isset( $tier['type'] ) ? \sanitize_text_field( $tier['type'] ) : '';
 				
-				// Valide que min <= max et que le prix est défini
+				// Valide que min <= max et que le prix est défini (peut être numérique ou chaîne)
 				if ( $min_persons > 0 && $max_persons >= $min_persons && ! empty( $price_value ) ) {
 					$tiers[] = [
 						'min_persons' => $min_persons,

@@ -401,8 +401,13 @@ class MetaHelper {
 	 * @return string Prix formaté pour la sauvegarde
 	 */
 	public static function format_price_for_save( $price ): string {
-		$price = \floatval( $price );
-		return \number_format( $price, 2, '.', '' );
+		// Si c'est une valeur numérique, formater comme prix
+		if ( is_numeric( $price ) ) {
+			$price = \floatval( $price );
+			return \number_format( $price, 2, '.', '' );
+		}
+		// Sinon, retourner la chaîne telle quelle (ex: "Ask walid")
+		return \sanitize_text_field( $price );
 	}
 }
 

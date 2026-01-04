@@ -21,8 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const lastCard = cards[cards.length - 1];
   const scrollTriggers = [];
 
-  // Animate each card (excluding last card to avoid overlapping pins)
-  cards.slice(0, -1).forEach((card, index) => {
+  // Animate each card
+  cards.forEach((card, index) => {
+    const isLastCard = index === cards.length - 1;
     const cardInner = card.querySelector('.card-inner');
     if (!cardInner) return;
 
@@ -41,8 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pinSpacing: false,
       })
     );
-
-    // Animate card inner element
+    
     scrollTriggers.push(
       gsap.to(cardInner, {
         y: `-${(cards.length - index) * 14}vh`,
