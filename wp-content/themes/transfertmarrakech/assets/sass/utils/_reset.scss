@@ -6,6 +6,8 @@ html {
   background: var(--blue-grey);
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 * {
@@ -24,7 +26,10 @@ body {
   letter-spacing: 0;
   background-color: var(--blue-grey-light);
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   @include typographic($font-ppneuemontreal, max(17px, 1700svw / var(--w)), var(--body-text-color, $black-color));
 }
 
