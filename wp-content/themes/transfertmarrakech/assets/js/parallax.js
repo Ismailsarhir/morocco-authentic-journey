@@ -108,8 +108,14 @@ function initParallax(element) {
     duration: config.duration,
   };
 
-  // Set up ScrollTrigger
+  // Set up ScrollTrigger (only on desktop)
   if (!config.disable) {
+    const isMobile = window.matchMedia('(max-width: 767px)').matches;
+    if (isMobile) {
+      // Skip ScrollTrigger on mobile to prevent scroll interference
+      return;
+    }
+    
     const scrollTrigger = {
       trigger: config.trigger || element,
       endTrigger: config.endTrigger || element,
@@ -213,6 +219,45 @@ function initParallaxElements() {
   const parallaxElements = document.querySelectorAll('.parallax');
   
   if (!parallaxElements.length) return;
+
+  // Check if mobile - disable parallax ScrollTrigger on mobile to prevent scroll interference
+  const isMobile = window.matchMedia('(max-width: 767px)').matches;
+  
+  if (isMobile) {
+    // On mobile, disable parallax effects that use ScrollTrigger
+    // Just apply basic styles without scroll-triggered animations
+    parallaxElements.forEach(element => {
+      const mediaElement = element.querySelector('img') || 
+                          element.querySelector('picture') || 
+                          element.querySelector('video') || 
+                          element.querySelector('iframe, .iframe');
+      
+      if (mediaElement) {
+        // Apply cover styles but skip ScrollTrigger animations
+        Object.assign(element.style, {
+          position: 'relative',
+          overflow: 'hidden',
+          width: '100%',
+          height: '100%',
+        });
+        
+        const coverStyles = {
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'center center',
+        };
+        
+        if (mediaElement.tagName === 'PICTURE') {
+          const img = mediaElement.querySelector('img');
+          if (img) Object.assign(img.style, coverStyles);
+        } else {
+          Object.assign(mediaElement.style, coverStyles);
+        }
+      }
+    });
+    return; // Don't initialize ScrollTrigger on mobile
+  }
 
   parallaxElements.forEach(initParallax);
   ScrollTrigger.refresh();

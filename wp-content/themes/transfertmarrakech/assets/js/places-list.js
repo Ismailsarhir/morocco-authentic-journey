@@ -18,10 +18,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const cards = gsap.utils.toArray('.placesList .card');
   if (cards.length === 0) return;
 
+  // Check if mobile - disable ScrollTrigger pinning on mobile to prevent scroll interference
+  const isMobile = window.matchMedia('(max-width: 767px)').matches;
+  
+  if (isMobile) {
+    // On mobile, skip ScrollTrigger pinning which causes scroll issues
+    // Cards will display normally without sticky/pin effects
+    return;
+  }
+
   const lastCard = cards[cards.length - 1];
   const scrollTriggers = [];
 
-  // Animate each card
+  // Animate each card (desktop only)
   cards.forEach((card, index) => {
     const isLastCard = index === cards.length - 1;
     const cardInner = card.querySelector('.card-inner');
@@ -58,6 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Cleanup on page unload
   window.addEventListener('beforeunload', () => {
     scrollTriggers.forEach(trigger => trigger?.kill());
-    ScrollTrigger.refresh();
+    if (!isMobile) {
+      ScrollTrigger.refresh();
+    }
   });
 });
