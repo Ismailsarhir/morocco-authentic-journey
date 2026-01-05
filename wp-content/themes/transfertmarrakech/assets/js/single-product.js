@@ -29,12 +29,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const mediaQuery = window.matchMedia('(min-width: 768px)');
+    const isMobile = () => !mediaQuery.matches; // Function to check mobile status dynamically
     const triggers = {
       title: null,
       card: null,
       bannerVisible: null,
       bannerLight: null,
     };
+
+    // On mobile, skip ScrollTrigger entirely to prevent scroll interference
+    // ScrollTrigger can cause scroll position to reset on mobile devices
+    if (isMobile()) {
+      // Don't initialize ScrollTrigger on mobile - use native scroll instead
+      ScrollTrigger.config({
+        autoRefreshEvents: '',
+        ignoreMobileResize: true,
+      });
+    }
 
     // Kill specific ScrollTriggers by trigger element
     const killTriggersByElement = (element) => {
@@ -49,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Setup desktop-only animations
     const setupDesktopAnimations = () => {
       if (!mediaQuery.matches) return;
+      if (isMobile()) return; // Double check - don't run on mobile
 
       ScrollTrigger.refresh();
 
@@ -106,7 +118,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const placesListBlock = document.querySelector('.placesList');
 
-      // Setup ScrollTrigger for banner visibility
+      // On mobile, use IntersectionObserver instead of ScrollTrigger to avoid scroll interference
+      if (isMobile()) {
+        const observerOptions = {
+          root: null,
+          rootMargin: '0px',
+          threshold: 0.1,
+        };
+
+        const handleIntersection = (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              elements.banner.classList.add('is-visible');
+            } else {
+              elements.banner.classList.remove('is-visible');
+            }
+          });
+        };
+
+        const observer = new IntersectionObserver(handleIntersection, observerOptions);
+        observer.observe(elements.productBody);
+
+        if (placesListBlock) {
+          const placesObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                elements.banner.classList.remove('is-visible');
+              } else {
+                elements.banner.classList.add('is-visible');
+              }
+            });
+          }, observerOptions);
+          placesObserver.observe(placesListBlock);
+        }
+
+        return;
+      }
+
+      // Desktop: Use ScrollTrigger
       triggers.bannerVisible = ScrollTrigger.create({
         trigger: elements.productBody,
         start: 'top bottom',
@@ -143,6 +192,25 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.banner.classList.toggle('is-light', isInside);
       };
 
+      // On mobile, use scroll event listener instead of ScrollTrigger
+      if (isMobile()) {
+        let ticking = false;
+        const handleScroll = () => {
+          if (!ticking) {
+            window.requestAnimationFrame(() => {
+              checkBannerInPrefooter();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        // Initial check
+        checkBannerInPrefooter();
+        return;
+      }
+
+      // Desktop: Use ScrollTrigger
       triggers.bannerLight = ScrollTrigger.create({
         trigger: elements.prefooterWrapper,
         start: 'top bottom',
@@ -180,7 +248,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle media query changes
     mediaQuery.addEventListener('change', () => {
       cleanup();
-      ScrollTrigger.refresh();
+      if (!isMobile() && mediaQuery.matches) {
+        ScrollTrigger.refresh();
+      }
       setupAnimations();
     });
 
@@ -190,7 +260,10 @@ document.addEventListener('DOMContentLoaded', () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
         cleanup();
-        ScrollTrigger.refresh();
+        // Only refresh ScrollTrigger on desktop
+        if (!isMobile() && mediaQuery.matches) {
+          ScrollTrigger.refresh();
+        }
         setupAnimations();
       }, 250);
     });
