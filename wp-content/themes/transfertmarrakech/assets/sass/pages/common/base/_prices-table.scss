@@ -28,8 +28,11 @@
     margin-block: calc(5000svw / var(--w)) calc(2800svw / var(--w));
     padding-bottom: 2px;
     padding-inline: var(--gutter);
-    overflow: auto;
-    scroll-behavior: smooth;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
   }
 
   &__table {

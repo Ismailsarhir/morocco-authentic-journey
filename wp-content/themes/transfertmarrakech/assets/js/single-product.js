@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
           end: 'bottom top',
           scrub: 1,
           invalidateOnRefresh: true,
+          anticipatePin: 1, // Improves performance on mobile
         },
       });
 
@@ -91,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             end: 'bottom top',
             scrub: 1,
             invalidateOnRefresh: true,
+            anticipatePin: 1, // Improves performance on mobile
           },
         });
       }
