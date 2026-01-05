@@ -108,14 +108,8 @@ function initParallax(element) {
     duration: config.duration,
   };
 
-  // Set up ScrollTrigger (only on desktop)
+  // Set up ScrollTrigger
   if (!config.disable) {
-    const isMobile = window.matchMedia('(max-width: 767px)').matches;
-    if (isMobile) {
-      // Skip ScrollTrigger on mobile to prevent scroll interference
-      return;
-    }
-    
     const scrollTrigger = {
       trigger: config.trigger || element,
       endTrigger: config.endTrigger || element,
@@ -213,6 +207,144 @@ function initParallax(element) {
 }
 
 /**
+ * Mobile-friendly parallax using native scroll events (no ScrollTrigger)
+ * This prevents scroll interference while still providing parallax effects
+ */
+function initMobileParallax(element) {
+  const config = getConfig(element);
+  
+  // Find the media element
+  const mediaElement = element.querySelector('img') || 
+                      element.querySelector('picture') || 
+                      element.querySelector('video') || 
+                      element.querySelector('iframe, .iframe');
+  
+  if (!mediaElement) return;
+
+  // Set up container styles
+  Object.assign(element.style, {
+    position: 'relative',
+    overflow: 'hidden',
+    width: '100%',
+    height: '100%',
+  });
+
+  // Apply cover styles
+  applyCoverStyles(mediaElement);
+
+  // Skip if disabled
+  if (config.disable) return;
+
+  // Prepare transform values
+  const yValue = config.y !== null ? config.y : 0;
+  const xValue = config.x !== null ? config.x : 0;
+  const scaleValue = config.scale !== null ? config.scale : 1;
+
+  // Set initial size adjustments for parallax
+  if (yValue !== 0) {
+    const absY = Math.abs(yValue);
+    mediaElement.style.height = `calc(100% + ${absY}px)`;
+    if (yValue < 0) {
+      mediaElement.style.top = `${yValue}px`;
+    }
+  }
+
+  if (xValue !== 0) {
+    const absX = Math.abs(xValue);
+    mediaElement.style.width = `calc(100% + ${absX}px)`;
+    if (xValue > 0) {
+      mediaElement.style.left = `-${xValue}px`;
+    }
+  }
+
+  if (scaleValue !== 1) {
+    const initialScale = scaleValue >= 1 ? 1 : 1 / scaleValue;
+    mediaElement.style.transform = `scale(${initialScale})`;
+    mediaElement.style.transformOrigin = 'center center';
+  }
+
+  // Store initial values
+  element._parallaxConfig = {
+    y: yValue,
+    x: xValue,
+    scale: scaleValue,
+    initialScale: scaleValue >= 1 ? 1 : 1 / scaleValue,
+    mediaElement: mediaElement
+  };
+
+  // Calculate parallax on scroll
+  const updateParallax = () => {
+    const rect = element.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    const elementTop = rect.top;
+    const elementHeight = rect.height;
+    
+    // Calculate scroll progress (0 to 1)
+    // Element enters from bottom, exits at top
+    const scrollProgress = Math.max(0, Math.min(1, 
+      (windowHeight - elementTop) / (windowHeight + elementHeight)
+    ));
+
+    // Apply transforms based on scroll progress
+    let transform = '';
+    let translateY = 0;
+    let translateX = 0;
+    let scale = 1;
+
+    if (yValue !== 0) {
+      translateY = -yValue * scrollProgress;
+    }
+
+    if (xValue !== 0) {
+      translateX = xValue * scrollProgress;
+    }
+
+    if (scaleValue !== 1) {
+      const scaleProgress = scaleValue >= 1 
+        ? 1 + (scaleValue - 1) * scrollProgress
+        : element._parallaxConfig.initialScale + (1 - element._parallaxConfig.initialScale) * scrollProgress;
+      scale = scaleProgress;
+    }
+
+    // Build transform string
+    const transforms = [];
+    if (translateX !== 0 || translateY !== 0) {
+      transforms.push(`translate3d(${translateX}px, ${translateY}px, 0)`);
+    }
+    if (scale !== 1) {
+      transforms.push(`scale(${scale})`);
+    }
+
+    if (transforms.length > 0) {
+      mediaElement.style.transform = transforms.join(' ');
+    }
+  };
+
+  // Throttled scroll handler
+  let ticking = false;
+  const handleScroll = () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        updateParallax();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  };
+
+  // Initial calculation
+  updateParallax();
+
+  // Add scroll listener
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  
+  // Store cleanup function
+  element._parallaxCleanup = () => {
+    window.removeEventListener('scroll', handleScroll);
+  };
+}
+
+/**
  * Initialize parallax on all elements with .parallax class
  */
 function initParallaxElements() {
@@ -220,45 +352,17 @@ function initParallaxElements() {
   
   if (!parallaxElements.length) return;
 
-  // Check if mobile - disable parallax ScrollTrigger on mobile to prevent scroll interference
   const isMobile = window.matchMedia('(max-width: 767px)').matches;
   
   if (isMobile) {
-    // On mobile, disable parallax effects that use ScrollTrigger
-    // Just apply basic styles without scroll-triggered animations
+    // On mobile, use native scroll-based parallax (no ScrollTrigger)
     parallaxElements.forEach(element => {
-      const mediaElement = element.querySelector('img') || 
-                          element.querySelector('picture') || 
-                          element.querySelector('video') || 
-                          element.querySelector('iframe, .iframe');
-      
-      if (mediaElement) {
-        // Apply cover styles but skip ScrollTrigger animations
-        Object.assign(element.style, {
-          position: 'relative',
-          overflow: 'hidden',
-          width: '100%',
-          height: '100%',
-        });
-        
-        const coverStyles = {
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          objectPosition: 'center center',
-        };
-        
-        if (mediaElement.tagName === 'PICTURE') {
-          const img = mediaElement.querySelector('img');
-          if (img) Object.assign(img.style, coverStyles);
-        } else {
-          Object.assign(mediaElement.style, coverStyles);
-        }
-      }
+      initMobileParallax(element);
     });
-    return; // Don't initialize ScrollTrigger on mobile
+    return;
   }
 
+  // Desktop: Use ScrollTrigger
   parallaxElements.forEach(initParallax);
   ScrollTrigger.refresh();
 }
