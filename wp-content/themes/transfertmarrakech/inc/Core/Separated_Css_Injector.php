@@ -77,6 +77,22 @@ class Separated_Css_Injector {
 				'dependencies' => [ 'global_css' ],
 				'dequeues' => [],
 			],
+			'archive-tours' => [
+				'condition' => function() {
+					return \is_post_type_archive( 'tours' ) || ( \is_archive() && \get_post_type() === 'tours' );
+				},
+				'file_name' => 'archive-tours',
+				'dependencies' => [ 'global_css' ],
+				'dequeues' => [],
+			],
+			'archive-transferts' => [
+				'condition' => function() {
+					return \is_post_type_archive( 'transferts' ) || ( \is_archive() && \get_post_type() === 'transferts' );
+				},
+				'file_name' => 'archive-transferts',
+				'dependencies' => [ 'global_css' ],
+				'dequeues' => [],
+			],
 			'page-404' => [
 				'condition' => function() {
 					return \is_404();

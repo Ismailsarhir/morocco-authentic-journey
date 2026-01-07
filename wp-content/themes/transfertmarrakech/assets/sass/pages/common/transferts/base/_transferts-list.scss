@@ -26,4 +26,9 @@
     margin: 0 auto 0.8em;
     text-align: left;
   }
+  
+  &__cta {
+    margin-top: calc(var(--gutter) * 2);
+    text-align: center;
+  }
 }

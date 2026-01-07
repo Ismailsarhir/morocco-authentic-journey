@@ -1,0 +1,33 @@
+.pager {
+  padding-block: clamp(60.8px, 7600svw / var(--w), 91.2px);
+  line-height: 1;
+  text-align: center;
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    li {
+      display: inline-block;
+      margin-inline: 0.1176470588em;
+      vertical-align: middle;
+
+      a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 2.4117647059em;
+        text-decoration: none;
+        border: 2px dotted;
+        border-radius: 50%;
+        transition: all var(--tm) var(--smooth);
+        aspect-ratio: 1;
+        &.is-selected {
+          color: var(--blue-grey-light);
+          background: var(--blue-dark);
+          border-style: solid;
+          pointer-events: none;
+        }
+      }
+    }
+  }
+}
