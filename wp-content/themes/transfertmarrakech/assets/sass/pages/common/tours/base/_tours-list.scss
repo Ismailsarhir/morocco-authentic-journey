@@ -32,4 +32,9 @@
     grid-template-columns: repeat(1, 1fr);
     gap: var(--gutter);
   }
+
+  &__cta {
+    margin-top: calc(var(--gutter) * 2);
+    text-align: center;
+  }
 }

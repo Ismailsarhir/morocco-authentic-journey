@@ -13,6 +13,7 @@ if ( ! isset( $transfers ) || empty( $transfers ) ) {
 }
 
 $renderer = new \TM\Template\Renderer();
+$transfers_url = home_url('/transferts/');
 ?>
 
 <div class="modules">
@@ -25,6 +26,18 @@ $renderer = new \TM\Template\Renderer();
 				<?php foreach ( $transfers as $transfer_data ) : 
 					$renderer->render( 'transfer-card', [ 'transfer_data' => $transfer_data ] );
 				endforeach; ?>
+			</div>
+			<div class="transfersList__cta">
+				<a
+					target=""
+					href="<?php echo \esc_url($transfers_url); ?>"
+					class="cta primary">
+					<span class="cta__inner" data-label="<?php \esc_attr_e('Voir tout les transferts', 'transfertmarrakech'); ?>">
+						<span class="cta__txt">
+							<?php \esc_html_e('Voir tout les transferts', 'transfertmarrakech'); ?>
+						</span>
+					</span>
+				</a>
 			</div>
 		</div>
 	</section>

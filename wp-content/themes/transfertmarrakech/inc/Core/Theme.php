@@ -19,6 +19,8 @@ use TM\Meta\PostMeta;
 use TM\Meta\TermMeta;
 use TM\Admin\FeaturedTextSettings;
 use TM\Admin\WhatsAppSettings;
+use TM\Admin\ArchiveToursSettings;
+use TM\Admin\ArchiveTransfersSettings;
 
 /**
  * Classe principale du thème qui initialise tous les composants
@@ -66,6 +68,7 @@ class Theme {
 		$theme->init_js_injector();
 		$theme->init_meta_boxes();
 		$theme->init_admin_pages();
+		$theme->init_pagination();
 	}
 	
 	/**
@@ -360,6 +363,86 @@ class Theme {
 		
 		$whatsapp_settings = new WhatsAppSettings();
 		$whatsapp_settings->register();
+		
+		$archive_tours_settings = new ArchiveToursSettings();
+		$archive_tours_settings->register();
+		
+		$archive_transfers_settings = new ArchiveTransfersSettings();
+		$archive_transfers_settings->register();
+	}
+	
+	/**
+	 * Configure la pagination pour l'archive des tours
+	 * 
+	 * @return void
+	 */
+	private function init_pagination(): void {
+		// Configure la pagination pour l'archive des tours (1 post par page)
+		\add_action( 'pre_get_posts', [ $this, 'configure_archive_tours_pagination' ] );
+		// Configure la pagination pour l'archive des transferts (1 post par page)
+		\add_action( 'pre_get_posts', [ $this, 'configure_archive_transferts_pagination' ] );
+	}
+	
+	/**
+	 * Configure la pagination pour l'archive des tours (1 post par page)
+	 * Optimisé : vérifications précoces
+	 * 
+	 * @param \WP_Query $query Requête WordPress
+	 * @return void
+	 */
+	public function configure_archive_tours_pagination( \WP_Query $query ): void {
+		if ( is_admin() || ! $query->is_main_query() || ! is_post_type_archive( 'tours' ) ) {
+			return;
+		}
+		
+		$query->set( 'posts_per_page', 9 );
+		$query->set( 'post_status', 'publish' );
+		
+		// Filtre pour n'inclure que les posts avec une image à la une (évite les pages vides)
+		$meta_query = $query->get( 'meta_query' );
+		if ( ! is_array( $meta_query ) ) {
+			$meta_query = [];
+		}
+		$meta_query[] = [
+			'key'     => '_thumbnail_id',
+			'compare' => 'EXISTS',
+		];
+		$query->set( 'meta_query', $meta_query );
+		
+		$query->set( 'update_post_meta_cache', true );
+		$query->set( 'update_post_term_cache', true );
+		$query->set( 'no_found_rows', false ); // Nécessaire pour calculer correctement max_num_pages
+	}
+	
+	/**
+	 * Configure la pagination pour l'archive des transferts (1 post par page)
+	 * Optimisé : vérifications précoces
+	 * 
+	 * @param \WP_Query $query Requête WordPress
+	 * @return void
+	 */
+	public function configure_archive_transferts_pagination( \WP_Query $query ): void {
+		if ( is_admin() || ! $query->is_main_query() || ! is_post_type_archive( 'transferts' ) ) {
+			return;
+		}
+		
+		$query->set( 'posts_per_page', 9 );
+		$query->set( 'post_status', 'publish' );
+		
+		// Filtre pour n'inclure que les posts avec une image à la une (évite les pages vides)
+		$meta_query = $query->get( 'meta_query' );
+		if ( ! is_array( $meta_query ) ) {
+			$meta_query = [];
+		}
+		$meta_query[] = [
+			'key'     => '_thumbnail_id',
+			'compare' => 'EXISTS',
+		];
+		$query->set( 'meta_query', $meta_query );
+		
+		$query->set( 'update_post_meta_cache', true );
+		$query->set( 'update_post_term_cache', true );
+		$query->set( 'no_found_rows', false ); // Nécessaire pour calculer correctement max_num_pages
 	}
 	
 	/**

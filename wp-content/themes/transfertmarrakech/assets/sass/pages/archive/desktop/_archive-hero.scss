@@ -1,0 +1,9 @@
+.archive-hero {
+  height: -moz-min-content;
+  height: min-content;
+  padding: calc(var(--header-spacing) + max(150px, 15000svw / var(--w))) var(--gutter) max(85px, 8500svw / var(--w));
+
+  &__inner {
+    max-width: 55.8823529412em;
+  }
+}

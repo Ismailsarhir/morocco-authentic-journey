@@ -66,6 +66,90 @@ class ToursList {
 	}
 	
 	/**
+	 * Formate les données d'un tour pour l'affichage
+	 * 
+	 * @param \WP_Post $tour Post du tour
+	 * @return array|null Données formatées du tour ou null si invalide
+	 */
+	public function format_tour_data( \WP_Post $tour ): ?array {
+		$tour_id = $tour->ID;
+		$tour_meta = MetaHelper::get_tour_meta( $tour_id );
+		
+		$thumbnail_url = MetaHelper::get_post_thumbnail_url_with_fallback( $tour_id );
+		if ( ! $thumbnail_url ) {
+			return null; // Skip tours without thumbnail
+		}
+		
+		$price_tiers = $tour_meta[ Constants::META_TOUR_PRICE_TIERS ] ?? [];
+		
+		// Récupère le prix minimum depuis les tiers (gère les valeurs numériques et textuelles)
+		$min_price = '';
+		$price_text = '';
+		if ( ! empty( $price_tiers ) && is_array( $price_tiers ) ) {
+			$prices = array_filter( array_column( $price_tiers, 'price' ) );
+			if ( ! empty( $prices ) ) {
+				$numeric_prices = [];
+				foreach ( $prices as $price ) {
+					if ( is_numeric( $price ) ) {
+						$numeric_prices[] = (float) $price;
+					} elseif ( empty( $price_text ) ) {
+						// Prend la première valeur textuelle trouvée
+						$price_text = $price;
+					}
+				}
+				
+				if ( ! empty( $numeric_prices ) ) {
+					$min_price = min( $numeric_prices );
+				} elseif ( ! empty( $price_text ) ) {
+					$min_price = $price_text;
+				}
+			}
+		}
+		
+		// Récupération des tags/catégories
+		$tags = $tour_meta[ Constants::META_TOUR_TAGS ] ?? [];
+		$tag_labels = [];
+		if ( ! empty( $tags ) && is_array( $tags ) ) {
+			// Mapping des valeurs de tags vers leurs labels
+			$tag_options = [
+				'photography' => __( 'Photography', 'transfertmarrakech' ),
+				'historical'  => __( 'Historical', 'transfertmarrakech' ),
+				'sightseeing' => __( 'Sightseeing', 'transfertmarrakech' ),
+				'adventure'   => __( 'Adventure', 'transfertmarrakech' ),
+				'cultural'    => __( 'Cultural', 'transfertmarrakech' ),
+				'nature'      => __( 'Nature', 'transfertmarrakech' ),
+			];
+			
+			foreach ( $tags as $tag_value ) {
+				if ( ! empty( $tag_value ) && isset( $tag_options[ $tag_value ] ) ) {
+					$tag_labels[] = $tag_options[ $tag_value ];
+				}
+			}
+		}
+		
+		// Optimisation : utilise post_title directement
+		$tour_title = MetaHelper::get_post_title( $tour );
+		
+		// Formate la durée avec l'unité appropriée
+		$duration_raw = $tour_meta[ Constants::META_TOUR_DURATION ] ?? '';
+		$duration_unit = $tour_meta[ Constants::META_TOUR_DURATION_UNIT ] ?? 'hours';
+		$duration_formatted = ! empty( $duration_raw ) ? MetaHelper::format_duration( $duration_raw, $duration_unit ) : '';
+		
+		return [
+			'tour'         => $tour,
+			'tour_id'      => $tour_id,
+			'title'        => $tour_title,
+			'permalink'    => \get_permalink( $tour_id ),
+			'thumbnail'    => $thumbnail_url,
+			'duration'     => $duration_formatted,
+			'price'        => $min_price,
+			'price_formatted' => $min_price ? ( is_numeric( $min_price ) ? MetaHelper::format_price_usd( $min_price ) : $min_price ) : '',
+			'location'     => $tour_meta[ Constants::META_TOUR_LOCATION ] ?? '',
+			'tag_labels'   => $tag_labels,
+		];
+	}
+	
+	/**
 	 * Récupère les tours pour la liste des tours vedettes
 	 * 
 	 * @param int $limit Nombre de tours à récupérer
@@ -89,84 +173,50 @@ class ToursList {
 				continue;
 			}
 			
-			$tour_id = $tour->ID;
-			$tour_meta = MetaHelper::get_tour_meta( $tour_id );
-			
-			$thumbnail_url = MetaHelper::get_post_thumbnail_url_with_fallback( $tour_id );
-			if ( ! $thumbnail_url ) {
-				continue; // Skip tours without thumbnail
+			$tour_data = $this->format_tour_data( $tour );
+			if ( $tour_data ) {
+				$featured_tours[] = $tour_data;
 			}
-			
-			$price_tiers = $tour_meta[ Constants::META_TOUR_PRICE_TIERS ] ?? [];
-			
-			// Récupère le prix minimum depuis les tiers (gère les valeurs numériques et textuelles)
-			$min_price = '';
-			$price_text = '';
-			if ( ! empty( $price_tiers ) && is_array( $price_tiers ) ) {
-				$prices = array_filter( array_column( $price_tiers, 'price' ) );
-				if ( ! empty( $prices ) ) {
-					$numeric_prices = [];
-					foreach ( $prices as $price ) {
-						if ( is_numeric( $price ) ) {
-							$numeric_prices[] = (float) $price;
-						} elseif ( empty( $price_text ) ) {
-							// Prend la première valeur textuelle trouvée
-							$price_text = $price;
-						}
-					}
-					
-					if ( ! empty( $numeric_prices ) ) {
-						$min_price = min( $numeric_prices );
-					} elseif ( ! empty( $price_text ) ) {
-						$min_price = $price_text;
-					}
-				}
-			}
-			
-			// Récupération des tags/catégories
-			$tags = $tour_meta[ Constants::META_TOUR_TAGS ] ?? [];
-			$tag_labels = [];
-			if ( ! empty( $tags ) && is_array( $tags ) ) {
-				// Mapping des valeurs de tags vers leurs labels
-				$tag_options = [
-					'photography' => __( 'Photography', 'transfertmarrakech' ),
-					'historical'  => __( 'Historical', 'transfertmarrakech' ),
-					'sightseeing' => __( 'Sightseeing', 'transfertmarrakech' ),
-					'adventure'   => __( 'Adventure', 'transfertmarrakech' ),
-					'cultural'    => __( 'Cultural', 'transfertmarrakech' ),
-					'nature'      => __( 'Nature', 'transfertmarrakech' ),
-				];
-				
-				foreach ( $tags as $tag_value ) {
-					if ( ! empty( $tag_value ) && isset( $tag_options[ $tag_value ] ) ) {
-						$tag_labels[] = $tag_options[ $tag_value ];
-					}
-				}
-			}
-			
-			// Optimisation : utilise post_title directement
-			$tour_title = MetaHelper::get_post_title( $tour );
-			
-			// Formate la durée avec l'unité appropriée
-			$duration_raw = $tour_meta[ Constants::META_TOUR_DURATION ] ?? '';
-			$duration_unit = $tour_meta[ Constants::META_TOUR_DURATION_UNIT ] ?? 'hours';
-			$duration_formatted = ! empty( $duration_raw ) ? MetaHelper::format_duration( $duration_raw, $duration_unit ) : '';
-			
-			$featured_tours[] = [
-				'tour'         => $tour,
-				'tour_id'      => $tour_id,
-				'title'        => $tour_title,
-				'permalink'    => \get_permalink( $tour_id ),
-				'thumbnail'    => $thumbnail_url,
-				'duration'     => $duration_formatted,
-				'price'        => $min_price,
-				'price_formatted' => $min_price ? ( is_numeric( $min_price ) ? MetaHelper::format_price_usd( $min_price ) : $min_price ) : '',
-				'location'     => $tour_meta[ Constants::META_TOUR_LOCATION ] ?? '',
-				'tag_labels'   => $tag_labels,
-			];
 		}
 		
 		return $featured_tours;
+	}
+	
+	/**
+	 * Récupère tous les tours pour l'archive
+	 * 
+	 * @param array $args Arguments de requête WordPress supplémentaires
+	 * @return array
+	 */
+	public function get_all_tours( array $args = [] ): array {
+		$default_args = [
+			'posts_per_page' => -1, // Tous les tours
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+		];
+		
+		$query_args = array_merge( $default_args, $args );
+		
+		$tours = $this->repository->get_by_args( Constants::POST_TYPE_TOUR, $query_args );
+		
+		if ( empty( $tours ) ) {
+			return [];
+		}
+		
+		$all_tours = [];
+		
+		foreach ( $tours as $tour ) {
+			if ( ! $tour instanceof \WP_Post ) {
+				continue;
+			}
+			
+			$tour_data = $this->format_tour_data( $tour );
+			if ( $tour_data ) {
+				$all_tours[] = $tour_data;
+			}
+		}
+		
+		return $all_tours;
 	}
 	
 	/**
