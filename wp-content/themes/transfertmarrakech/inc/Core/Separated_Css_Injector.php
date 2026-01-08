@@ -69,6 +69,14 @@ class Separated_Css_Injector {
 				'dependencies' => [ 'global_css' ],
 				'dequeues' => [],
 			],
+			'single-circuits' => [
+				'condition' => function() {
+					return \is_singular( 'circuits' );
+				},
+				'file_name' => 'single-circuits',
+				'dependencies' => [ 'global_css' ],
+				'dequeues' => [],
+			],
 			'single-transferts' => [
 				'condition' => function() {
 					return \is_singular( 'transferts' );
@@ -82,6 +90,14 @@ class Separated_Css_Injector {
 					return \is_post_type_archive( 'tours' ) || ( \is_archive() && \get_post_type() === 'tours' );
 				},
 				'file_name' => 'archive-tours',
+				'dependencies' => [ 'global_css' ],
+				'dequeues' => [],
+			],
+			'archive-circuits' => [
+				'condition' => function() {
+					return \is_post_type_archive( 'circuits' ) || ( \is_archive() && \get_post_type() === 'circuits' );
+				},
+				'file_name' => 'archive-circuits',
 				'dependencies' => [ 'global_css' ],
 				'dequeues' => [],
 			],

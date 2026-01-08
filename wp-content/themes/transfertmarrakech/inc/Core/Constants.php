@@ -18,6 +18,7 @@ class Constants {
 	 */
 	public const POST_TYPE_TRANSFER = 'transferts';
 	public const POST_TYPE_TOUR = 'tours';
+	public const POST_TYPE_CIRCUIT = 'circuits';
 	public const POST_TYPE_VEHICLE = 'vehicules';
 	
 	/**
@@ -59,6 +60,29 @@ class Constants {
 	public const META_TOUR_EXCLUDED = 'tm_tour_excluded';
 	public const META_TOUR_CANCELLATION = 'tm_tour_cancellation';
 	public const META_TOUR_PRICE_TIERS = 'tm_tour_price_tiers';
+	
+	/**
+	 * Meta Keys - Circuits
+	 */
+	public const META_CIRCUIT_LOCATION = 'tm_circuit_location';
+	public const META_CIRCUIT_DURATION_DAYS = 'tm_circuit_duration_days';
+	public const META_CIRCUIT_HIGHLIGHTS = 'tm_circuit_highlights';
+	public const META_CIRCUIT_PICKUP_INFO = 'tm_circuit_pickup_info';
+	public const META_CIRCUIT_MEETING_POINT = 'tm_circuit_meeting_point';
+	public const META_CIRCUIT_DIFFICULTY = 'tm_circuit_difficulty';
+	public const META_CIRCUIT_LANGUAGES = 'tm_circuit_languages';
+	public const META_CIRCUIT_TAGS = 'tm_circuit_tags';
+	public const META_CIRCUIT_ITINERARY_DAYS = 'tm_circuit_itinerary_days';
+	public const META_CIRCUIT_INCLUDED = 'tm_circuit_included';
+	public const META_CIRCUIT_EXCLUDED = 'tm_circuit_excluded';
+	public const META_CIRCUIT_NOT_SUITABLE = 'tm_circuit_not_suitable';
+	public const META_CIRCUIT_IMPORTANT_INFO = 'tm_circuit_important_info';
+	public const META_CIRCUIT_WHAT_TO_BRING = 'tm_circuit_what_to_bring';
+	public const META_CIRCUIT_NOT_ALLOWED = 'tm_circuit_not_allowed';
+	public const META_CIRCUIT_KNOW_BEFORE_GO = 'tm_circuit_know_before_go';
+	public const META_CIRCUIT_CANCELLATION = 'tm_circuit_cancellation';
+	public const META_CIRCUIT_PRICE_TIERS = 'tm_circuit_price_tiers';
+	public const META_CIRCUIT_VEHICLES = 'tm_circuit_vehicles';
 	
 	/**
 	 * Meta Keys - Vehicles

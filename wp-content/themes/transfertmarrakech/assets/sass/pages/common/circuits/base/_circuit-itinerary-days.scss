@@ -1,0 +1,22 @@
+// Circuit Day Details (used in single-circuits.php)
+.circuit {
+  &-day {
+    &__details {
+      &-card {
+        .card-inner {
+          align-items: center !important;
+        }
+      }
+
+      &-list {
+        margin: 0;
+        padding-left: 1em;
+        list-style: disc;
+
+        li:not(:last-child) {
+          margin-bottom: 1.2941176471em;
+        }
+      }
+    }
+  }
+}

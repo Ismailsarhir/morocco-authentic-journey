@@ -21,6 +21,11 @@
 ?>
 
 <?php
+// Affiche la liste des circuits vedettes si disponible
+\TM\Core\CircuitsList::get_instance()->render();
+?>
+
+<?php
 // Affiche la liste des véhicules vedettes si disponible
 \TM\Core\VehiclesList::get_instance()->render();
 ?>

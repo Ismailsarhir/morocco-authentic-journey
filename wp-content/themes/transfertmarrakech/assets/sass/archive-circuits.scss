@@ -1,0 +1,21 @@
+@import "utils/index";
+
+@import "pages/common/circuits/base/circuits-list";
+@import "pages/common/circuits/base/circuit-card";
+@import "pages/common/base/animated-title";
+@import "pages/common/base/pager";
+
+@import "pages/archive/base/archive-hero";
+/* Tablet */
+@include breakpoint(sm--min-width) {
+  @import "pages/common/circuits/tablet/circuits-list";
+}
+
+/* Desktop */
+@include breakpoint(md--min-width) {
+  @import "pages/common/circuits/desktop/circuits-list";
+  @import "pages/common/circuits/desktop/circuit-card";
+  @import "pages/archive/desktop/archive-hero";
+
+}
+

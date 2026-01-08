@@ -1,0 +1,41 @@
+/**
+ * Common circuits list styles
+ * 
+ * Styles for the circuits list module used across multiple pages
+ */
+
+.circuitsList {
+  .modules & {
+    &.circuitsList {
+      margin: 0;
+    }
+  }
+
+  &__inner {
+    padding: max(160px, 16000svw / var(--w)) var(--gutter) var(--gutter);
+    padding-top: max(80px, 8000svw / var(--w));
+    background: var(--blue-grey-light);
+
+    .home & {
+      padding-top: calc(3400svw / var(--w));
+    }
+  }
+
+  &__title {
+    max-width: 9.45em;
+    margin: 0 auto .8em;
+    text-align: left;
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: var(--gutter);
+  }
+
+  &__cta {
+    margin-top: calc(var(--gutter) * 2);
+    text-align: center;
+  }
+}
+

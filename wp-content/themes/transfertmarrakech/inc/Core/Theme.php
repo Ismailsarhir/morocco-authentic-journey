@@ -11,6 +11,7 @@ namespace TM\Core;
 use TM\CPT\VehiclePostType;
 use TM\CPT\TourPostType;
 use TM\CPT\TransferPostType;
+use TM\CPT\CircuitPostType;
 use TM\REST\VehicleRestController;
 use TM\REST\TourRestController;
 use TM\REST\TransferRestController;
@@ -20,6 +21,7 @@ use TM\Meta\TermMeta;
 use TM\Admin\FeaturedTextSettings;
 use TM\Admin\WhatsAppSettings;
 use TM\Admin\ArchiveToursSettings;
+use TM\Admin\ArchiveCircuitsSettings;
 use TM\Admin\ArchiveTransfersSettings;
 
 /**
@@ -120,7 +122,7 @@ class Theme {
 	 * @return void
 	 */
 	public function add_featured_image_support(): void {
-		$post_types = [ Constants::POST_TYPE_VEHICLE, Constants::POST_TYPE_TOUR, Constants::POST_TYPE_TRANSFER ];
+		$post_types = [ Constants::POST_TYPE_VEHICLE, Constants::POST_TYPE_TOUR, Constants::POST_TYPE_CIRCUIT, Constants::POST_TYPE_TRANSFER ];
 		
 		foreach ( $post_types as $post_type ) {
 			// S'assure que le support thumbnail est activé (déjà fait dans register_post_type, mais on double-vérifie)
@@ -149,7 +151,7 @@ class Theme {
 	 * @return void
 	 */
 	public function ensure_featured_image_meta_box(): void {
-		$post_types = [ Constants::POST_TYPE_VEHICLE, Constants::POST_TYPE_TOUR, Constants::POST_TYPE_TRANSFER ];
+		$post_types = [ Constants::POST_TYPE_VEHICLE, Constants::POST_TYPE_TOUR, Constants::POST_TYPE_CIRCUIT, Constants::POST_TYPE_TRANSFER ];
 		$screen = \get_current_screen();
 		
 		if ( ! $screen || ! isset( $screen->post_type ) ) {
@@ -206,7 +208,7 @@ class Theme {
 	 */
 	public function enqueue_admin_scripts( string $hook_suffix ): void {
 		// Charge uniquement sur les pages d'édition des CPT
-		$post_types = [ Constants::POST_TYPE_VEHICLE, Constants::POST_TYPE_TOUR, Constants::POST_TYPE_TRANSFER ];
+		$post_types = [ Constants::POST_TYPE_VEHICLE, Constants::POST_TYPE_TOUR, Constants::POST_TYPE_CIRCUIT, Constants::POST_TYPE_TRANSFER ];
 		$screen = \get_current_screen();
 		
 		if ( ! $screen || ! isset( $screen->post_type ) ) {
@@ -280,6 +282,9 @@ class Theme {
 		
 		$tour_cpt = new TourPostType();
 		$tour_cpt->register();
+		
+		$circuit_cpt = new CircuitPostType();
+		$circuit_cpt->register();
 		
 		$transfer_cpt = new TransferPostType();
 		$transfer_cpt->register();
@@ -367,6 +372,9 @@ class Theme {
 		$archive_tours_settings = new ArchiveToursSettings();
 		$archive_tours_settings->register();
 		
+		$archive_circuits_settings = new ArchiveCircuitsSettings();
+		$archive_circuits_settings->register();
+		
 		$archive_transfers_settings = new ArchiveTransfersSettings();
 		$archive_transfers_settings->register();
 	}
@@ -379,6 +387,8 @@ class Theme {
 	private function init_pagination(): void {
 		// Configure la pagination pour l'archive des tours (1 post par page)
 		\add_action( 'pre_get_posts', [ $this, 'configure_archive_tours_pagination' ] );
+		// Configure la pagination pour l'archive des circuits (1 post par page)
+		\add_action( 'pre_get_posts', [ $this, 'configure_archive_circuits_pagination' ] );
 		// Configure la pagination pour l'archive des transferts (1 post par page)
 		\add_action( 'pre_get_posts', [ $this, 'configure_archive_transferts_pagination' ] );
 	}
@@ -392,6 +402,37 @@ class Theme {
 	 */
 	public function configure_archive_tours_pagination( \WP_Query $query ): void {
 		if ( is_admin() || ! $query->is_main_query() || ! is_post_type_archive( 'tours' ) ) {
+			return;
+		}
+		
+		$query->set( 'posts_per_page', 9 );
+		$query->set( 'post_status', 'publish' );
+		
+		// Filtre pour n'inclure que les posts avec une image à la une (évite les pages vides)
+		$meta_query = $query->get( 'meta_query' );
+		if ( ! is_array( $meta_query ) ) {
+			$meta_query = [];
+		}
+		$meta_query[] = [
+			'key'     => '_thumbnail_id',
+			'compare' => 'EXISTS',
+		];
+		$query->set( 'meta_query', $meta_query );
+		
+		$query->set( 'update_post_meta_cache', true );
+		$query->set( 'update_post_term_cache', true );
+		$query->set( 'no_found_rows', false ); // Nécessaire pour calculer correctement max_num_pages
+	}
+	
+	/**
+	 * Configure la pagination pour l'archive des circuits (1 post par page)
+	 * Optimisé : vérifications précoces
+	 * 
+	 * @param \WP_Query $query Requête WordPress
+	 * @return void
+	 */
+	public function configure_archive_circuits_pagination( \WP_Query $query ): void {
+		if ( is_admin() || ! $query->is_main_query() || ! is_post_type_archive( 'circuits' ) ) {
 			return;
 		}
 		

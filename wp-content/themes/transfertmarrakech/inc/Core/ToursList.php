@@ -112,12 +112,19 @@ class ToursList {
 		if ( ! empty( $tags ) && is_array( $tags ) ) {
 			// Mapping des valeurs de tags vers leurs labels
 			$tag_options = [
-				'photography' => __( 'Photography', 'transfertmarrakech' ),
-				'historical'  => __( 'Historical', 'transfertmarrakech' ),
-				'sightseeing' => __( 'Sightseeing', 'transfertmarrakech' ),
-				'adventure'   => __( 'Adventure', 'transfertmarrakech' ),
-				'cultural'    => __( 'Cultural', 'transfertmarrakech' ),
-				'nature'      => __( 'Nature', 'transfertmarrakech' ),
+				'photography'      => __( 'Photography', 'transfertmarrakech' ),
+				'historical'       => __( 'Historical', 'transfertmarrakech' ),
+				'sightseeing'      => __( 'Sightseeing', 'transfertmarrakech' ),
+				'adventure'        => __( 'Adventure', 'transfertmarrakech' ),
+				'adventure sports' => __( 'Adventure Sports', 'transfertmarrakech' ),
+				'Paragliding'      => __( 'Paragliding', 'transfertmarrakech' ),
+				'ballooning'       => __( 'Ballooning', 'transfertmarrakech' ),
+				'architectural'    => __( 'Architectural', 'transfertmarrakech' ),
+				'cultural'         => __( 'Cultural', 'transfertmarrakech' ),
+				'nature'           => __( 'Nature', 'transfertmarrakech' ),
+				'gastronomical'    => __( 'Gastronomical', 'transfertmarrakech' ),
+				'Desert'           => __( 'Desert', 'transfertmarrakech' ),
+				'atv'              => __( 'ATV', 'transfertmarrakech' ),
 			];
 			
 			foreach ( $tags as $tag_value ) {
@@ -125,6 +132,41 @@ class ToursList {
 					$tag_labels[] = $tag_options[ $tag_value ];
 				}
 			}
+		}
+		
+		// Récupération des langues
+		$languages = $tour_meta[ Constants::META_TOUR_LANGUAGES ] ?? [];
+		$language_labels = [];
+		if ( ! empty( $languages ) && is_array( $languages ) ) {
+			// Mapping des valeurs de langues vers leurs labels
+			$language_options = [
+				'english'   => __( 'English', 'transfertmarrakech' ),
+				'french'    => __( 'French', 'transfertmarrakech' ),
+				'spanish'   => __( 'Spanish', 'transfertmarrakech' ),
+				'arabic'    => __( 'Arabic', 'transfertmarrakech' ),
+				'german'    => __( 'German', 'transfertmarrakech' ),
+				'italian'   => __( 'Italian', 'transfertmarrakech' ),
+				'slovenian' => __( 'Slovenian', 'transfertmarrakech' ),
+				'dutch'     => __( 'Dutch', 'transfertmarrakech' ),
+			];
+			
+			foreach ( $languages as $lang_value ) {
+				if ( ! empty( $lang_value ) && isset( $language_options[ $lang_value ] ) ) {
+					$language_labels[] = $language_options[ $lang_value ];
+				}
+			}
+		}
+		
+		// Récupération de la difficulté
+		$difficulty = $tour_meta[ Constants::META_TOUR_DIFFICULTY ] ?? '';
+		$difficulty_label = '';
+		if ( ! empty( $difficulty ) ) {
+			$difficulty_options = [
+				'easy'   => __( 'Easy', 'transfertmarrakech' ),
+				'medium' => __( 'Medium', 'transfertmarrakech' ),
+				'hard'   => __( 'Hard', 'transfertmarrakech' ),
+			];
+			$difficulty_label = $difficulty_options[ $difficulty ] ?? '';
 		}
 		
 		// Optimisation : utilise post_title directement
@@ -146,6 +188,8 @@ class ToursList {
 			'price_formatted' => $min_price ? ( is_numeric( $min_price ) ? MetaHelper::format_price_usd( $min_price ) : $min_price ) : '',
 			'location'     => $tour_meta[ Constants::META_TOUR_LOCATION ] ?? '',
 			'tag_labels'   => $tag_labels,
+			'language_labels' => $language_labels,
+			'difficulty'   => $difficulty_label,
 		];
 	}
 	
