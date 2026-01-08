@@ -1,33 +1,33 @@
 <?php
 /**
- * Template part pour une carte tour
+ * Template part pour une carte circuit
  * 
  * @package TransfertMarrakech
  * @since 1.0.0
  * 
- * @var array $tour_data Données du tour
+ * @var array $circuit_data Données du circuit
  */
 
-if ( ! isset( $tour_data ) || empty( $tour_data ) ) {
+if ( ! isset( $circuit_data ) || empty( $circuit_data ) ) {
 	return;
 }
 
-$tour = $tour_data['tour'] ?? null;
-if ( ! $tour || ! $tour instanceof \WP_Post ) {
+$circuit = $circuit_data['circuit'] ?? null;
+if ( ! $circuit || ! $circuit instanceof \WP_Post ) {
 	return;
 }
 
-// Extraction des données (déjà formatées dans ToursList)
-$tour_id         = (int) ( $tour_data['tour_id'] ?? ( $tour ? $tour->ID : 0 ) );
-$title           = $tour_data['title'] ?? '';
-$permalink       = $tour_data['permalink'] ?? '';
-$thumbnail       = $tour_data['thumbnail'] ?? '';
-$duration        = $tour_data['duration'] ?? '';
-$price_formatted = $tour_data['price_formatted'] ?? '';
-$location        = $tour_data['location'] ?? '';
-$tag_labels      = $tour_data['tag_labels'] ?? [];
-$language_labels = $tour_data['language_labels'] ?? [];
-$difficulty      = $tour_data['difficulty'] ?? '';
+// Extraction des données (déjà formatées dans CircuitsList)
+$circuit_id      = (int) ( $circuit_data['circuit_id'] ?? ( $circuit ? $circuit->ID : 0 ) );
+$title           = $circuit_data['title'] ?? '';
+$permalink       = $circuit_data['permalink'] ?? '';
+$thumbnail       = $circuit_data['thumbnail'] ?? '';
+$duration        = $circuit_data['duration'] ?? '';
+$price_formatted = $circuit_data['price_formatted'] ?? '';
+$location        = $circuit_data['location'] ?? '';
+$language_labels = $circuit_data['language_labels'] ?? [];
+$tag_labels      = $circuit_data['tag_labels'] ?? [];
+$difficulty      = $circuit_data['difficulty'] ?? '';
 
 // Validation des données essentielles
 if ( empty( $title ) || empty( $permalink ) || empty( $thumbnail ) ) {
@@ -36,11 +36,11 @@ if ( empty( $title ) || empty( $permalink ) || empty( $thumbnail ) ) {
 
 ?>
 
-<a class="tour-card" href="<?php echo \esc_url( $permalink ); ?>">
-	<div class="tour-card__img-wrapper">
+<a class="circuit-card" href="<?php echo \esc_url( $permalink ); ?>">
+	<div class="circuit-card__img-wrapper">
 		<div class="parallax">
 			<img 
-				class="tour-card__img"
+				class="circuit-card__img"
 				src="<?php echo \esc_url( $thumbnail ); ?>" 
 				alt="<?php echo \esc_attr( $title ); ?>" 
 				fetchpriority="low" 
@@ -52,12 +52,12 @@ if ( empty( $title ) || empty( $permalink ) || empty( $thumbnail ) ) {
 			<div class="tag"><?php echo \esc_html( $location ); ?></div>
 		<?php endif; ?>
 	</div>
-	<div class="tour-card__infos">
-		<h5 class="tour-card__infos-title">
+	<div class="circuit-card__infos">
+		<h5 class="circuit-card__infos-title">
 			<?php echo \esc_html( $title ); ?>
 		</h5>
 		<?php if ( ! empty( $tag_labels ) && is_array( $tag_labels ) ) : ?>
-			<div class="tour-card__infos-tags">
+			<div class="circuit-card__infos-tags">
 				<?php foreach ( $tag_labels as $tag_label ) : ?>
 					<?php if ( ! empty( $tag_label ) ) : ?>
 						<div class="tag"><?php echo \esc_html( $tag_label ); ?></div>
@@ -65,7 +65,7 @@ if ( empty( $title ) || empty( $permalink ) || empty( $thumbnail ) ) {
 				<?php endforeach; ?>
 			</div>
 		<?php endif; ?>
-		<div class="tour-card__infos-table">
+		<div class="circuit-card__infos-table">
 			<?php if ( ! empty( $duration ) || ! empty( $language_labels ) || ! empty( $difficulty ) ) : ?>
 				<ul>
 					<?php if ( ! empty( $duration ) ) : ?>
@@ -94,3 +94,4 @@ if ( empty( $title ) || empty( $permalink ) || empty( $thumbnail ) ) {
 		</div>
 	</div>
 </a>
+

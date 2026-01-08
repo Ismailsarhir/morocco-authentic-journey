@@ -69,6 +69,14 @@ class Separated_Js_Injector {
 				'dependencies' => [ 'default_js' ],
 				'dequeues' => [],
 			],
+			'single-circuits' => [
+				'condition' => function() {
+					return \is_singular( 'circuits' );
+				},
+				'file_name' => 'singleProduct',
+				'dependencies' => [ 'default_js' ],
+				'dequeues' => [],
+			],
 			'single-transferts' => [
 				'condition' => function() {
 					return \is_singular( 'transferts' );

@@ -1,0 +1,28 @@
+@import "utils/index";
+
+@import "pages/common/vehicles/base/vehicles-list";
+@import "pages/common/base/keywords";
+@import "pages/common/base/description";
+@import "pages/common/base/banner";
+@import "pages/common/base/prices-table";
+@import "pages/common/base/links-list";
+@import "pages/common/base/places-list";
+@import "pages/common/circuits/base/circuit-itinerary-days";
+
+@import "pages/single/base/index";
+
+/* Tablet */
+@include breakpoint(sm--min-width) {
+  @import "pages/common/tablet/banner";
+  @import "pages/common/tablet/places-list";
+}
+
+/* Desktop */
+@include breakpoint(md--min-width) {
+  @import "pages/common/vehicles/tablet/vehicles-list";
+  @import "pages/common/tablet/prices-table";
+  @import "pages/common/tablet/links-list";
+
+  @import "pages/single/desktop/index";
+  @import "pages/single/tablet/vehicles-list";
+}

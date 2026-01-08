@@ -125,7 +125,7 @@ class MetaHelper {
 		}
 		
 		// Optimisation : charge toutes les meta en cache en une fois
-		\update_postmeta_cache( [ $post_id ] );
+		\update_meta_cache( 'post', [ $post_id ] );
 		
 		$meta = [];
 		foreach ( $meta_keys as $key ) {
@@ -249,10 +249,12 @@ class MetaHelper {
 	 * @return \WP_Post|null
 	 */
 	public static function get_current_post(): ?\WP_Post {
-		$post = \get_queried_object();
-		if ( ! $post instanceof \WP_Post ) {
-			global $post;
+		$queried_object = \get_queried_object();
+		if ( $queried_object instanceof \WP_Post ) {
+			return $queried_object;
 		}
+		// Fallback vers le post global si disponible
+		global $post;
 		return ( $post instanceof \WP_Post ) ? $post : null;
 	}
 	
@@ -304,15 +306,8 @@ class MetaHelper {
 	 * @return string Prix formaté avec USD
 	 */
 	public static function format_price( $price ): string {
-		if ( empty( $price ) ) {
-			return '';
-		}
-		$float_price = (float) $price;
-		// Si c'est un nombre entier, pas de décimales
-		if ( $float_price == floor( $float_price ) ) {
-			return \number_format( $float_price, 0, '.', ' ' ) . ' USD';
-		}
-		return \number_format( $float_price, 2, '.', ' ' ) . ' USD';
+		// Alias de format_price_usd pour éviter la duplication
+		return self::format_price_usd( $price );
 	}
 	
 	/**
@@ -341,7 +336,7 @@ class MetaHelper {
 	 */
 	public static function build_whatsapp_url( string $message ): string {
 		$phone_number = self::get_whatsapp_phone();
-		$encoded = urlencode( $message );
+		$encoded = rawurlencode( $message );
 		return 'https://wa.me/' . $phone_number . '?text=' . $encoded;
 	}
 	
@@ -408,6 +403,69 @@ class MetaHelper {
 		}
 		// Sinon, retourner la chaîne telle quelle (ex: "Ask walid")
 		return \sanitize_text_field( $price );
+	}
+	
+	/**
+	 * Récupère toutes les meta d'un circuit de manière optimisée
+	 * 
+	 * @param int $circuit_id ID du circuit
+	 * @return array Tableau associatif des meta du circuit
+	 */
+	public static function get_circuit_meta( int $circuit_id ): array {
+		static $cache = [];
+		
+		if ( isset( $cache[ $circuit_id ] ) ) {
+			return $cache[ $circuit_id ];
+		}
+		
+		$meta_keys = [
+			\TM\Core\Constants::META_CIRCUIT_LOCATION,
+			\TM\Core\Constants::META_CIRCUIT_DURATION_DAYS,
+			\TM\Core\Constants::META_CIRCUIT_HIGHLIGHTS,
+			\TM\Core\Constants::META_CIRCUIT_PICKUP_INFO,
+			\TM\Core\Constants::META_CIRCUIT_MEETING_POINT,
+			\TM\Core\Constants::META_CIRCUIT_DIFFICULTY,
+			\TM\Core\Constants::META_CIRCUIT_LANGUAGES,
+			\TM\Core\Constants::META_CIRCUIT_TAGS,
+			\TM\Core\Constants::META_CIRCUIT_ITINERARY_DAYS,
+			\TM\Core\Constants::META_CIRCUIT_INCLUDED,
+			\TM\Core\Constants::META_CIRCUIT_EXCLUDED,
+			\TM\Core\Constants::META_CIRCUIT_NOT_SUITABLE,
+			\TM\Core\Constants::META_CIRCUIT_IMPORTANT_INFO,
+			\TM\Core\Constants::META_CIRCUIT_WHAT_TO_BRING,
+			\TM\Core\Constants::META_CIRCUIT_NOT_ALLOWED,
+			\TM\Core\Constants::META_CIRCUIT_KNOW_BEFORE_GO,
+			\TM\Core\Constants::META_CIRCUIT_CANCELLATION,
+			\TM\Core\Constants::META_CIRCUIT_PRICE_TIERS,
+			\TM\Core\Constants::META_CIRCUIT_VEHICLES,
+		];
+		
+		// Batch fetch all meta at once
+		$all_meta = \get_post_meta( $circuit_id );
+		
+		$result = [];
+		foreach ( $meta_keys as $key ) {
+			$value = $all_meta[ $key ][0] ?? null;
+			// Handle unserialization and default values
+			if ( $value !== null ) {
+				$value = maybe_unserialize( $value );
+			}
+			// Default to empty array for array fields
+			if ( in_array( $key, [
+				\TM\Core\Constants::META_CIRCUIT_LANGUAGES,
+				\TM\Core\Constants::META_CIRCUIT_TAGS,
+				\TM\Core\Constants::META_CIRCUIT_ITINERARY_DAYS,
+				\TM\Core\Constants::META_CIRCUIT_PRICE_TIERS,
+				\TM\Core\Constants::META_CIRCUIT_VEHICLES
+			], true ) ) {
+				$result[ $key ] = is_array( $value ) ? $value : [];
+			} else {
+				$result[ $key ] = $value ?: '';
+			}
+		}
+		
+		$cache[ $circuit_id ] = $result;
+		return $result;
 	}
 }
 
