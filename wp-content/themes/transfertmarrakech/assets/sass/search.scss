@@ -1,0 +1,28 @@
+@import "utils/index";
+
+@import "pages/common/tours/base/tours-list";
+@import "pages/common/tours/base/tour-card";
+@import "pages/common/circuits/base/circuits-list";
+@import "pages/common/circuits/base/circuit-card";
+@import "pages/common/transferts/base/transferts-list";
+@import "pages/common/transferts/base/transfert-card";
+
+@import "pages/search/base/index";
+
+/* Tablet */
+@include breakpoint(sm--min-width) {
+  @import "pages/common/tours/tablet/tours-list";
+  @import "pages/common/circuits/tablet/circuits-list";
+  @import "pages/common/transferts/tablet/transferts-list";
+  @import "pages/common/transferts/tablet/transfert-card";
+  
+  @import "pages/search/tablet/index";
+}
+
+/* Desktop */
+@include breakpoint(md--min-width) {
+  @import "pages/common/tours/desktop/tours-list";
+  @import "pages/common/tours/desktop/tour-card";
+  @import "pages/common/circuits/desktop/circuits-list";
+  @import "pages/common/circuits/desktop/circuit-card";
+}

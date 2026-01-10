@@ -1,0 +1,6 @@
+.search {
+  &-hero {
+    margin-inline: var(--gutter);
+    padding-block: calc(var(--header-spacing) + max(47px, 4700svw / var(--w))) max(47px, 4700svw / var(--w));    text-align: center;
+  }
+}

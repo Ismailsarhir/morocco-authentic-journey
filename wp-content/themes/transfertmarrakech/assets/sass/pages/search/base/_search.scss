@@ -1,0 +1,28 @@
+.search {
+  &-hero {
+    padding-block: calc(var(--header-spacing) + max(95px, 9500svw / var(--w))) max(100px, 10000svw / var(--w));
+  }
+
+  &-no-results {
+    &__message {
+      font-size: max(50px, 5000svw / var(--w));
+    }
+
+    &__suggestions {
+      ul {
+        margin: 0;
+        padding-left: 1em;
+        list-style: disc;
+
+        li {
+          margin: 0;
+          line-height: 1.23;
+        }
+      }
+    }
+  }
+}
+
+.module__title {
+  font-size: max(50px, 5000svw / var(--w));
+}

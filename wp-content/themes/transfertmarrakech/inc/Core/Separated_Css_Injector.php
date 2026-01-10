@@ -109,6 +109,14 @@ class Separated_Css_Injector {
 				'dependencies' => [ 'global_css' ],
 				'dequeues' => [],
 			],
+			'search' => [
+				'condition' => function() {
+					return \is_search();
+				},
+				'file_name' => 'search',
+				'dependencies' => [ 'global_css' ],
+				'dequeues' => [],
+			],
 			'page-404' => [
 				'condition' => function() {
 					return \is_404();

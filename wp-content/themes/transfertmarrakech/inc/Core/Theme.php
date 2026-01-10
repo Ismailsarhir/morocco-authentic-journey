@@ -71,6 +71,7 @@ class Theme {
 		$theme->init_meta_boxes();
 		$theme->init_admin_pages();
 		$theme->init_pagination();
+		$theme->init_search();
 	}
 	
 	/**
@@ -88,6 +89,33 @@ class Theme {
 		// Force l'affichage de l'image à la une
 		\add_action( 'admin_init', [ $this, 'add_featured_image_support' ] );
 		\add_action( 'add_meta_boxes', [ $this, 'ensure_featured_image_meta_box' ], 999 );
+		
+		// Remplace la classe 'search' par 'search-body' sur la page de recherche
+		\add_filter( 'body_class', [ $this, 'modify_search_body_class' ], 10, 2 );
+	}
+	
+	/**
+	 * Modifie la classe du body pour la page de recherche
+	 * Remplace 'search' par 'search-body' pour éviter les conflits CSS
+	 * Optimisé avec vérification précoce
+	 * 
+	 * @param array $classes Classes du body
+	 * @param array $class   Classes additionnelles
+	 * @return array
+	 */
+	public function modify_search_body_class( array $classes, array $class ): array {
+		// Vérification précoce
+		if ( ! is_search() ) {
+			return $classes;
+		}
+		
+		// Remplace 'search' par 'search-body'
+		$key = array_search( 'search', $classes, true );
+		if ( $key !== false ) {
+			$classes[ $key ] = 'search-body';
+		}
+		
+		return $classes;
 	}
 	
 	/**
@@ -394,6 +422,18 @@ class Theme {
 	}
 	
 	/**
+	 * Initialise la fonctionnalité de recherche
+	 * 
+	 * @return void
+	 */
+	private function init_search(): void {
+		// Inclut les post types personnalisés dans la recherche
+		\add_action( 'pre_get_posts', [ $this, 'modify_search_query' ] );
+		// Ajoute la recherche dans les champs personnalisés (meta)
+		\add_filter( 'posts_search', [ $this, 'extend_search_to_meta' ], 10, 2 );
+	}
+	
+	/**
 	 * Configure la pagination pour l'archive des tours (1 post par page)
 	 * Optimisé : vérifications précoces
 	 * 
@@ -484,6 +524,123 @@ class Theme {
 		$query->set( 'update_post_meta_cache', true );
 		$query->set( 'update_post_term_cache', true );
 		$query->set( 'no_found_rows', false ); // Nécessaire pour calculer correctement max_num_pages
+	}
+	
+	/**
+	 * Modifie la requête de recherche pour inclure les post types personnalisés
+	 * Optimisé avec vérifications précoces
+	 * 
+	 * @param \WP_Query $query Requête WordPress
+	 * @return void
+	 */
+	public function modify_search_query( \WP_Query $query ): void {
+		// Vérifications précoces pour éviter les traitements inutiles
+		if ( is_admin() || ! $query->is_main_query() || ! $query->is_search() ) {
+			return;
+		}
+		
+		// Définit les post types à rechercher
+		$query->set( 'post_type', [
+			Constants::POST_TYPE_TOUR,
+			Constants::POST_TYPE_CIRCUIT,
+			Constants::POST_TYPE_TRANSFER,
+		] );
+		$query->set( 'post_status', 'publish' );
+		
+		// Optimisation : active les caches pour améliorer les performances
+		$query->set( 'update_post_meta_cache', true );
+		$query->set( 'update_post_term_cache', true );
+	}
+	
+	/**
+	 * Étend la recherche pour inclure les champs personnalisés (meta)
+	 * Optimisé pour réduire les opérations SQL et améliorer les performances
+	 * 
+	 * @param string    $search   Clause de recherche SQL
+	 * @param \WP_Query $wp_query Objet de requête WordPress
+	 * @return string Clause de recherche modifiée
+	 */
+	public function extend_search_to_meta( string $search, \WP_Query $wp_query ): string {
+		// Vérifications précoces pour éviter les traitements inutiles
+		if ( is_admin() || ! $wp_query->is_main_query() || ! $wp_query->is_search() ) {
+			return $search;
+		}
+		
+		// Récupère le terme de recherche
+		$search_term = $wp_query->get( 's' );
+		if ( empty( $search_term ) || strlen( trim( $search_term ) ) < 2 ) {
+			return $search;
+		}
+		
+		global $wpdb;
+		
+		// Échappe le terme de recherche pour la sécurité SQL
+		$escaped_search_term = '%' . $wpdb->esc_like( $search_term ) . '%';
+		
+		// Liste des clés meta à rechercher (définie une seule fois)
+		$meta_keys = [
+			// Meta pour Tours
+			Constants::META_TOUR_LOCATION,
+			Constants::META_TOUR_MEETING_POINT,
+			Constants::META_TOUR_HIGHLIGHTS,
+			// Meta pour Circuits
+			Constants::META_CIRCUIT_LOCATION,
+			Constants::META_CIRCUIT_MEETING_POINT,
+			Constants::META_CIRCUIT_HIGHLIGHTS,
+			// Meta pour Transfers
+			Constants::META_TRANSFER_PICKUP,
+			Constants::META_TRANSFER_DROPOFF,
+			Constants::META_TRANSFER_DESCRIPTION,
+		];
+		
+		// Construit la clause OR pour rechercher dans les meta
+		// Échappe chaque clé meta pour SQL
+		$escaped_meta_keys = array_map( function( $key ) use ( $wpdb ) {
+			return '\'' . esc_sql( $key ) . '\'';
+		}, $meta_keys );
+		
+		$meta_keys_list = implode( ',', $escaped_meta_keys );
+		
+		$meta_search = $wpdb->prepare( "
+			OR EXISTS (
+				SELECT 1 
+				FROM {$wpdb->postmeta} 
+				WHERE {$wpdb->postmeta}.post_id = {$wpdb->posts}.ID 
+				AND {$wpdb->postmeta}.meta_key IN ($meta_keys_list)
+				AND {$wpdb->postmeta}.meta_value LIKE %s
+			)
+		", $escaped_search_term );
+		
+		// Ajoute la recherche dans les meta à la clause de recherche existante
+		if ( ! empty( $search ) ) {
+			// Extrait le contenu entre les parenthèses de la clause WordPress
+			$search = trim( $search );
+			
+			// Enlève le "AND " au début si présent
+			if ( strpos( $search, 'AND ' ) === 0 ) {
+				$search = substr( $search, 4 );
+			}
+			
+			// Enlève les parenthèses externes
+			$search = trim( $search );
+			if ( preg_match( '/^\(\((.*?)\)\)\s*$/s', $search, $matches ) ) {
+				// Format: ((content))
+				$inner_content = trim( $matches[1] );
+				$search = 'AND ((' . $inner_content . ') ' . trim( $meta_search ) . ')';
+			} elseif ( preg_match( '/^\((.*?)\)\s*$/s', $search, $matches ) ) {
+				// Format: (content)
+				$inner_content = trim( $matches[1] );
+				$search = 'AND ((' . $inner_content . ') ' . trim( $meta_search ) . ')';
+			} else {
+				// Format inattendu, combine directement
+				$search = 'AND ((' . $search . ') ' . trim( $meta_search ) . ')';
+			}
+		} else {
+			// Si pas de recherche dans le contenu, on crée juste la recherche meta
+			$search = 'AND ' . trim( $meta_search );
+		}
+		
+		return $search;
 	}
 	
 	/**

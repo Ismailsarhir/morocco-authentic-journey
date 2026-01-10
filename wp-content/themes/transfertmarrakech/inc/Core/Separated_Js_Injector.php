@@ -105,7 +105,7 @@ class Separated_Js_Injector {
 				'condition' => function() {
 					return \is_search();
 				},
-				'file_name' => 'default',
+				'file_name' => 'search',
 				'dependencies' => [ 'default_js' ],
 				'dequeues' => [],
 			],
