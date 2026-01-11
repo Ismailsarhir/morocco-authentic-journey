@@ -55,7 +55,7 @@ class TransferShortcode extends BaseShortcode {
 		$transfers = self::$repository->get_by_args( Constants::POST_TYPE_TRANSFER, $args );
 		
 		if ( empty( $transfers ) ) {
-			return '<p>' . \esc_html__( 'Aucun transfert trouvé', 'transfertmarrakech' ) . '</p>';
+			return '<p>' . \esc_html__( 'No transfers found', 'transfertmarrakech' ) . '</p>';
 		}
 		
 		\ob_start();

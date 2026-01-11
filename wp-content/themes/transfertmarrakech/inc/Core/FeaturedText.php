@@ -55,7 +55,7 @@ class FeaturedText {
 	 */
 	private function get_featured_text(): string {
 		$default_text = __( 
-			'Transfert Marrakech est bien plus qu\'un simple voyagiste, mais un pionnier du voyage au Maroc fort de ses 10 ans d\'expérience.', 
+			'Transfert Marrakech is much more than a simple travel agency, but a pioneer of travel in Morocco with 10 years of experience.', 
 			'transfertmarrakech' 
 		);
 		
@@ -68,7 +68,7 @@ class FeaturedText {
 	 * @return string
 	 */
 	private function get_surtext(): string {
-		$default_surtext = __( 'Depuis 2015', 'transfertmarrakech' );
+		$default_surtext = __( 'Since 2015', 'transfertmarrakech' );
 		
 		return \get_option( 'tm_featured_surtext', $default_surtext );
 	}

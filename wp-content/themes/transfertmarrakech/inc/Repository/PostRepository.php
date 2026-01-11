@@ -66,8 +66,8 @@ class PostRepository {
 		
 		$posts = $query->posts;
 		
-		// Nettoie la requête pour libérer la mémoire
-		\wp_reset_postdata();
+		// Note: wp_reset_postdata() n'est pas nécessaire ici car nous n'utilisons pas the_post()
+		// et nous retournons directement les objets posts
 		
 		return $posts;
 	}

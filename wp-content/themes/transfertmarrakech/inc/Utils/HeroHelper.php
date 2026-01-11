@@ -43,11 +43,10 @@ class HeroHelper {
 		
 		if ( $query->have_posts() ) {
 			$post = $query->posts[0];
-			\wp_reset_postdata();
+			// Note: wp_reset_postdata() n'est pas nécessaire car nous n'utilisons pas the_post()
 			return $post;
 		}
 		
-		\wp_reset_postdata();
 		return null;
 	}
 	

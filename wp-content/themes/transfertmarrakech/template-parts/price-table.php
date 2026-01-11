@@ -28,11 +28,11 @@ $tour_type_labels = \TM\Core\Constants::get_tour_type_labels();
 ?>
 <div class="prices" id="departs">
 	<h2 class="prices__title animated-title">
-		<?php esc_html_e( 'Départs & Prix', 'transfertmarrakech' ); ?>
+		<?php esc_html_e( 'Departures & Prices', 'transfertmarrakech' ); ?>
 	</h2>
 	
 	<div class="prices__subtitle">
-		<?php esc_html_e( 'Prix par personne (USD)', 'transfertmarrakech' ); ?>
+		<?php esc_html_e( 'Price per person (USD)', 'transfertmarrakech' ); ?>
 	</div>
 	
 	<div class="table-wrapper">
@@ -40,13 +40,13 @@ $tour_type_labels = \TM\Core\Constants::get_tour_type_labels();
 			<thead>
 				<tr>
 					<th rowspan="2" class="rounded-top-left rounded-bottom-left">
-						<?php esc_html_e( 'Nombre de personnes', 'transfertmarrakech' ); ?>
+						<?php esc_html_e( 'Number of People', 'transfertmarrakech' ); ?>
 					</th>
 					<th rowspan="2">
 						<?php esc_html_e( 'Type', 'transfertmarrakech' ); ?>
 					</th>
 					<th rowspan="2" class="rounded-top-right rounded-bottom-right">
-						<?php esc_html_e( 'Prix régulier', 'transfertmarrakech' ); ?>
+						<?php esc_html_e( 'Regular Price', 'transfertmarrakech' ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -65,20 +65,20 @@ $tour_type_labels = \TM\Core\Constants::get_tour_type_labels();
 					if ( $min === $max ) {
 						$persons_label = sprintf(
 							/* translators: %d: Number of persons */
-							esc_html__( '%d personne', 'transfertmarrakech' ),
+							esc_html__( '%d person', 'transfertmarrakech' ),
 							$min
 						);
 						if ( $min > 1 ) {
 							$persons_label = sprintf(
 								/* translators: %d: Number of persons */
-								esc_html__( '%d personnes', 'transfertmarrakech' ),
+								esc_html__( '%d people', 'transfertmarrakech' ),
 								$min
 							);
 						}
 					} else {
 						$persons_label = sprintf(
 							/* translators: %1$d: Min persons, %2$d: Max persons */
-							esc_html__( '%1$d à %2$d personnes', 'transfertmarrakech' ),
+							esc_html__( '%1$d to %2$d people', 'transfertmarrakech' ),
 							$min,
 							$max
 						);
@@ -89,7 +89,7 @@ $tour_type_labels = \TM\Core\Constants::get_tour_type_labels();
 					if ( ! empty( $type ) && isset( $tour_type_labels[ $type ] ) ) {
 						$type_label = $tour_type_labels[ $type ];
 					} else {
-						$type_label = esc_html__( 'Tous types', 'transfertmarrakech' );
+						$type_label = esc_html__( 'All Types', 'transfertmarrakech' );
 					}
 					
 					// Format du prix - support pour valeurs numériques et chaînes de caractères

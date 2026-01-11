@@ -21,7 +21,7 @@ class VehicleMeta extends MetaBox {
 	public function __construct() {
 		parent::__construct(
 			'tm_vehicle_meta',
-			__( 'Informations du véhicule', 'transfertmarrakech' ),
+			__( 'Vehicle Information', 'transfertmarrakech' ),
 			Constants::POST_TYPE_VEHICLE
 		);
 	}
@@ -51,22 +51,22 @@ class VehicleMeta extends MetaBox {
 			'4x4'     => __( '4x4', 'transfertmarrakech' ),
 			'minibus' => __( 'Minibus', 'transfertmarrakech' ),
 		];
-		$this->select_field( Constants::META_VEHICLE_TYPE, __( 'Type de véhicule', 'transfertmarrakech' ), $type_options, $type );
+		$this->select_field( Constants::META_VEHICLE_TYPE, __( 'Vehicle Type', 'transfertmarrakech' ), $type_options, $type );
 		
 		// Nombre de places
-		$this->number_field( Constants::META_VEHICLE_SEATS, __( 'Nombre de places', 'transfertmarrakech' ), $seats );
+		$this->number_field( Constants::META_VEHICLE_SEATS, __( 'Number of Seats', 'transfertmarrakech' ), $seats );
 		
 		// Capacité bagages
-		$this->text_field( Constants::META_VEHICLE_BAGGAGE_CAPACITY, __( 'Capacité bagages', 'transfertmarrakech' ), $baggage_capacity, __( 'Ex: 3 valises', 'transfertmarrakech' ) );
+		$this->text_field( Constants::META_VEHICLE_BAGGAGE_CAPACITY, __( 'Baggage Capacity', 'transfertmarrakech' ), $baggage_capacity, __( 'Ex: 3 suitcases', 'transfertmarrakech' ) );
 		
 		// Galerie
-		$this->gallery_field( Constants::META_VEHICLE_GALLERY, __( 'Galerie d\'images', 'transfertmarrakech' ), $gallery_ids );
+		$this->gallery_field( Constants::META_VEHICLE_GALLERY, __( 'Image Gallery', 'transfertmarrakech' ), $gallery_ids );
 		
 		// Disponibilité
-		$this->checkbox_field( Constants::META_VEHICLE_AVAILABILITY, __( 'Disponible', 'transfertmarrakech' ), (bool) $availability );
+		$this->checkbox_field( Constants::META_VEHICLE_AVAILABILITY, __( 'Available', 'transfertmarrakech' ), (bool) $availability );
 		
 		// Prix journalier
-		$this->text_field( Constants::META_VEHICLE_DAILY_PRICE, __( 'Prix journalier (MAD)', 'transfertmarrakech' ), $daily_price, '0.00' );
+		$this->text_field( Constants::META_VEHICLE_DAILY_PRICE, __( 'Daily Price (MAD)', 'transfertmarrakech' ), $daily_price, '0.00' );
 	}
 	
 	/**

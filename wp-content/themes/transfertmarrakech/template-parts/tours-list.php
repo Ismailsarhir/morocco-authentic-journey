@@ -21,7 +21,7 @@ $tours_url = home_url('/tours/');
 	<section class="module toursList">
 		<div class="toursList__inner">
 			<h2 class="toursList__title animated-title">
-				<?php \esc_html_e('Tours vedettes', 'transfertmarrakech'); ?>
+				<?php \esc_html_e('Featured Tours', 'transfertmarrakech'); ?>
 			</h2>
 			<div class="toursList__list">
 				<?php foreach ($tours as $tour_data) :
@@ -33,9 +33,9 @@ $tours_url = home_url('/tours/');
 					target=""
 					href="<?php echo \esc_url($tours_url); ?>"
 					class="cta primary">
-					<span class="cta__inner" data-label="<?php \esc_attr_e('Voir tout les tours', 'transfertmarrakech'); ?>">
+					<span class="cta__inner" data-label="<?php \esc_attr_e('View All Tours', 'transfertmarrakech'); ?>">
 						<span class="cta__txt">
-							<?php \esc_html_e('Voir tout les tours', 'transfertmarrakech'); ?>
+							<?php \esc_html_e('View All Tours', 'transfertmarrakech'); ?>
 						</span>
 					</span>
 				</a>

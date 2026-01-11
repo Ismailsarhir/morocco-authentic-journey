@@ -70,24 +70,24 @@ if ( empty( $title ) || empty( $permalink ) || empty( $thumbnail ) ) {
 				<ul>
 					<?php if ( ! empty( $duration ) ) : ?>
 						<li>
-							<?php \esc_html_e( 'Durée :', 'transfertmarrakech' ); ?> <?php echo \esc_html( $duration ); ?>
+							<?php \esc_html_e( 'Duration:', 'transfertmarrakech' ); ?> <?php echo \esc_html( $duration ); ?>
 						</li>
 					<?php endif; ?>
 					<?php if ( ! empty( $difficulty ) ) : ?>
 						<li>
-							<?php \esc_html_e( 'Difficulté :', 'transfertmarrakech' ); ?> <?php echo \esc_html( $difficulty ); ?>
+							<?php \esc_html_e( 'Difficulty:', 'transfertmarrakech' ); ?> <?php echo \esc_html( $difficulty ); ?>
 						</li>
 					<?php endif; ?>
 					<?php if ( ! empty( $language_labels ) && is_array( $language_labels ) ) : ?>
 						<li>
-							<?php \esc_html_e( 'Langues :', 'transfertmarrakech' ); ?> <?php echo \esc_html( implode( ', ', $language_labels ) ); ?>
+							<?php \esc_html_e( 'Languages:', 'transfertmarrakech' ); ?> <?php echo \esc_html( implode( ', ', $language_labels ) ); ?>
 						</li>
 					<?php endif; ?>
 				</ul>
 			<?php endif; ?>
 			<?php if ( ! empty( $price_formatted ) ) : ?>
 				<div>
-					<?php \esc_html_e( 'À partir de :', 'transfertmarrakech' ); ?>
+					<?php \esc_html_e( 'From:', 'transfertmarrakech' ); ?>
 					<strong><?php echo \esc_html( $price_formatted ); ?></strong>
 				</div>
 			<?php endif; ?>

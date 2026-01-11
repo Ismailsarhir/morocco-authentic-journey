@@ -42,29 +42,29 @@ class TourPostType extends PostType {
 			'singular_name'         => _x( 'Tour', 'Post Type Singular Name', 'transfertmarrakech' ),
 			'menu_name'             => __( 'Tours', 'transfertmarrakech' ),
 			'name_admin_bar'        => __( 'Tour', 'transfertmarrakech' ),
-			'archives'              => __( 'Archives des tours', 'transfertmarrakech' ),
-			'attributes'            => __( 'Attributs du tour', 'transfertmarrakech' ),
-			'parent_item_colon'     => __( 'Tour parent:', 'transfertmarrakech' ),
-			'all_items'             => __( 'Tous les tours', 'transfertmarrakech' ),
-			'add_new_item'          => __( 'Ajouter un nouveau tour', 'transfertmarrakech' ),
-			'add_new'               => __( 'Ajouter nouveau', 'transfertmarrakech' ),
-			'new_item'              => __( 'Nouveau tour', 'transfertmarrakech' ),
-			'edit_item'             => __( 'Modifier le tour', 'transfertmarrakech' ),
-			'update_item'           => __( 'Mettre à jour le tour', 'transfertmarrakech' ),
-			'view_item'             => __( 'Voir le tour', 'transfertmarrakech' ),
-			'view_items'            => __( 'Voir les tours', 'transfertmarrakech' ),
-			'search_items'          => __( 'Rechercher un tour', 'transfertmarrakech' ),
-			'not_found'             => __( 'Aucun tour trouvé', 'transfertmarrakech' ),
-			'not_found_in_trash'    => __( 'Aucun tour trouvé dans la corbeille', 'transfertmarrakech' ),
-			'featured_image'        => __( 'Image du tour', 'transfertmarrakech' ),
-			'set_featured_image'    => __( 'Définir l\'image du tour', 'transfertmarrakech' ),
-			'remove_featured_image' => __( 'Supprimer l\'image du tour', 'transfertmarrakech' ),
-			'use_featured_image'    => __( 'Utiliser comme image du tour', 'transfertmarrakech' ),
-			'insert_into_item'      => __( 'Insérer dans le tour', 'transfertmarrakech' ),
-			'uploaded_to_this_item' => __( 'Téléversé vers ce tour', 'transfertmarrakech' ),
-			'items_list'            => __( 'Liste des tours', 'transfertmarrakech' ),
-			'items_list_navigation' => __( 'Navigation de la liste des tours', 'transfertmarrakech' ),
-			'filter_items_list'     => __( 'Filtrer la liste des tours', 'transfertmarrakech' ),
+			'archives'              => __( 'Tour Archives', 'transfertmarrakech' ),
+			'attributes'            => __( 'Tour Attributes', 'transfertmarrakech' ),
+			'parent_item_colon'     => __( 'Parent Tour:', 'transfertmarrakech' ),
+			'all_items'             => __( 'All Tours', 'transfertmarrakech' ),
+			'add_new_item'          => __( 'Add New Tour', 'transfertmarrakech' ),
+			'add_new'               => __( 'Add New', 'transfertmarrakech' ),
+			'new_item'              => __( 'New Tour', 'transfertmarrakech' ),
+			'edit_item'             => __( 'Edit Tour', 'transfertmarrakech' ),
+			'update_item'           => __( 'Update Tour', 'transfertmarrakech' ),
+			'view_item'             => __( 'View Tour', 'transfertmarrakech' ),
+			'view_items'            => __( 'View Tours', 'transfertmarrakech' ),
+			'search_items'          => __( 'Search Tours', 'transfertmarrakech' ),
+			'not_found'             => __( 'No tours found', 'transfertmarrakech' ),
+			'not_found_in_trash'    => __( 'No tours found in Trash', 'transfertmarrakech' ),
+			'featured_image'        => __( 'Tour Image', 'transfertmarrakech' ),
+			'set_featured_image'    => __( 'Set tour image', 'transfertmarrakech' ),
+			'remove_featured_image' => __( 'Remove tour image', 'transfertmarrakech' ),
+			'use_featured_image'    => __( 'Use as tour image', 'transfertmarrakech' ),
+			'insert_into_item'      => __( 'Insert into tour', 'transfertmarrakech' ),
+			'uploaded_to_this_item' => __( 'Uploaded to this tour', 'transfertmarrakech' ),
+			'items_list'            => __( 'Tours list', 'transfertmarrakech' ),
+			'items_list_navigation' => __( 'Tours list navigation', 'transfertmarrakech' ),
+			'filter_items_list'     => __( 'Filter tours list', 'transfertmarrakech' ),
 		];
 	}
 	
@@ -76,7 +76,7 @@ class TourPostType extends PostType {
 	protected function get_args(): array {
 		return [
 			'label'                 => __( 'Tour', 'transfertmarrakech' ),
-			'description'           => __( 'Tours et excursions disponibles', 'transfertmarrakech' ),
+			'description'           => __( 'Available tours and excursions', 'transfertmarrakech' ),
 			'supports'              => [ 'title', 'editor', 'thumbnail', 'excerpt', 'custom-fields' ],
 			'taxonomies'            => [ 'tour_location' ],
 			'hierarchical'          => false,
@@ -114,9 +114,9 @@ class TourPostType extends PostType {
 			[ $this->post_type ],
 			[
 				'labels'            => [
-					'name'          => __( 'Localisations', 'transfertmarrakech' ),
-					'singular_name' => __( 'Localisation', 'transfertmarrakech' ),
-					'menu_name'     => __( 'Localisations', 'transfertmarrakech' ),
+					'name'          => __( 'Locations', 'transfertmarrakech' ),
+					'singular_name' => __( 'Location', 'transfertmarrakech' ),
+					'menu_name'     => __( 'Locations', 'transfertmarrakech' ),
 				],
 				'hierarchical'      => true,
 				'public'            => true,
@@ -141,7 +141,7 @@ class TourPostType extends PostType {
 			'tm_location',
 			[
 				'type'              => 'string',
-				'description'       => __( 'Localisation du tour', 'transfertmarrakech' ),
+				'description'       => __( 'Tour location', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'sanitize_text_field',
 				'auth_callback'     => function() {
@@ -157,7 +157,7 @@ class TourPostType extends PostType {
 			'tm_duration',
 			[
 				'type'              => 'string',
-				'description'       => __( 'Temps de route vers la destination', 'transfertmarrakech' ),
+				'description'       => __( 'Travel time to destination', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'sanitize_text_field',
 				'auth_callback'     => function() {
@@ -173,7 +173,7 @@ class TourPostType extends PostType {
 			'tm_duration_minutes',
 			[
 				'type'              => 'integer',
-				'description'       => __( 'Nombre de jours du tour', 'transfertmarrakech' ),
+				'description'       => __( 'Number of days of the tour', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'absint',
 				'auth_callback'     => function() {
@@ -189,7 +189,7 @@ class TourPostType extends PostType {
 			'tm_price',
 			[
 				'type'              => 'string',
-				'description'       => __( 'Prix du tour', 'transfertmarrakech' ),
+				'description'       => __( 'Tour price', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => [ 'TM\Utils\Sanitizer', 'sanitize_price' ],
 				'auth_callback'     => function() {
@@ -205,7 +205,7 @@ class TourPostType extends PostType {
 			'tm_vehicles',
 			[
 				'type'              => 'array',
-				'description'       => __( 'Véhicules disponibles pour ce tour', 'transfertmarrakech' ),
+				'description'       => __( 'Vehicles available for this tour', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => [ 'TM\Utils\Sanitizer', 'sanitize_post_ids' ],
 				'auth_callback'     => function() {
@@ -227,7 +227,7 @@ class TourPostType extends PostType {
 			'tm_highlights',
 			[
 				'type'              => 'string',
-				'description'       => __( 'Points forts du tour', 'transfertmarrakech' ),
+				'description'       => __( 'Tour highlights', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'sanitize_textarea_field',
 				'auth_callback'     => function() {
@@ -243,7 +243,7 @@ class TourPostType extends PostType {
 			'tm_meeting_point',
 			[
 				'type'              => 'string',
-				'description'       => __( 'Point de rendez-vous', 'transfertmarrakech' ),
+				'description'       => __( 'Meeting point', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'sanitize_text_field',
 				'auth_callback'     => function() {

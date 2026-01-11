@@ -51,7 +51,7 @@ if ( empty( $title ) || empty( $permalink ) ) {
 		<?php if ( ! empty( $vehicle_meta[ \TM\Core\Constants::META_VEHICLE_SEATS ] ) ) : ?>
 			<div class="vehicle-card__infos-table">
 				<div>
-					<?php \esc_html_e( 'Places :', 'transfertmarrakech' ); ?>
+					<?php \esc_html_e( 'Seats:', 'transfertmarrakech' ); ?>
 					<strong><?php echo \esc_html( $vehicle_meta[ \TM\Core\Constants::META_VEHICLE_SEATS ] ); ?></strong>
 				</div>
 			</div>

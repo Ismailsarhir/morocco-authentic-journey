@@ -142,7 +142,7 @@ class TourRestController extends WP_REST_Controller {
 		if ( ! $post || $post->post_type !== Constants::POST_TYPE_TOUR ) {
 			return new \WP_Error(
 				'rest_tour_not_found',
-				__( 'Tour non trouvé', 'transfertmarrakech' ),
+				__( 'Tour not found', 'transfertmarrakech' ),
 				[ 'status' => 404 ]
 			);
 		}
@@ -161,7 +161,7 @@ class TourRestController extends WP_REST_Controller {
 		if ( ! \current_user_can( 'edit_posts' ) ) {
 			return new \WP_Error(
 				'rest_cannot_create',
-				__( 'Vous n\'avez pas les permissions', 'transfertmarrakech' ),
+				__( 'You do not have permission', 'transfertmarrakech' ),
 				[ 'status' => \rest_authorization_required_code() ]
 			);
 		}
@@ -206,7 +206,7 @@ class TourRestController extends WP_REST_Controller {
 		if ( ! $post || ! \current_user_can( 'edit_post', $post->ID ) ) {
 			return new \WP_Error(
 				'rest_cannot_update',
-				__( 'Vous n\'avez pas les permissions', 'transfertmarrakech' ),
+				__( 'You do not have permission', 'transfertmarrakech' ),
 				[ 'status' => \rest_authorization_required_code() ]
 			);
 		}

@@ -20,7 +20,7 @@ $transfers_url = home_url('/transferts/');
 	<section class="module transfersList">
 		<div class="transfersList__inner">
 			<h2 class="transfersList__title animated-title">
-				<?php \esc_html_e( 'Transferts vedettes', 'transfertmarrakech' ); ?>
+				<?php \esc_html_e( 'Featured Transfers', 'transfertmarrakech' ); ?>
 			</h2>
 			<div class="transfersList__list">
 				<?php foreach ( $transfers as $transfer_data ) : 
@@ -32,9 +32,9 @@ $transfers_url = home_url('/transferts/');
 					target=""
 					href="<?php echo \esc_url($transfers_url); ?>"
 					class="cta primary">
-					<span class="cta__inner" data-label="<?php \esc_attr_e('Voir tout les transferts', 'transfertmarrakech'); ?>">
+					<span class="cta__inner" data-label="<?php \esc_attr_e('View All Transfers', 'transfertmarrakech'); ?>">
 						<span class="cta__txt">
-							<?php \esc_html_e('Voir tout les transferts', 'transfertmarrakech'); ?>
+							<?php \esc_html_e('View All Transfers', 'transfertmarrakech'); ?>
 						</span>
 					</span>
 				</a>

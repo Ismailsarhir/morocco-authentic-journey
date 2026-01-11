@@ -19,7 +19,7 @@ class PostMeta extends MetaBox {
 	public function __construct() {
 		parent::__construct(
 			'tm_post_meta',
-			__( 'Options du post', 'transfertmarrakech' ),
+			__( 'Post Options', 'transfertmarrakech' ),
 			'post'
 		);
 	}
@@ -40,14 +40,14 @@ class PostMeta extends MetaBox {
 		// Checkbox pour afficher dans le Hero
 		$this->checkbox_field( 
 			'tm_show_in_hero', 
-			__( 'Afficher dans le Hero', 'transfertmarrakech' ), 
+			__( 'Show in Hero', 'transfertmarrakech' ), 
 			(bool) $show_in_hero 
 		);
 		
 		// URL de la vidéo YouTube pour le Hero
 		$this->text_field( 
 			'tm_hero_video_url', 
-			__( 'URL Vidéo YouTube Hero', 'transfertmarrakech' ), 
+			__( 'YouTube Hero Video URL', 'transfertmarrakech' ), 
 			$hero_video_url,
 			__( 'Ex: https://www.youtube.com/watch?v=VIDEO_ID', 'transfertmarrakech' )
 		);
@@ -55,7 +55,7 @@ class PostMeta extends MetaBox {
 		?>
 		<p>
 			<small>
-				<?php \esc_html_e( 'Note: Si plusieurs posts sont cochés, seul le plus récent sera affiché dans le Hero.', 'transfertmarrakech' ); ?>
+				<?php \esc_html_e( 'Note: If multiple posts are checked, only the most recent one will be displayed in the Hero.', 'transfertmarrakech' ); ?>
 			</small>
 		</p>
 		<?php

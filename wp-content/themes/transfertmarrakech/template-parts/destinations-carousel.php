@@ -21,34 +21,19 @@ $destinations_url = \home_url( '/destinations' );
 			<div class="carrousel__inner swiper">
 				<div class="carrousel__top">
 					<h2 class="carrousel__title is-animated">
-						<?php \esc_html_e( 'Les destinations', 'transfertmarrakech' ); ?>
+						<?php \esc_html_e( 'Destinations', 'transfertmarrakech' ); ?>
 					</h2>
 					<div class="carrousel__nav">
-						<div class="module__ctas ">
-							<a 
-								target="" 
-								href="<?php echo \esc_url( $destinations_url ); ?>" 
-								class="cta primary"
-							>
-								<span class="cta__inner" data-label="<?php \esc_attr_e( 'Voir tout', 'transfertmarrakech' ); ?>">
-									<span class="cta__txt">
-										<?php \esc_html_e( 'Voir tout', 'transfertmarrakech' ); ?>
-									</span>
-								</span>
-							</a>
-						</div>
 						<button 
-							target="" 
-							href="" 
+							type="button"
 							class="cta primary left is-arrow swiper-button-prev in_desktop" 
-							aria-label="<?php \esc_attr_e( 'Précédent', 'transfertmarrakech' ); ?>"
+							aria-label="<?php \esc_attr_e( 'Previous', 'transfertmarrakech' ); ?>"
 						>
 						</button>
 						<button 
-							target="" 
-							href="" 
+							type="button"
 							class="cta primary right is-arrow swiper-button-next in_desktop"
-							aria-label="<?php \esc_attr_e( 'Suivant', 'transfertmarrakech' ); ?>"
+							aria-label="<?php \esc_attr_e( 'Next', 'transfertmarrakech' ); ?>"
 						>
 						</button>
 					</div>

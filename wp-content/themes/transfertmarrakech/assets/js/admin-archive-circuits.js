@@ -18,9 +18,9 @@
 			
 			// Create media frame
 			var frame = wp.media({
-				title: 'Sélectionner une image',
+				title: 'Select an Image',
 				button: {
-					text: 'Utiliser cette image'
+					text: 'Use this image'
 				},
 				multiple: false,
 				library: {
@@ -41,7 +41,7 @@
 				preview.html(img);
 				
 				// Update button text
-				button.text('Changer l\'image');
+				button.text('Change Image');
 				
 				// Show remove button if not already present
 				if (preview.siblings('.tm-archive-image-remove').length === 0) {
@@ -52,7 +52,7 @@
 							'data-target': targetId,
 							style: 'margin-left: 10px;'
 						})
-						.text('Supprimer');
+						.text('Remove');
 					button.after(removeBtn);
 				}
 			});
@@ -74,7 +74,7 @@
 			// Clear values
 			input.val('');
 			preview.html('');
-			uploadBtn.text('Sélectionner une image');
+			uploadBtn.text('Select Image');
 			button.remove();
 		});
 	});

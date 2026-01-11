@@ -82,7 +82,7 @@ if ($wp_query->have_posts()) {
 				$renderer->render('pagination');
 				?>
 			<?php else : ?>
-				<p><?php \esc_html_e('Aucun circuit trouvé.', 'transfertmarrakech'); ?></p>
+				<p><?php \esc_html_e('No circuits found.', 'transfertmarrakech'); ?></p>
 			<?php endif; ?>
 		</div>
 	</section>

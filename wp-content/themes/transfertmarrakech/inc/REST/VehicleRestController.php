@@ -88,7 +88,7 @@ class VehicleRestController extends WP_REST_Controller {
 					'permission_callback' => [ $this, 'get_item_permissions_check' ],
 					'args'                => [
 						'id' => [
-							'description' => __( 'ID unique du véhicule', 'transfertmarrakech' ),
+							'description' => __( 'Unique vehicle ID', 'transfertmarrakech' ),
 							'type'        => 'integer',
 							'required'    => true,
 						],
@@ -176,7 +176,7 @@ class VehicleRestController extends WP_REST_Controller {
 		if ( ! $post || $post->post_type !== Constants::POST_TYPE_VEHICLE ) {
 			return new \WP_Error(
 				'rest_vehicle_not_found',
-				__( 'Véhicule non trouvé', 'transfertmarrakech' ),
+				__( 'Vehicle not found', 'transfertmarrakech' ),
 				[ 'status' => 404 ]
 			);
 		}
@@ -195,7 +195,7 @@ class VehicleRestController extends WP_REST_Controller {
 		if ( ! \current_user_can( 'edit_posts' ) ) {
 			return new \WP_Error(
 				'rest_cannot_create',
-				__( 'Vous n\'avez pas les permissions pour créer un véhicule', 'transfertmarrakech' ),
+				__( 'You do not have permission to create a vehicle', 'transfertmarrakech' ),
 				[ 'status' => \rest_authorization_required_code() ]
 			);
 		}
@@ -243,7 +243,7 @@ class VehicleRestController extends WP_REST_Controller {
 		if ( ! $post ) {
 			return new \WP_Error(
 				'rest_vehicle_not_found',
-				__( 'Véhicule non trouvé', 'transfertmarrakech' ),
+				__( 'Vehicle not found', 'transfertmarrakech' ),
 				[ 'status' => 404 ]
 			);
 		}
@@ -251,7 +251,7 @@ class VehicleRestController extends WP_REST_Controller {
 		if ( ! \current_user_can( 'edit_post', $post->ID ) ) {
 			return new \WP_Error(
 				'rest_cannot_update',
-				__( 'Vous n\'avez pas les permissions pour modifier ce véhicule', 'transfertmarrakech' ),
+				__( 'You do not have permission to edit this vehicle', 'transfertmarrakech' ),
 				[ 'status' => \rest_authorization_required_code() ]
 			);
 		}
@@ -302,7 +302,7 @@ class VehicleRestController extends WP_REST_Controller {
 		if ( ! $post ) {
 			return new \WP_Error(
 				'rest_vehicle_not_found',
-				__( 'Véhicule non trouvé', 'transfertmarrakech' ),
+				__( 'Vehicle not found', 'transfertmarrakech' ),
 				[ 'status' => 404 ]
 			);
 		}
@@ -310,7 +310,7 @@ class VehicleRestController extends WP_REST_Controller {
 		if ( ! \current_user_can( 'delete_post', $post->ID ) ) {
 			return new \WP_Error(
 				'rest_cannot_delete',
-				__( 'Vous n\'avez pas les permissions pour supprimer ce véhicule', 'transfertmarrakech' ),
+				__( 'You do not have permission to delete this vehicle', 'transfertmarrakech' ),
 				[ 'status' => \rest_authorization_required_code() ]
 			);
 		}
@@ -332,7 +332,7 @@ class VehicleRestController extends WP_REST_Controller {
 		if ( ! $result ) {
 			return new \WP_Error(
 				'rest_cannot_delete',
-				__( 'Impossible de supprimer le véhicule', 'transfertmarrakech' ),
+				__( 'Unable to delete the vehicle', 'transfertmarrakech' ),
 				[ 'status' => 500 ]
 			);
 		}
@@ -412,17 +412,17 @@ class VehicleRestController extends WP_REST_Controller {
 	public function get_collection_params(): array {
 		return [
 			'page'     => [
-				'description' => __( 'Numéro de page', 'transfertmarrakech' ),
+				'description' => __( 'Page number', 'transfertmarrakech' ),
 				'type'        => 'integer',
 				'default'     => 1,
 			],
 			'per_page' => [
-				'description' => __( 'Nombre d\'éléments par page', 'transfertmarrakech' ),
+				'description' => __( 'Number of items per page', 'transfertmarrakech' ),
 				'type'        => 'integer',
 				'default'     => 10,
 			],
 			'available' => [
-				'description' => __( 'Filtrer par disponibilité', 'transfertmarrakech' ),
+				'description' => __( 'Filter by availability', 'transfertmarrakech' ),
 				'type'        => 'string',
 				'enum'        => [ 'true', 'false' ],
 			],

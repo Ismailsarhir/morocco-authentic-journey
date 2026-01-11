@@ -21,7 +21,7 @@ class TransferMeta extends MetaBox {
 	public function __construct() {
 		parent::__construct(
 			'tm_transfer_meta',
-			__( 'Informations du transfert', 'transfertmarrakech' ),
+			__( 'Transfer Information', 'transfertmarrakech' ),
 			'transferts'
 		);
 	}
@@ -48,30 +48,30 @@ class TransferMeta extends MetaBox {
 		
 		// Type de transfert
 		$type_options = [
-			'airport'     => __( 'Aéroport', 'transfertmarrakech' ),
-			'hotel'       => __( 'Hôtel', 'transfertmarrakech' ),
-			'city'        => __( 'Ville', 'transfertmarrakech' ),
-			'custom'      => __( 'Personnalisé', 'transfertmarrakech' ),
+			'airport'     => __( 'Airport', 'transfertmarrakech' ),
+			'hotel'       => __( 'Hotel', 'transfertmarrakech' ),
+			'city'        => __( 'City', 'transfertmarrakech' ),
+			'custom'      => __( 'Custom', 'transfertmarrakech' ),
 		];
-		$this->select_field( Constants::META_TRANSFER_TYPE, __( 'Type de transfert', 'transfertmarrakech' ), $type_options, $transfer_type );
+		$this->select_field( Constants::META_TRANSFER_TYPE, __( 'Transfer Type', 'transfertmarrakech' ), $type_options, $transfer_type );
 		
 		// Véhicule associé
-		$this->single_post_select_field( Constants::META_TRANSFER_VEHICLE, __( 'Véhicule', 'transfertmarrakech' ), Constants::POST_TYPE_VEHICLE, $vehicle_id );
+		$this->single_post_select_field( Constants::META_TRANSFER_VEHICLE, __( 'Vehicle', 'transfertmarrakech' ), Constants::POST_TYPE_VEHICLE, $vehicle_id );
 		
 		// Prix
-		$this->text_field( Constants::META_TRANSFER_PRICE, __( 'Prix (MAD)', 'transfertmarrakech' ), $price, '0.00' );
+		$this->text_field( Constants::META_TRANSFER_PRICE, __( 'Price (MAD)', 'transfertmarrakech' ), $price, '0.00' );
 		
 		// Point de prise en charge
-		$this->text_field( Constants::META_TRANSFER_PICKUP, __( 'Point de prise en charge', 'transfertmarrakech' ), $pickup );
+		$this->text_field( Constants::META_TRANSFER_PICKUP, __( 'Pickup Point', 'transfertmarrakech' ), $pickup );
 		
 		// Point de dépose
-		$this->text_field( Constants::META_TRANSFER_DROPOFF, __( 'Point de dépose', 'transfertmarrakech' ), $dropoff );
+		$this->text_field( Constants::META_TRANSFER_DROPOFF, __( 'Drop-off Point', 'transfertmarrakech' ), $dropoff );
 		
 		// Estimation de durée
-		$this->text_field( Constants::META_TRANSFER_DURATION_ESTIMATE, __( 'Estimation de durée', 'transfertmarrakech' ), $duration_estimate, __( 'Ex: 30 minutes', 'transfertmarrakech' ) );
+		$this->text_field( Constants::META_TRANSFER_DURATION_ESTIMATE, __( 'Duration Estimate', 'transfertmarrakech' ), $duration_estimate, __( 'Ex: 30 minutes', 'transfertmarrakech' ) );
 		
 		// Description
-		$this->textarea_field( Constants::META_TRANSFER_DESCRIPTION, __( 'Description détaillée', 'transfertmarrakech' ), $description, 5 );
+		$this->textarea_field( Constants::META_TRANSFER_DESCRIPTION, __( 'Detailed Description', 'transfertmarrakech' ), $description, 5 );
 	}
 	
 	/**

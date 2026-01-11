@@ -21,7 +21,7 @@ $circuits_url = home_url('/circuits/');
 	<section class="module circuitsList">
 		<div class="circuitsList__inner">
 			<h2 class="circuitsList__title animated-title">
-				<?php \esc_html_e('Circuits vedettes', 'transfertmarrakech'); ?>
+				<?php \esc_html_e('Featured Circuits', 'transfertmarrakech'); ?>
 			</h2>
 			<div class="circuitsList__list">
 				<?php foreach ($circuits as $circuit_data) :
@@ -33,9 +33,9 @@ $circuits_url = home_url('/circuits/');
 					target=""
 					href="<?php echo \esc_url($circuits_url); ?>"
 					class="cta primary">
-					<span class="cta__inner" data-label="<?php \esc_attr_e('Voir tout les circuits', 'transfertmarrakech'); ?>">
+					<span class="cta__inner" data-label="<?php \esc_attr_e('View All Circuits', 'transfertmarrakech'); ?>">
 						<span class="cta__txt">
-							<?php \esc_html_e('Voir tout les circuits', 'transfertmarrakech'); ?>
+							<?php \esc_html_e('View All Circuits', 'transfertmarrakech'); ?>
 						</span>
 					</span>
 				</a>

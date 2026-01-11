@@ -121,7 +121,7 @@ if (! empty($tags) && is_array($tags)) {
 // Duration
 if (! empty($duration)) {
 	$card_info_items[] = [
-		'label' => esc_html__('Durée:', 'transfertmarrakech'),
+		'label' => esc_html__('Duration:', 'transfertmarrakech'),
 		'value' => esc_html($duration),
 	];
 }
@@ -183,19 +183,19 @@ if (! empty($destination_name)) {
 	$links_list_sections = [];
 	if (! empty($included)) {
 		$links_list_sections[] = [
-			'title'   => esc_html__('Inclus', 'transfertmarrakech'),
+			'title'   => esc_html__('Included', 'transfertmarrakech'),
 			'content' => $included,
 		];
 	}
 	if (! empty($excluded)) {
 		$links_list_sections[] = [
-			'title'   => esc_html__('Exclus', 'transfertmarrakech'),
+			'title'   => esc_html__('Excluded', 'transfertmarrakech'),
 			'content' => $excluded,
 		];
 	}
 	if (! empty($links_list_sections)) {
 		$renderer->render('links-list', [
-			'block_title' => esc_html__('Ce qui est inclus et exclus', 'transfertmarrakech'),
+			'block_title' => esc_html__('What\'s Included and Excluded', 'transfertmarrakech'),
 			'sections' => $links_list_sections,
 		]);
 	}
@@ -203,7 +203,7 @@ if (! empty($destination_name)) {
 	// Affiche Places / Étapes
 	if (! empty($itinerary_places) && is_array($itinerary_places)) {
 		$renderer->render('places-list', [
-			'title' => $itinerary_title ?? esc_html__('Places / Étapes', 'transfertmarrakech'),
+			'title' => $itinerary_title ?? esc_html__('Places / Steps', 'transfertmarrakech'),
 			'places' => $itinerary_places,
 		]);
 	}
@@ -212,15 +212,15 @@ if (! empty($destination_name)) {
 	if (! empty($tour_vehicles_data)) {
 		$renderer->render('vehicles-grid', [
 			'vehicles' => $tour_vehicles_data,
-			'title'    => esc_html__('Véhicules disponibles pour ce tour', 'transfertmarrakech'),
+			'title'    => esc_html__('Vehicles available for this tour', 'transfertmarrakech'),
 		]);
 	}
 
 	// Construit le message WhatsApp
 	$whatsapp_message = sprintf(
-		'Bonjour, %sje suis intéressé(e) par : %s%s%s',
+		'Hello, %sI am interested in: %s%s%s',
 		"\n",
-		esc_html($title) . ' ' . esc_html__('à partir de', 'transfertmarrakech') . ' ' . esc_html($price_formatted) . ' ' . esc_html__('pour un tour de', 'transfertmarrakech') . ' ' . esc_html($meeting_point) . ' ' . esc_html__('à', 'transfertmarrakech') . ' ' . esc_html($location) . ' ',
+		esc_html($title) . ' ' . esc_html__('from', 'transfertmarrakech') . ' ' . esc_html($price_formatted) . ' ' . esc_html__('for a tour from', 'transfertmarrakech') . ' ' . esc_html($meeting_point) . ' ' . esc_html__('to', 'transfertmarrakech') . ' ' . esc_html($location) . ' ',
 		"\n",
 		esc_url($share_url)
 	);
@@ -233,7 +233,7 @@ if (! empty($destination_name)) {
 		'share_url'     => $share_url,
 		'share_title'   => $share_title,
 		'whatsapp_url'  => $whatsapp_url,
-		'whatsapp_label' => esc_html__('Contacter une agence', 'transfertmarrakech'),
+		'whatsapp_label' => esc_html__('Contact an agency', 'transfertmarrakech'),
 	]);
 
 	// Affiche les prix par nombre de personnes (tableau optimisé)

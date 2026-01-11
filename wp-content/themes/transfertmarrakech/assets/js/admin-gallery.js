@@ -29,15 +29,15 @@
 			
 			// Vérifie que wp.media est disponible
 			if (typeof wp === 'undefined' || !wp.media) {
-				alert('Erreur: Le sélecteur de médias WordPress n\'est pas disponible. Veuillez rafraîchir la page.');
+				alert('Error: WordPress media selector is not available. Please refresh the page.');
 				return;
 			}
 			
 			// Crée la frame du sélecteur de médias (nouvelle instance à chaque fois)
 			var galleryFrame = wp.media({
-				title: 'Sélectionner les images de la galerie',
+				title: 'Select Gallery Images',
 				button: {
-					text: 'Utiliser ces images'
+					text: 'Use these images'
 				},
 				multiple: true,
 				library: {
@@ -82,7 +82,7 @@
 					// Construit le HTML de l'image
 					previewHtml += '<div class="tm-gallery-item" style="display: inline-block; margin: 5px; position: relative;">';
 					previewHtml += '<img src="' + imageUrl + '" style="width: 80px; height: 80px; object-fit: cover; display: block;" alt="">';
-					previewHtml += '<button type="button" class="button-link tm-remove-image" data-id="' + id + '" style="position: absolute; top: 0; right: 0; background: rgba(0,0,0,0.7); color: white; border: none; cursor: pointer; padding: 2px 5px; font-size: 12px; line-height: 1;" title="Supprimer cette image">×</button>';
+					previewHtml += '<button type="button" class="button-link tm-remove-image" data-id="' + id + '" style="position: absolute; top: 0; right: 0; background: rgba(0,0,0,0.7); color: white; border: none; cursor: pointer; padding: 2px 5px; font-size: 12px; line-height: 1;" title="Remove this image">×</button>';
 					previewHtml += '</div>';
 				});
 				
@@ -122,7 +122,7 @@
 			}
 			
 			if ($input.length === 0) {
-				console.error('Champ input galerie non trouvé');
+				console.error('Gallery input field not found');
 				return;
 			}
 			

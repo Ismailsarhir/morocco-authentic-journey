@@ -30,9 +30,9 @@
 
 			// Crée le frame
 			frame = wp.media({
-				title: 'Choisir une image',
+				title: 'Choose an image',
 				button: {
-					text: 'Utiliser cette image'
+					text: 'Use this image'
 				},
 				multiple: false,
 				library: {

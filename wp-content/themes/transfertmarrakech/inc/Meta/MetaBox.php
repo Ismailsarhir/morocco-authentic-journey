@@ -232,7 +232,7 @@ abstract class MetaBox {
 			</label>
 			<br>
 			<select id="<?php echo \esc_attr( $name ); ?>" name="<?php echo \esc_attr( $name ); ?>" class="widefat">
-				<option value=""><?php \esc_html_e( '-- Sélectionner --', 'transfertmarrakech' ); ?></option>
+				<option value=""><?php \esc_html_e( '-- Select --', 'transfertmarrakech' ); ?></option>
 				<?php foreach ( $options as $option_value => $option_label ) : ?>
 					<option value="<?php echo \esc_attr( $option_value ); ?>" <?php \selected( $value, $option_value ); ?>>
 						<?php echo \esc_html( $option_label ); ?>
@@ -296,7 +296,7 @@ abstract class MetaBox {
 				class="button tm-gallery-button"
 				data-target="<?php echo \esc_attr( $name ); ?>"
 			>
-				<?php \esc_html_e( 'Gérer la galerie', 'transfertmarrakech' ); ?>
+				<?php \esc_html_e( 'Manage Gallery', 'transfertmarrakech' ); ?>
 			</button>
 			<div class="tm-gallery-preview" style="margin-top: 10px;">
 				<?php if ( ! empty( $ids ) ) : ?>
@@ -316,7 +316,7 @@ abstract class MetaBox {
 									class="button-link tm-remove-image" 
 									data-id="<?php echo \esc_attr( $id ); ?>"
 									style="position: absolute; top: 0; right: 0; background: rgba(0,0,0,0.7); color: white; border: none; cursor: pointer; padding: 2px 5px; font-size: 12px; line-height: 1;"
-									title="<?php \esc_attr_e( 'Supprimer cette image', 'transfertmarrakech' ); ?>"
+									title="<?php \esc_attr_e( 'Remove this image', 'transfertmarrakech' ); ?>"
 								>×</button>
 							</div>
 						<?php endif; ?>
@@ -366,7 +366,7 @@ abstract class MetaBox {
 					</option>
 				<?php endforeach; ?>
 			</select>
-			<small><?php \esc_html_e( 'Maintenez Ctrl/Cmd pour sélectionner plusieurs éléments', 'transfertmarrakech' ); ?></small>
+			<small><?php \esc_html_e( 'Hold Ctrl/Cmd to select multiple items', 'transfertmarrakech' ); ?></small>
 		</p>
 		<?php
 	}
@@ -414,7 +414,7 @@ abstract class MetaBox {
 	protected function price_tiers_field( string $name, string $label, array $value = [] ): void {
 		$tiers = is_array( $value ) && ! empty( $value ) ? $value : [ [ 'min_persons' => '', 'max_persons' => '', 'price' => '', 'type' => '' ] ];
 		$tour_type_options = [
-			''        => __( '-- Tous types --', 'transfertmarrakech' ),
+			''        => __( '-- All Types --', 'transfertmarrakech' ),
 			'group'   => __( 'Group Tour', 'transfertmarrakech' ),
 			'private' => __( 'Private Tour', 'transfertmarrakech' ),
 			'shared'  => __( 'Shared Group', 'transfertmarrakech' ),
@@ -423,13 +423,13 @@ abstract class MetaBox {
 		<p>
 			<strong><?php echo \esc_html( $label ); ?></strong>
 			<br>
-			<small><?php \esc_html_e( 'Ajoutez des prix pour différentes tranches de nombre de personnes', 'transfertmarrakech' ); ?></small>
+			<small><?php \esc_html_e( 'Add prices for different ranges of number of people', 'transfertmarrakech' ); ?></small>
 		</p>
 		<div class="tm-price-tiers" data-field-name="<?php echo \esc_attr( $name ); ?>">
 			<?php foreach ( $tiers as $index => $tier ) : ?>
 				<div class="tm-price-tier-row" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-end;">
 					<div style="flex: 1;">
-						<label><?php \esc_html_e( 'Min personnes', 'transfertmarrakech' ); ?></label>
+						<label><?php \esc_html_e( 'Min People', 'transfertmarrakech' ); ?></label>
 						<input 
 							type="number" 
 							name="<?php echo \esc_attr( $name ); ?>[<?php echo \esc_attr( $index ); ?>][min_persons]" 
@@ -440,7 +440,7 @@ abstract class MetaBox {
 						>
 					</div>
 					<div style="flex: 1;">
-						<label><?php \esc_html_e( 'Max personnes', 'transfertmarrakech' ); ?></label>
+						<label><?php \esc_html_e( 'Max People', 'transfertmarrakech' ); ?></label>
 						<input 
 							type="number" 
 							name="<?php echo \esc_attr( $name ); ?>[<?php echo \esc_attr( $index ); ?>][max_persons]" 
@@ -451,7 +451,7 @@ abstract class MetaBox {
 						>
 					</div>
 					<div style="flex: 1;">
-						<label><?php \esc_html_e( 'Prix (USD/personne)', 'transfertmarrakech' ); ?></label>
+						<label><?php \esc_html_e( 'Price (USD/person)', 'transfertmarrakech' ); ?></label>
 						<input 
 							type="text" 
 							name="<?php echo \esc_attr( $name ); ?>[<?php echo \esc_attr( $index ); ?>][price]" 
@@ -462,7 +462,7 @@ abstract class MetaBox {
 						>
 					</div>
 					<div style="flex: 1;">
-						<label><?php \esc_html_e( 'Type (optionnel)', 'transfertmarrakech' ); ?></label>
+						<label><?php \esc_html_e( 'Type (optional)', 'transfertmarrakech' ); ?></label>
 						<select 
 							name="<?php echo \esc_attr( $name ); ?>[<?php echo \esc_attr( $index ); ?>][type]" 
 							class="widefat"
@@ -475,11 +475,11 @@ abstract class MetaBox {
 						</select>
 					</div>
 					<div>
-						<button type="button" class="button tm-remove-tier" style="margin-bottom: 2px;"><?php \esc_html_e( 'Supprimer', 'transfertmarrakech' ); ?></button>
+						<button type="button" class="button tm-remove-tier" style="margin-bottom: 2px;"><?php \esc_html_e( 'Remove', 'transfertmarrakech' ); ?></button>
 					</div>
 				</div>
 			<?php endforeach; ?>
-			<button type="button" class="button tm-add-tier"><?php \esc_html_e( '+ Ajouter un prix', 'transfertmarrakech' ); ?></button>
+			<button type="button" class="button tm-add-tier"><?php \esc_html_e( '+ Add Price', 'transfertmarrakech' ); ?></button>
 		</div>
 		<script>
 		(function($) {
@@ -508,7 +508,7 @@ abstract class MetaBox {
 					if ($container.find('.tm-price-tier-row').length > 1) {
 						$(this).closest('.tm-price-tier-row').remove();
 					} else {
-						alert('<?php echo \esc_js( __( 'Vous devez avoir au moins un prix.', 'transfertmarrakech' ) ); ?>');
+						alert('<?php echo \esc_js( __( 'You must have at least one price.', 'transfertmarrakech' ) ); ?>');
 					}
 				});
 			});
@@ -536,7 +536,7 @@ abstract class MetaBox {
 		
 		<!-- Titre général -->
 		<p>
-			<label><strong><?php \esc_html_e( 'Titre général', 'transfertmarrakech' ); ?></strong></label>
+			<label><strong><?php \esc_html_e( 'General Title', 'transfertmarrakech' ); ?></strong></label>
 			<input 
 				type="text" 
 				name="<?php echo \esc_attr( $title_name ); ?>" 
@@ -548,16 +548,16 @@ abstract class MetaBox {
 		
 		<!-- Places répétables -->
 		<p>
-			<label><strong><?php \esc_html_e( 'Places / Étapes', 'transfertmarrakech' ); ?></strong></label>
+			<label><strong><?php \esc_html_e( 'Places / Steps', 'transfertmarrakech' ); ?></strong></label>
 			<br>
-			<small><?php \esc_html_e( 'Ajoutez les différentes étapes de l\'itinéraire avec leur heure, titre et description', 'transfertmarrakech' ); ?></small>
+			<small><?php \esc_html_e( 'Add the different itinerary steps with their time, title and description', 'transfertmarrakech' ); ?></small>
 		</p>
 		<div class="tm-itinerary-places" data-field-name="<?php echo \esc_attr( $places_name ); ?>">
 			<?php foreach ( $places as $index => $place ) : ?>
 				<div class="tm-itinerary-place-row" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; background: #f9f9f9;">
 					<div style="display: flex; gap: 10px; margin-bottom: 10px;">
 						<div style="flex: 0 0 120px;">
-							<label><?php \esc_html_e( 'Heure', 'transfertmarrakech' ); ?></label>
+							<label><?php \esc_html_e( 'Time', 'transfertmarrakech' ); ?></label>
 							<input 
 								type="text" 
 								name="<?php echo \esc_attr( $places_name ); ?>[<?php echo \esc_attr( $index ); ?>][time]" 
@@ -567,7 +567,7 @@ abstract class MetaBox {
 							>
 						</div>
 						<div style="flex: 1;">
-							<label><?php \esc_html_e( 'Titre de la place', 'transfertmarrakech' ); ?></label>
+							<label><?php \esc_html_e( 'Place Title', 'transfertmarrakech' ); ?></label>
 							<input 
 								type="text" 
 								name="<?php echo \esc_attr( $places_name ); ?>[<?php echo \esc_attr( $index ); ?>][title]" 
@@ -577,7 +577,7 @@ abstract class MetaBox {
 							>
 						</div>
 						<div>
-							<button type="button" class="button tm-remove-place" style="margin-top: 20px;"><?php \esc_html_e( 'Supprimer', 'transfertmarrakech' ); ?></button>
+							<button type="button" class="button tm-remove-place" style="margin-top: 20px;"><?php \esc_html_e( 'Remove', 'transfertmarrakech' ); ?></button>
 						</div>
 					</div>
 					<div>
@@ -586,12 +586,12 @@ abstract class MetaBox {
 							name="<?php echo \esc_attr( $places_name ); ?>[<?php echo \esc_attr( $index ); ?>][description]" 
 							rows="3"
 							class="widefat"
-							placeholder="<?php \esc_attr_e( 'Description détaillée de cette étape...', 'transfertmarrakech' ); ?>"
+							placeholder="<?php \esc_attr_e( 'Detailed description of this step...', 'transfertmarrakech' ); ?>"
 						><?php echo \esc_textarea( $place['description'] ?? '' ); ?></textarea>
 					</div>
 				</div>
 			<?php endforeach; ?>
-			<button type="button" class="button tm-add-place"><?php \esc_html_e( '+ Ajouter une place', 'transfertmarrakech' ); ?></button>
+			<button type="button" class="button tm-add-place"><?php \esc_html_e( '+ Add Place', 'transfertmarrakech' ); ?></button>
 		</div>
 		<script>
 		(function($) {
@@ -620,7 +620,7 @@ abstract class MetaBox {
 					if ($container.find('.tm-itinerary-place-row').length > 1) {
 						$(this).closest('.tm-itinerary-place-row').remove();
 					} else {
-						alert('<?php echo \esc_js( __( 'Vous devez avoir au moins une place.', 'transfertmarrakech' ) ); ?>');
+						alert('<?php echo \esc_js( __( 'You must have at least one place.', 'transfertmarrakech' ) ); ?>');
 					}
 				});
 			});
@@ -657,7 +657,7 @@ abstract class MetaBox {
 				name="<?php echo \esc_attr( $name ); ?>" 
 				class="widefat"
 			>
-				<option value=""><?php \esc_html_e( '-- Sélectionner --', 'transfertmarrakech' ); ?></option>
+				<option value=""><?php \esc_html_e( '-- Select --', 'transfertmarrakech' ); ?></option>
 				<?php foreach ( $posts as $post ) : ?>
 					<option value="<?php echo \esc_attr( $post->ID ); ?>" <?php \selected( $selected_id, $post->ID ); ?>>
 						<?php echo \esc_html( $post->post_title ); ?>

@@ -14,7 +14,7 @@ if (! isset($vehicles) || empty($vehicles) || ! is_array($vehicles)) {
 }
 
 // Titre par défaut si non fourni
-$section_title = $title ?? __('Véhicules disponibles', 'transfertmarrakech');
+$section_title = $title ?? __('Available Vehicles', 'transfertmarrakech');
 ?>
 
 <div class="modules">

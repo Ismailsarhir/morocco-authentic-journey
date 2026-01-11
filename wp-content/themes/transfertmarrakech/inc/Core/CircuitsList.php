@@ -112,7 +112,7 @@ class CircuitsList {
 		// Formate la durée en jours
 		$duration_days = $circuit_meta[ Constants::META_CIRCUIT_DURATION_DAYS ] ?? '';
 		$duration_formatted = ! empty( $duration_days ) ? sprintf( 
-			_n( '%d jour', '%d jours', (int) $duration_days, 'transfertmarrakech' ), 
+			_n( '%d day', '%d days', (int) $duration_days, 'transfertmarrakech' ), 
 			(int) $duration_days 
 		) : '';
 		

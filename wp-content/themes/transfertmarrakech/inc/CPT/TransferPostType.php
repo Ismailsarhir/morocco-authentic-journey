@@ -42,29 +42,29 @@ class TransferPostType extends PostType {
 			'singular_name'         => _x( 'Transfert', 'Post Type Singular Name', 'transfertmarrakech' ),
 			'menu_name'             => __( 'Transferts', 'transfertmarrakech' ),
 			'name_admin_bar'        => __( 'Transfert', 'transfertmarrakech' ),
-			'archives'              => __( 'Archives des transferts', 'transfertmarrakech' ),
-			'attributes'            => __( 'Attributs du transfert', 'transfertmarrakech' ),
-			'parent_item_colon'     => __( 'Transfert parent:', 'transfertmarrakech' ),
-			'all_items'             => __( 'Tous les transferts', 'transfertmarrakech' ),
-			'add_new_item'          => __( 'Ajouter un nouveau transfert', 'transfertmarrakech' ),
-			'add_new'               => __( 'Ajouter nouveau', 'transfertmarrakech' ),
-			'new_item'              => __( 'Nouveau transfert', 'transfertmarrakech' ),
-			'edit_item'             => __( 'Modifier le transfert', 'transfertmarrakech' ),
-			'update_item'           => __( 'Mettre à jour le transfert', 'transfertmarrakech' ),
-			'view_item'             => __( 'Voir le transfert', 'transfertmarrakech' ),
-			'view_items'            => __( 'Voir les transferts', 'transfertmarrakech' ),
-			'search_items'          => __( 'Rechercher un transfert', 'transfertmarrakech' ),
-			'not_found'             => __( 'Aucun transfert trouvé', 'transfertmarrakech' ),
-			'not_found_in_trash'    => __( 'Aucun transfert trouvé dans la corbeille', 'transfertmarrakech' ),
-			'featured_image'        => __( 'Image du transfert', 'transfertmarrakech' ),
-			'set_featured_image'    => __( 'Définir l\'image du transfert', 'transfertmarrakech' ),
-			'remove_featured_image' => __( 'Supprimer l\'image du transfert', 'transfertmarrakech' ),
-			'use_featured_image'    => __( 'Utiliser comme image du transfert', 'transfertmarrakech' ),
-			'insert_into_item'      => __( 'Insérer dans le transfert', 'transfertmarrakech' ),
-			'uploaded_to_this_item' => __( 'Téléversé vers ce transfert', 'transfertmarrakech' ),
-			'items_list'            => __( 'Liste des transferts', 'transfertmarrakech' ),
-			'items_list_navigation' => __( 'Navigation de la liste des transferts', 'transfertmarrakech' ),
-			'filter_items_list'     => __( 'Filtrer la liste des transferts', 'transfertmarrakech' ),
+			'archives'              => __( 'Transfer Archives', 'transfertmarrakech' ),
+			'attributes'            => __( 'Transfer Attributes', 'transfertmarrakech' ),
+			'parent_item_colon'     => __( 'Parent Transfer:', 'transfertmarrakech' ),
+			'all_items'             => __( 'All Transfers', 'transfertmarrakech' ),
+			'add_new_item'          => __( 'Add New Transfer', 'transfertmarrakech' ),
+			'add_new'               => __( 'Add New', 'transfertmarrakech' ),
+			'new_item'              => __( 'New Transfer', 'transfertmarrakech' ),
+			'edit_item'             => __( 'Edit Transfer', 'transfertmarrakech' ),
+			'update_item'           => __( 'Update Transfer', 'transfertmarrakech' ),
+			'view_item'             => __( 'View Transfer', 'transfertmarrakech' ),
+			'view_items'            => __( 'View Transfers', 'transfertmarrakech' ),
+			'search_items'          => __( 'Search Transfers', 'transfertmarrakech' ),
+			'not_found'             => __( 'No transfers found', 'transfertmarrakech' ),
+			'not_found_in_trash'    => __( 'No transfers found in Trash', 'transfertmarrakech' ),
+			'featured_image'        => __( 'Transfer Image', 'transfertmarrakech' ),
+			'set_featured_image'    => __( 'Set transfer image', 'transfertmarrakech' ),
+			'remove_featured_image' => __( 'Remove transfer image', 'transfertmarrakech' ),
+			'use_featured_image'    => __( 'Use as transfer image', 'transfertmarrakech' ),
+			'insert_into_item'      => __( 'Insert into transfer', 'transfertmarrakech' ),
+			'uploaded_to_this_item' => __( 'Uploaded to this transfer', 'transfertmarrakech' ),
+			'items_list'            => __( 'Transfers list', 'transfertmarrakech' ),
+			'items_list_navigation' => __( 'Transfers list navigation', 'transfertmarrakech' ),
+			'filter_items_list'     => __( 'Filter transfers list', 'transfertmarrakech' ),
 		];
 	}
 	
@@ -75,8 +75,8 @@ class TransferPostType extends PostType {
 	 */
 	protected function get_args(): array {
 		return [
-			'label'                 => __( 'Transfert', 'transfertmarrakech' ),
-			'description'           => __( 'Services de transfert aéroport et autres', 'transfertmarrakech' ),
+			'label'                 => __( 'Transfer', 'transfertmarrakech' ),
+			'description'           => __( 'Airport transfer and other services', 'transfertmarrakech' ),
 			'supports'              => [ 'title', 'editor', 'thumbnail', 'excerpt', 'custom-fields' ],
 			'taxonomies'            => [ 'transfer_type' ],
 			'hierarchical'          => false,
@@ -114,8 +114,8 @@ class TransferPostType extends PostType {
 			[ $this->post_type ],
 			[
 				'labels'            => [
-					'name'          => __( 'Types de transfert', 'transfertmarrakech' ),
-					'singular_name' => __( 'Type de transfert', 'transfertmarrakech' ),
+					'name'          => __( 'Transfer Types', 'transfertmarrakech' ),
+					'singular_name' => __( 'Transfer Type', 'transfertmarrakech' ),
 					'menu_name'     => __( 'Types', 'transfertmarrakech' ),
 				],
 				'hierarchical'      => true,
@@ -141,7 +141,7 @@ class TransferPostType extends PostType {
 			'tm_transfer_type',
 			[
 				'type'              => 'string',
-				'description'       => __( 'Type de transfert', 'transfertmarrakech' ),
+				'description'       => __( 'Transfer type', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'sanitize_text_field',
 				'auth_callback'     => function() {
@@ -157,7 +157,7 @@ class TransferPostType extends PostType {
 			'tm_price',
 			[
 				'type'              => 'string',
-				'description'       => __( 'Prix du transfert', 'transfertmarrakech' ),
+				'description'       => __( 'Transfer price', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => [ 'TM\Utils\Sanitizer', 'sanitize_price' ],
 				'auth_callback'     => function() {
@@ -173,7 +173,7 @@ class TransferPostType extends PostType {
 			'tm_pickup',
 			[
 				'type'              => 'string',
-				'description'       => __( 'Point de prise en charge', 'transfertmarrakech' ),
+				'description'       => __( 'Pickup point', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'sanitize_text_field',
 				'auth_callback'     => function() {
@@ -189,7 +189,7 @@ class TransferPostType extends PostType {
 			'tm_dropoff',
 			[
 				'type'              => 'string',
-				'description'       => __( 'Point de dépose', 'transfertmarrakech' ),
+				'description'       => __( 'Drop-off point', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'sanitize_text_field',
 				'auth_callback'     => function() {
@@ -205,7 +205,7 @@ class TransferPostType extends PostType {
 			'tm_duration_estimate',
 			[
 				'type'              => 'string',
-				'description'       => __( 'Estimation de durée', 'transfertmarrakech' ),
+				'description'       => __( 'Duration estimate', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'sanitize_text_field',
 				'auth_callback'     => function() {
@@ -221,7 +221,7 @@ class TransferPostType extends PostType {
 			'tm_description',
 			[
 				'type'              => 'string',
-				'description'       => __( 'Description détaillée', 'transfertmarrakech' ),
+				'description'       => __( 'Detailed description', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'sanitize_textarea_field',
 				'auth_callback'     => function() {

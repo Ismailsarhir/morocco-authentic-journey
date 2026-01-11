@@ -34,15 +34,15 @@ get_template_part( 'template-parts/prefooter' );
 				$reservez_url = '#';
 				?>
 				<a href="<?php echo esc_url( $reservez_url ); ?>" class="cta primary">
-					<span class="cta__inner" data-label="<?php echo esc_attr__( 'Réservez Maintenant', 'transfertmarrakech' ); ?>">
-						<span class="cta__txt"><?php echo esc_html__( 'Réservez Maintenant', 'transfertmarrakech' ); ?></span>
+					<span class="cta__inner" data-label="<?php echo esc_attr__( 'Book Now', 'transfertmarrakech' ); ?>">
+						<span class="cta__txt"><?php echo esc_html__( 'Book Now', 'transfertmarrakech' ); ?></span>
 					</span>
 				</a>
 				
 				<?php
 				// CTA EMAIL
 				$email_url = 'mailto:contact@example.com';
-				$email_label = __( 'Contactez-nous', 'transfertmarrakech' );
+				$email_label = __( 'Contact Us', 'transfertmarrakech' );
 				?>
 				<a href="<?php echo esc_url( $email_url ); ?>" class="cta secondary">
 					<span class="cta__inner" data-label="<?php echo esc_attr( $email_label ); ?>">
@@ -55,7 +55,7 @@ get_template_part( 'template-parts/prefooter' );
 				<div>
 					<div>
 						<div class="footer__links-title">
-							<?php echo esc_html__( 'Liens rapides', 'transfertmarrakech' ); ?>
+							<?php echo esc_html__( 'Quick Links', 'transfertmarrakech' ); ?>
 						</div>
 						<?php
 						wp_nav_menu( [
@@ -75,7 +75,7 @@ get_template_part( 'template-parts/prefooter' );
 				<div>
 					<div>
 						<div class="footer__links-title">
-							<?php echo esc_html__( 'Suivez-nous', 'transfertmarrakech' ); ?>
+							<?php echo esc_html__( 'Follow Us', 'transfertmarrakech' ); ?>
 						</div>
 						<?php
 						wp_nav_menu( [

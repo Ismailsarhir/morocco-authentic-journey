@@ -49,8 +49,8 @@ class WhatsAppSettings {
 	 */
 	public function add_admin_page(): void {
 		\add_theme_page(
-			\__( 'Numéro WhatsApp', 'transfertmarrakech' ),
-			\__( 'Numéro WhatsApp', 'transfertmarrakech' ),
+			\__( 'WhatsApp Number', 'transfertmarrakech' ),
+			\__( 'WhatsApp Number', 'transfertmarrakech' ),
 			'manage_options',
 			self::PAGE_SLUG,
 			[ $this, 'render_page' ]
@@ -77,7 +77,7 @@ class WhatsAppSettings {
 		// Enregistre la section de settings
 		\add_settings_section(
 			'tm_whatsapp_section',
-			\__( 'Paramètres WhatsApp', 'transfertmarrakech' ),
+			\__( 'WhatsApp Settings', 'transfertmarrakech' ),
 			[ $this, 'render_section_description' ],
 			self::PAGE_SLUG
 		);
@@ -85,7 +85,7 @@ class WhatsAppSettings {
 		// Ajoute le champ numéro de téléphone
 		\add_settings_field(
 			Constants::OPTION_WHATSAPP_PHONE,
-			\__( 'Numéro de téléphone WhatsApp', 'transfertmarrakech' ),
+			\__( 'WhatsApp Phone Number', 'transfertmarrakech' ),
 			[ $this, 'render_phone_field' ],
 			self::PAGE_SLUG,
 			'tm_whatsapp_section'
@@ -116,7 +116,7 @@ class WhatsAppSettings {
 	 * @return void
 	 */
 	public function render_section_description(): void {
-		echo '<p>' . \esc_html__( 'Configurez le numéro de téléphone WhatsApp utilisé pour les boutons de contact et de réservation.', 'transfertmarrakech' ) . '</p>';
+		echo '<p>' . \esc_html__( 'Configure the WhatsApp phone number used for contact and booking buttons.', 'transfertmarrakech' ) . '</p>';
 	}
 	
 	/**
@@ -136,7 +136,7 @@ class WhatsAppSettings {
 			pattern="[0-9+]+"
 		>
 		<p class="description">
-			<?php \esc_html_e( 'Entrez le numéro de téléphone WhatsApp avec l\'indicatif pays (ex: 2126xxxxxxxx pour le Maroc). Ne pas inclure le + au début.', 'transfertmarrakech' ); ?>
+			<?php \esc_html_e( 'Enter the WhatsApp phone number with country code (e.g., 2126xxxxxxxx for Morocco). Do not include the + at the beginning.', 'transfertmarrakech' ); ?>
 		</p>
 		<?php
 	}
@@ -149,7 +149,7 @@ class WhatsAppSettings {
 	public function render_page(): void {
 		// Vérifie les permissions
 		if ( ! \current_user_can( 'manage_options' ) ) {
-			\wp_die( \__( 'Vous n\'avez pas les permissions nécessaires pour accéder à cette page.', 'transfertmarrakech' ) );
+			\wp_die( \__( 'You do not have the necessary permissions to access this page.', 'transfertmarrakech' ) );
 		}
 		
 		// Affiche les messages de succès
@@ -157,7 +157,7 @@ class WhatsAppSettings {
 			\add_settings_error(
 				'tm_whatsapp_messages',
 				'tm_whatsapp_message',
-				\__( 'Paramètres sauvegardés avec succès.', 'transfertmarrakech' ),
+				\__( 'Settings saved successfully.', 'transfertmarrakech' ),
 				'success'
 			);
 		}
@@ -170,7 +170,7 @@ class WhatsAppSettings {
 				<?php
 				\settings_fields( self::OPTION_GROUP );
 				\do_settings_sections( self::PAGE_SLUG );
-				\submit_button( \__( 'Enregistrer les modifications', 'transfertmarrakech' ) );
+				\submit_button( \__( 'Save Changes', 'transfertmarrakech' ) );
 				?>
 			</form>
 		</div>

@@ -22,41 +22,41 @@ class HeaderHelper {
 		return [
 			[
 				'icon' => 'icone-afrique.webp',
-				'label' => __( 'Afrique', 'transfertmarrakech' ),
+				'label' => __( 'Africa', 'transfertmarrakech' ),
 				'url' => '#',
 			],
 			[
 				'icon' => 'icone-amerique-centrale.webp',
-				'label' => __( 'Amérique centrale & Caraïbes', 'transfertmarrakech' ),
+				'label' => __( 'Central America & Caribbean', 'transfertmarrakech' ),
 				'url' => '#',
 			],
 			[
 				'icon' => 'icone-amerique-nord.webp',
-				'label' => __( 'Amérique du Nord', 'transfertmarrakech' ),
+				'label' => __( 'North America', 'transfertmarrakech' ),
 				'url' => '#',
 			],
 			[
 				'icon' => 'icone-amerique-sud.webp',
-				'label' => __( 'Amérique du Sud', 'transfertmarrakech' ),
+				'label' => __( 'South America', 'transfertmarrakech' ),
 				'url' => '#',
 			],
 			[
 				'icon' => 'icone-asie.webp',
-				'label' => __( 'Asie', 'transfertmarrakech' ),
+				'label' => __( 'Asia', 'transfertmarrakech' ),
 				'url' => '#',
 			],
 			[
 				'icon' => 'icone-europe.webp',
-				'label' => __( 'Europe & Méditerranée', 'transfertmarrakech' ),
+				'label' => __( 'Europe & Mediterranean', 'transfertmarrakech' ),
 				'url' => '#',
 			],
 			[
 				'icon' => 'icone-pacifique-sud.webp',
-				'label' => __( 'Pacifique Sud', 'transfertmarrakech' ),
+				'label' => __( 'South Pacific', 'transfertmarrakech' ),
 				'url' => '#',
 			],
 			[
-				'label' => __( 'Voir toutes nos destinations', 'transfertmarrakech' ),
+				'label' => __( 'View All Our Destinations', 'transfertmarrakech' ),
 				'url' => '#',
 				'class' => 'cta primary',
 			],
@@ -71,11 +71,11 @@ class HeaderHelper {
 	public static function get_main_menu_items(): array {
 		return [
 			[
-				'label' => __( 'Tours vedettes', 'transfertmarrakech' ),
+				'label' => __( 'Featured Tours', 'transfertmarrakech' ),
 				'url' => '#',
 			],
 			[
-				'label' => __( 'Espace voyageur', 'transfertmarrakech' ),
+				'label' => __( 'Traveler Space', 'transfertmarrakech' ),
 				'url' => '#',
 				'class' => 'has-border',
 			],
@@ -90,11 +90,11 @@ class HeaderHelper {
 	public static function get_mobile_menu_items(): array {
 		return [
 			[
-				'label' => __( 'Tours vedettes', 'transfertmarrakech' ),
+				'label' => __( 'Featured Tours', 'transfertmarrakech' ),
 				'url' => '#',
 			],
 			[
-				'label' => __( 'Espace voyageur', 'transfertmarrakech' ),
+				'label' => __( 'Traveler Space', 'transfertmarrakech' ),
 				'url' => '#',
 			],
 			[
@@ -102,19 +102,19 @@ class HeaderHelper {
 				'url' => '#',
 			],
 			[
-				'label' => __( 'Actualités & récits', 'transfertmarrakech' ),
+				'label' => __( 'News & Stories', 'transfertmarrakech' ),
 				'url' => '#',
 			],
 			[
-				'label' => __( 'Agences partenaires «Club Excellence»', 'transfertmarrakech' ),
+				'label' => __( 'Partner Agencies "Club Excellence"', 'transfertmarrakech' ),
 				'url' => '#',
 			],
 			[
-				'label' => __( 'À propos', 'transfertmarrakech' ),
+				'label' => __( 'About', 'transfertmarrakech' ),
 				'url' => '#',
 			],
 			[
-				'label' => __( 'Nous joindre', 'transfertmarrakech' ),
+				'label' => __( 'Contact Us', 'transfertmarrakech' ),
 				'url' => '#',
 			],
 		];

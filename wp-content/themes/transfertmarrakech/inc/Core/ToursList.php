@@ -212,11 +212,8 @@ class ToursList {
 		
 		$featured_tours = [];
 		
+		// WP_Query::posts contient toujours des objets WP_Post, pas besoin de vérifier instanceof
 		foreach ( $tours as $tour ) {
-			if ( ! $tour instanceof \WP_Post ) {
-				continue;
-			}
-			
 			$tour_data = $this->format_tour_data( $tour );
 			if ( $tour_data ) {
 				$featured_tours[] = $tour_data;
@@ -249,11 +246,8 @@ class ToursList {
 		
 		$all_tours = [];
 		
+		// WP_Query::posts contient toujours des objets WP_Post, pas besoin de vérifier instanceof
 		foreach ( $tours as $tour ) {
-			if ( ! $tour instanceof \WP_Post ) {
-				continue;
-			}
-			
 			$tour_data = $this->format_tour_data( $tour );
 			if ( $tour_data ) {
 				$all_tours[] = $tour_data;

@@ -59,7 +59,7 @@ class VehicleShortcode extends BaseShortcode {
 		$vehicles = self::$repository->get_by_args( Constants::POST_TYPE_VEHICLE, $args );
 		
 		if ( empty( $vehicles ) ) {
-			return '<p>' . esc_html__( 'Aucun véhicule trouvé', 'transfertmarrakech' ) . '</p>';
+			return '<p>' . esc_html__( 'No vehicles found', 'transfertmarrakech' ) . '</p>';
 		}
 		
 		\ob_start();

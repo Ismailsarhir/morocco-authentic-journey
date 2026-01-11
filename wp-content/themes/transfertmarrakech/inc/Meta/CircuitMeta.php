@@ -60,13 +60,13 @@ class CircuitMeta extends MetaBox {
 		$vehicle_ids       = $meta[ Constants::META_CIRCUIT_VEHICLES ] ?? [];
 		
 		// Localisation
-		$this->text_field( Constants::META_CIRCUIT_LOCATION, __( 'Localisation', 'transfertmarrakech' ), $location, __( 'Ex: Marrakech', 'transfertmarrakech' ) );
+		$this->text_field( Constants::META_CIRCUIT_LOCATION, __( 'Location', 'transfertmarrakech' ), $location, __( 'Ex: Marrakech', 'transfertmarrakech' ) );
 		
 		// Durée en jours
-		$this->number_field( Constants::META_CIRCUIT_DURATION_DAYS, __( 'Durée (nombre de jours)', 'transfertmarrakech' ), $duration_days );
+		$this->number_field( Constants::META_CIRCUIT_DURATION_DAYS, __( 'Duration (number of days)', 'transfertmarrakech' ), $duration_days );
 		
 		// Points forts (Highlights)
-		$this->textarea_field( Constants::META_CIRCUIT_HIGHLIGHTS, __( 'Highlights (une ligne par point fort)', 'transfertmarrakech' ), $highlights, 5 );
+		$this->textarea_field( Constants::META_CIRCUIT_HIGHLIGHTS, __( 'Highlights (one line per highlight)', 'transfertmarrakech' ), $highlights, 5 );
 		
 		// Informations de prise en charge (Pickup Info)
 		$this->textarea_field( Constants::META_CIRCUIT_PICKUP_INFO, __( 'Pickup Information', 'transfertmarrakech' ), $pickup_info, 3 );
@@ -80,7 +80,7 @@ class CircuitMeta extends MetaBox {
 			'medium' => __( 'Medium', 'transfertmarrakech' ),
 			'hard'   => __( 'Hard', 'transfertmarrakech' ),
 		];
-		$this->select_field( Constants::META_CIRCUIT_DIFFICULTY, __( 'Difficulté', 'transfertmarrakech' ), $difficulty_options, $difficulty );
+		$this->select_field( Constants::META_CIRCUIT_DIFFICULTY, __( 'Difficulty', 'transfertmarrakech' ), $difficulty_options, $difficulty );
 		
 		// Langues (multi-select)
 		$language_options = [
@@ -94,7 +94,7 @@ class CircuitMeta extends MetaBox {
 			'slovenian' => __( 'Slovenian', 'transfertmarrakech' ),
 			'dutch'     => __( 'Dutch', 'transfertmarrakech' ),
 		];
-		$this->multi_checkbox_field( Constants::META_CIRCUIT_LANGUAGES, __( 'Langues disponibles', 'transfertmarrakech' ), $language_options, $languages );
+		$this->multi_checkbox_field( Constants::META_CIRCUIT_LANGUAGES, __( 'Available Languages', 'transfertmarrakech' ), $language_options, $languages );
 		
 		// Tags/Catégories (multi-select)
 		$tag_options = [
@@ -112,28 +112,28 @@ class CircuitMeta extends MetaBox {
 			'Desert'           => __( 'Desert', 'transfertmarrakech' ),
 			'atv'              => __( 'ATV', 'transfertmarrakech' ),
 		];
-		$this->multi_checkbox_field( Constants::META_CIRCUIT_TAGS, __( 'Tags/Catégories', 'transfertmarrakech' ), $tag_options, $tags );
+		$this->multi_checkbox_field( Constants::META_CIRCUIT_TAGS, __( 'Tags/Categories', 'transfertmarrakech' ), $tag_options, $tags );
 		
 		// Itinéraire par jours
 		$this->itinerary_days_field( Constants::META_CIRCUIT_ITINERARY_DAYS, __( 'Itinerary by Days', 'transfertmarrakech' ), $itinerary_days );
 		
 		// Inclus (What's Included)
-		$this->textarea_field( Constants::META_CIRCUIT_INCLUDED, __( 'What\'s Included (une ligne par item)', 'transfertmarrakech' ), $included, 5 );
+		$this->textarea_field( Constants::META_CIRCUIT_INCLUDED, __( 'What\'s Included (one line per item)', 'transfertmarrakech' ), $included, 5 );
 		
 		// Exclus (What's Excluded)
-		$this->textarea_field( Constants::META_CIRCUIT_EXCLUDED, __( 'What\'s Excluded (une ligne par item)', 'transfertmarrakech' ), $excluded, 5 );
+		$this->textarea_field( Constants::META_CIRCUIT_EXCLUDED, __( 'What\'s Excluded (one line per item)', 'transfertmarrakech' ), $excluded, 5 );
 		
 		// Not Suitable For
-		$this->textarea_field( Constants::META_CIRCUIT_NOT_SUITABLE, __( 'Not Suitable For (une ligne par item)', 'transfertmarrakech' ), $not_suitable, 3 );
+		$this->textarea_field( Constants::META_CIRCUIT_NOT_SUITABLE, __( 'Not Suitable For (one line per item)', 'transfertmarrakech' ), $not_suitable, 3 );
 		
 		// Important Information
 		$this->textarea_field( Constants::META_CIRCUIT_IMPORTANT_INFO, __( 'Important Information', 'transfertmarrakech' ), $important_info, 5 );
 		
 		// What to Bring
-		$this->textarea_field( Constants::META_CIRCUIT_WHAT_TO_BRING, __( 'What to Bring (une ligne par item)', 'transfertmarrakech' ), $what_to_bring, 5 );
+		$this->textarea_field( Constants::META_CIRCUIT_WHAT_TO_BRING, __( 'What to Bring (one line per item)', 'transfertmarrakech' ), $what_to_bring, 5 );
 		
 		// Not Allowed
-		$this->textarea_field( Constants::META_CIRCUIT_NOT_ALLOWED, __( 'Not Allowed (une ligne par item)', 'transfertmarrakech' ), $not_allowed, 3 );
+		$this->textarea_field( Constants::META_CIRCUIT_NOT_ALLOWED, __( 'Not Allowed (one line per item)', 'transfertmarrakech' ), $not_allowed, 3 );
 		
 		// Know Before You Go
 		$this->textarea_field( Constants::META_CIRCUIT_KNOW_BEFORE_GO, __( 'Know Before You Go', 'transfertmarrakech' ), $know_before_go, 5 );
@@ -142,10 +142,10 @@ class CircuitMeta extends MetaBox {
 		$this->textarea_field( Constants::META_CIRCUIT_CANCELLATION, __( 'Cancellation Policy', 'transfertmarrakech' ), $cancellation, 3 );
 		
 		// Prix par nombre de personnes
-		$this->price_tiers_field( Constants::META_CIRCUIT_PRICE_TIERS, __( 'Prix par nombre de personnes', 'transfertmarrakech' ), $price_tiers );
+		$this->price_tiers_field( Constants::META_CIRCUIT_PRICE_TIERS, __( 'Price by number of people', 'transfertmarrakech' ), $price_tiers );
 		
 		// Véhicules associés
-		$this->post_select_field( Constants::META_CIRCUIT_VEHICLES, __( 'Véhicules disponibles', 'transfertmarrakech' ), Constants::POST_TYPE_VEHICLE, $vehicle_ids );
+		$this->post_select_field( Constants::META_CIRCUIT_VEHICLES, __( 'Available Vehicles', 'transfertmarrakech' ), Constants::POST_TYPE_VEHICLE, $vehicle_ids );
 	}
 	
 	/**
@@ -358,7 +358,7 @@ class CircuitMeta extends MetaBox {
 							$(this).find('label').first().text('<?php echo \esc_js( __( 'Step', 'transfertmarrakech' ) ); ?> ' + (stepIdx + 1) + ' - <?php echo \esc_js( __( 'Title', 'transfertmarrakech' ) ); ?>');
 						});
 					} else {
-						alert('<?php echo \esc_js( __( 'Vous devez avoir au moins une étape.', 'transfertmarrakech' ) ); ?>');
+						alert('<?php echo \esc_js( __( 'You must have at least one step.', 'transfertmarrakech' ) ); ?>');
 					}
 				});
 			});

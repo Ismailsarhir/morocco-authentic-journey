@@ -95,6 +95,33 @@ class Theme {
 	}
 	
 	/**
+	 * Change og:locale from fr_FR to en_US (English)
+	 * 
+	 * @param string $locale Current locale
+	 * @return string Modified locale
+	 */
+	public function change_og_locale_to_english( string $locale ): string {
+		// Change fr_FR to en_US
+		if ( $locale === 'fr_FR' ) {
+			return 'en_US';
+		}
+		return $locale;
+	}
+	
+	/**
+	 * Add og:locale meta tag directly in head
+	 * This is a fallback if Yoast SEO is not active
+	 * 
+	 * @return void
+	 */
+	public function add_og_locale_meta_tag(): void {
+		// Only add if Yoast SEO is not active (Yoast will handle it via filters if active)
+		if ( ! function_exists( 'wpseo_init' ) ) {
+			echo '<meta property="og:locale" content="en_US" />' . "\n";
+		}
+	}
+	
+	/**
 	 * Modifie la classe du body pour la page de recherche
 	 * Remplace 'search' par 'search-body' pour éviter les conflits CSS
 	 * Optimisé avec vérification précoce
@@ -129,9 +156,9 @@ class Theme {
 		
 		// Enregistre les emplacements de menu
 		\register_nav_menus( [
-			'main-header' => __( 'Menu Principal Header', 'transfertmarrakech' ),
-			'footer-quick-links' => __( 'Footer - Liens rapides', 'transfertmarrakech' ),
-			'footer-social-links' => __( 'Footer - Suivez-nous', 'transfertmarrakech' ),
+			'main-header' => __( 'Main Header Menu', 'transfertmarrakech' ),
+			'footer-quick-links' => __( 'Footer - Quick Links', 'transfertmarrakech' ),
+			'footer-social-links' => __( 'Footer - Follow Us', 'transfertmarrakech' ),
 		] );
 	}
 	
@@ -218,7 +245,7 @@ class Theme {
 		if ( ! $meta_box_exists ) {
 			\add_meta_box(
 				'postimagediv',
-				\__( 'Image à la une', 'transfertmarrakech' ),
+				\__( 'Featured Image', 'transfertmarrakech' ),
 				'post_thumbnail_meta_box',
 				$screen->post_type,
 				'side',
@@ -419,6 +446,8 @@ class Theme {
 		\add_action( 'pre_get_posts', [ $this, 'configure_archive_circuits_pagination' ] );
 		// Configure la pagination pour l'archive des transferts (1 post par page)
 		\add_action( 'pre_get_posts', [ $this, 'configure_archive_transferts_pagination' ] );
+		// Configure la pagination pour l'archive de la taxonomie tour_location (9 posts par page)
+		\add_action( 'pre_get_posts', [ $this, 'configure_taxonomy_tour_location_pagination' ] );
 	}
 	
 	/**
@@ -520,6 +549,31 @@ class Theme {
 			'compare' => 'EXISTS',
 		];
 		$query->set( 'meta_query', $meta_query );
+		
+		$query->set( 'update_post_meta_cache', true );
+		$query->set( 'update_post_term_cache', true );
+		$query->set( 'no_found_rows', false ); // Nécessaire pour calculer correctement max_num_pages
+	}
+	
+	/**
+	 * Configure la pagination pour l'archive de la taxonomie tour_location (9 posts par page)
+	 * Optimisé : vérifications précoces
+	 * 
+	 * @param \WP_Query $query Requête WordPress
+	 * @return void
+	 */
+	public function configure_taxonomy_tour_location_pagination( \WP_Query $query ): void {
+		if ( is_admin() || ! $query->is_main_query() || ! is_tax( 'tour_location' ) ) {
+			return;
+		}
+		
+		// S'assure que le post_type est bien 'tours'
+		$query->set( 'post_type', 'tours' );
+		$query->set( 'posts_per_page', 9 );
+		$query->set( 'post_status', 'publish' );
+		
+		// Note: Le filtre _thumbnail_id est géré dans format_tour_data() qui retourne null si pas de thumbnail
+		// On ne filtre pas ici pour permettre à tous les tours d'être récupérés
 		
 		$query->set( 'update_post_meta_cache', true );
 		$query->set( 'update_post_term_cache', true );
@@ -655,7 +709,7 @@ class Theme {
 			'tm_show_in_hero',
 			[
 				'type'              => 'boolean',
-				'description'       => __( 'Afficher ce post dans le Hero', 'transfertmarrakech' ),
+				'description'       => __( 'Display this post in the Hero', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'rest_sanitize_boolean',
 				'auth_callback'     => function() {
@@ -671,7 +725,7 @@ class Theme {
 			'tm_hero_video_url',
 			[
 				'type'              => 'string',
-				'description'       => __( 'URL de la vidéo YouTube pour le Hero', 'transfertmarrakech' ),
+				'description'       => __( 'YouTube video URL for the Hero', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'esc_url_raw',
 				'auth_callback'     => function() {

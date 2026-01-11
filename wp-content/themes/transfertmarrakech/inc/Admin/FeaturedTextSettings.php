@@ -47,8 +47,8 @@ class FeaturedTextSettings {
 	 */
 	public function add_admin_page(): void {
 		\add_theme_page(
-			\__( 'Texte vedette', 'transfertmarrakech' ),
-			\__( 'Texte vedette', 'transfertmarrakech' ),
+			\__( 'Featured Text', 'transfertmarrakech' ),
+			\__( 'Featured Text', 'transfertmarrakech' ),
 			'manage_options',
 			self::PAGE_SLUG,
 			[ $this, 'render_page' ]
@@ -68,7 +68,7 @@ class FeaturedTextSettings {
 			[
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
-				'default'           => \__( 'Depuis 2015', 'transfertmarrakech' ),
+				'default'           => \__( 'Since 2015', 'transfertmarrakech' ),
 			]
 		);
 		
@@ -80,7 +80,7 @@ class FeaturedTextSettings {
 				'type'              => 'string',
 				'sanitize_callback' => 'wp_kses_post', // Permet le HTML basique
 				'default'           => \__( 
-					'Transfert Marrakech est bien plus qu\'un simple voyagiste, mais un pionnier du voyage au Maroc fort de ses 10 ans d\'expérience.', 
+					'Transfert Marrakech is much more than a simple travel agency, but a pioneer of travel in Morocco with 10 years of experience.', 
 					'transfertmarrakech' 
 				),
 			]
@@ -89,7 +89,7 @@ class FeaturedTextSettings {
 		// Enregistre la section de settings
 		\add_settings_section(
 			'tm_featured_text_section',
-			\__( 'Paramètres du texte vedette', 'transfertmarrakech' ),
+			\__( 'Featured Text Settings', 'transfertmarrakech' ),
 			[ $this, 'render_section_description' ],
 			self::PAGE_SLUG
 		);
@@ -97,7 +97,7 @@ class FeaturedTextSettings {
 		// Ajoute le champ surtexte
 		\add_settings_field(
 			'tm_featured_surtext',
-			\__( 'Surtexte', 'transfertmarrakech' ),
+			\__( 'Surtext', 'transfertmarrakech' ),
 			[ $this, 'render_surtext_field' ],
 			self::PAGE_SLUG,
 			'tm_featured_text_section'
@@ -106,7 +106,7 @@ class FeaturedTextSettings {
 		// Ajoute le champ texte principal
 		\add_settings_field(
 			'tm_featured_text',
-			\__( 'Texte principal', 'transfertmarrakech' ),
+			\__( 'Main Text', 'transfertmarrakech' ),
 			[ $this, 'render_text_field' ],
 			self::PAGE_SLUG,
 			'tm_featured_text_section'
@@ -119,7 +119,7 @@ class FeaturedTextSettings {
 	 * @return void
 	 */
 	public function render_section_description(): void {
-		echo '<p>' . \esc_html__( 'Configurez le texte vedette affiché sur la page d\'accueil.', 'transfertmarrakech' ) . '</p>';
+		echo '<p>' . \esc_html__( 'Configure the featured text displayed on the homepage.', 'transfertmarrakech' ) . '</p>';
 	}
 	
 	/**
@@ -128,17 +128,17 @@ class FeaturedTextSettings {
 	 * @return void
 	 */
 	public function render_surtext_field(): void {
-		$value = \get_option( 'tm_featured_surtext', \__( 'Depuis 2015', 'transfertmarrakech' ) );
+		$value = \get_option( 'tm_featured_surtext', \__( 'Since 2015', 'transfertmarrakech' ) );
 		?>
 		<input 
 			type="text" 
 			name="tm_featured_surtext" 
 			value="<?php echo \esc_attr( $value ); ?>" 
 			class="regular-text"
-			placeholder="<?php echo \esc_attr__( 'Depuis 2015', 'transfertmarrakech' ); ?>"
+			placeholder="<?php echo \esc_attr__( 'Since 2015', 'transfertmarrakech' ); ?>"
 		>
 		<p class="description">
-			<?php \esc_html_e( 'Le texte qui apparaît au-dessus du texte principal (ex: "Depuis 2015")', 'transfertmarrakech' ); ?>
+			<?php \esc_html_e( 'The text that appears above the main text (e.g., "Since 2015")', 'transfertmarrakech' ); ?>
 		</p>
 		<?php
 	}
@@ -155,10 +155,10 @@ class FeaturedTextSettings {
 			name="tm_featured_text" 
 			rows="5" 
 			class="large-text"
-			placeholder="<?php echo \esc_attr__( 'Transfert Marrakech est bien plus qu\'un simple voyagiste...', 'transfertmarrakech' ); ?>"
+			placeholder="<?php echo \esc_attr__( 'Transfert Marrakech is much more than a simple travel agency...', 'transfertmarrakech' ); ?>"
 		><?php echo \esc_textarea( $value ); ?></textarea>
 		<p class="description">
-			<?php \esc_html_e( 'Le texte principal affiché dans la section vedette. Vous pouvez utiliser du HTML basique.', 'transfertmarrakech' ); ?>
+			<?php \esc_html_e( 'The main text displayed in the featured section. You can use basic HTML.', 'transfertmarrakech' ); ?>
 		</p>
 		<?php
 	}
@@ -171,7 +171,7 @@ class FeaturedTextSettings {
 	public function render_page(): void {
 		// Vérifie les permissions
 		if ( ! \current_user_can( 'manage_options' ) ) {
-			\wp_die( \__( 'Vous n\'avez pas les permissions nécessaires pour accéder à cette page.', 'transfertmarrakech' ) );
+			\wp_die( \__( 'You do not have the necessary permissions to access this page.', 'transfertmarrakech' ) );
 		}
 		
 		// Affiche les messages de succès
@@ -179,7 +179,7 @@ class FeaturedTextSettings {
 			\add_settings_error(
 				'tm_featured_text_messages',
 				'tm_featured_text_message',
-				\__( 'Paramètres sauvegardés avec succès.', 'transfertmarrakech' ),
+				\__( 'Settings saved successfully.', 'transfertmarrakech' ),
 				'success'
 			);
 		}
@@ -192,7 +192,7 @@ class FeaturedTextSettings {
 				<?php
 				\settings_fields( self::OPTION_GROUP );
 				\do_settings_sections( self::PAGE_SLUG );
-				\submit_button( \__( 'Enregistrer les modifications', 'transfertmarrakech' ) );
+				\submit_button( \__( 'Save Changes', 'transfertmarrakech' ) );
 				?>
 			</form>
 		</div>

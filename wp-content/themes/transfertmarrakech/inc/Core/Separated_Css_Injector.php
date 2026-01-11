@@ -109,6 +109,14 @@ class Separated_Css_Injector {
 				'dependencies' => [ 'global_css' ],
 				'dequeues' => [],
 			],
+			'taxonomy-tour_location' => [
+				'condition' => function() {
+					return \is_tax( 'tour_location' );
+				},
+				'file_name' => 'taxonomy-tour_location',
+				'dependencies' => [ 'global_css' ],
+				'dequeues' => [],
+			],
 			'search' => [
 				'condition' => function() {
 					return \is_search();
@@ -121,7 +129,7 @@ class Separated_Css_Injector {
 				'condition' => function() {
 					return \is_404();
 				},
-				'file_name' => 'global',
+				'file_name' => '404',
 				'dependencies' => [ 'global_css' ],
 				'dequeues' => [],
 			],

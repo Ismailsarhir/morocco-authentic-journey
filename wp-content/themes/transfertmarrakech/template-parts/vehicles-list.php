@@ -17,7 +17,7 @@ if (! isset($vehicles) || empty($vehicles) || ! is_array($vehicles)) {
   <div class="module vehiclesList">
     <div class="vehiclesList__inner">
       <h2 class="vehiclesList__title animated-title">
-        <?php esc_html_e('Véhicules vedettes', 'transfertmarrakech'); ?>
+        <?php esc_html_e('Featured Vehicles', 'transfertmarrakech'); ?>
       </h2>
       <div class="wrapper">
         <div class="boxes-container">

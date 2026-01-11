@@ -21,7 +21,7 @@ class TourMeta extends MetaBox {
 	public function __construct() {
 		parent::__construct(
 			'tm_tour_meta',
-			__( 'Informations du tour', 'transfertmarrakech' ),
+			__( 'Tour Information', 'transfertmarrakech' ),
 			Constants::POST_TYPE_TOUR
 		);
 	}
@@ -56,17 +56,17 @@ class TourMeta extends MetaBox {
 		$vehicle_ids   = $meta[ Constants::META_TOUR_VEHICLES ] ?? [];
 		
 		// Localisation
-		$this->text_field( Constants::META_TOUR_LOCATION, __( 'Localisation', 'transfertmarrakech' ), $location, __( 'Ex: Essaouira, Marrakech', 'transfertmarrakech' ) );
+		$this->text_field( Constants::META_TOUR_LOCATION, __( 'Location', 'transfertmarrakech' ), $location, __( 'Ex: Essaouira, Marrakech', 'transfertmarrakech' ) );
 		
 		// Durée
-		$this->text_field( Constants::META_TOUR_DURATION, __( 'Durée (nombre)', 'transfertmarrakech' ), $duration, __( 'Ex: 10', 'transfertmarrakech' ) );
+		$this->text_field( Constants::META_TOUR_DURATION, __( 'Duration (number)', 'transfertmarrakech' ), $duration, __( 'Ex: 10', 'transfertmarrakech' ) );
 		
 		// Unité de durée
 		$duration_unit_options = [
-			'hours' => __( 'Heures', 'transfertmarrakech' ),
-			'days'  => __( 'Jours', 'transfertmarrakech' ),
+			'hours' => __( 'Hours', 'transfertmarrakech' ),
+			'days'  => __( 'Days', 'transfertmarrakech' ),
 		];
-		$this->select_field( Constants::META_TOUR_DURATION_UNIT, __( 'Unité de durée', 'transfertmarrakech' ), $duration_unit_options, $duration_unit );
+		$this->select_field( Constants::META_TOUR_DURATION_UNIT, __( 'Duration Unit', 'transfertmarrakech' ), $duration_unit_options, $duration_unit );
 		
 		// Type de tour
 		$tour_type_options = [
@@ -74,7 +74,7 @@ class TourMeta extends MetaBox {
 			'private' => __( 'Private Tour', 'transfertmarrakech' ),
 			'shared'  => __( 'Shared Group', 'transfertmarrakech' ),
 		];
-		$this->select_field( Constants::META_TOUR_TYPE, __( 'Type de tour', 'transfertmarrakech' ), $tour_type_options, $tour_type );
+		$this->select_field( Constants::META_TOUR_TYPE, __( 'Tour Type', 'transfertmarrakech' ), $tour_type_options, $tour_type );
 		
 		// Difficulté
 		$difficulty_options = [
@@ -82,7 +82,7 @@ class TourMeta extends MetaBox {
 			'medium' => __( 'Medium', 'transfertmarrakech' ),
 			'hard'   => __( 'Hard', 'transfertmarrakech' ),
 		];
-		$this->select_field( Constants::META_TOUR_DIFFICULTY, __( 'Difficulté', 'transfertmarrakech' ), $difficulty_options, $difficulty );
+		$this->select_field( Constants::META_TOUR_DIFFICULTY, __( 'Difficulty', 'transfertmarrakech' ), $difficulty_options, $difficulty );
 		
 		// Langues (multi-select)
 		$language_options = [
@@ -95,7 +95,7 @@ class TourMeta extends MetaBox {
 			'slovenian' => __( 'Slovenian', 'transfertmarrakech' ),
 			'dutch'     => __( 'Dutch', 'transfertmarrakech' ),
 		];
-		$this->multi_checkbox_field( Constants::META_TOUR_LANGUAGES, __( 'Langues disponibles', 'transfertmarrakech' ), $language_options, $languages );
+		$this->multi_checkbox_field( Constants::META_TOUR_LANGUAGES, __( 'Available Languages', 'transfertmarrakech' ), $language_options, $languages );
 		
 		// Tags/Catégories (multi-select)
 		$tag_options = [
@@ -113,19 +113,19 @@ class TourMeta extends MetaBox {
 			'Desert'           => __( 'Desert', 'transfertmarrakech' ),
 			'atv'              => __( 'ATV', 'transfertmarrakech' ),
 		];
-		$this->multi_checkbox_field( Constants::META_TOUR_TAGS, __( 'Tags/Catégories', 'transfertmarrakech' ), $tag_options, $tags );
+		$this->multi_checkbox_field( Constants::META_TOUR_TAGS, __( 'Tags/Categories', 'transfertmarrakech' ), $tag_options, $tags );
 		
 		// Points forts (Highlights)
-		$this->textarea_field( Constants::META_TOUR_HIGHLIGHTS, __( 'Highlights (une ligne par point fort)', 'transfertmarrakech' ), $highlights, 5 );
+		$this->textarea_field( Constants::META_TOUR_HIGHLIGHTS, __( 'Highlights (one line per highlight)', 'transfertmarrakech' ), $highlights, 5 );
 		
 		// Point de rendez-vous (Meeting Point)
-		$this->text_field( Constants::META_TOUR_MEETING_POINT, __( 'Meeting Point', 'transfertmarrakech' ), $meeting_point, __( 'Ex: Marrakech, Maroc', 'transfertmarrakech' ) );
+		$this->text_field( Constants::META_TOUR_MEETING_POINT, __( 'Meeting Point', 'transfertmarrakech' ), $meeting_point, __( 'Ex: Marrakech, Morocco', 'transfertmarrakech' ) );
 		
 		// Prix par nombre de personnes
-		$this->price_tiers_field( Constants::META_TOUR_PRICE_TIERS, __( 'Prix par nombre de personnes', 'transfertmarrakech' ), $price_tiers );
+		$this->price_tiers_field( Constants::META_TOUR_PRICE_TIERS, __( 'Price by number of people', 'transfertmarrakech' ), $price_tiers );
 		
 		// Véhicules associés
-		$this->post_select_field( Constants::META_TOUR_VEHICLES, __( 'Véhicules disponibles', 'transfertmarrakech' ), Constants::POST_TYPE_VEHICLE, $vehicle_ids );
+		$this->post_select_field( Constants::META_TOUR_VEHICLES, __( 'Available Vehicles', 'transfertmarrakech' ), Constants::POST_TYPE_VEHICLE, $vehicle_ids );
 		
 		// Itinéraire
 		$this->itinerary_field( 
@@ -137,10 +137,10 @@ class TourMeta extends MetaBox {
 		);
 		
 		// Inclus (What's Included)
-		$this->textarea_field( Constants::META_TOUR_INCLUDED, __( 'What\'s Included (une ligne par item)', 'transfertmarrakech' ), $included, 5 );
+		$this->textarea_field( Constants::META_TOUR_INCLUDED, __( 'What\'s Included (one line per item)', 'transfertmarrakech' ), $included, 5 );
 		
 		// Exclus (What's Excluded)
-		$this->textarea_field( Constants::META_TOUR_EXCLUDED, __( 'What\'s Excluded (une ligne par item)', 'transfertmarrakech' ), $excluded, 5 );
+		$this->textarea_field( Constants::META_TOUR_EXCLUDED, __( 'What\'s Excluded (one line per item)', 'transfertmarrakech' ), $excluded, 5 );
 		
 		// Politique d'annulation (Cancellation Policy)
 		$this->textarea_field( Constants::META_TOUR_CANCELLATION, __( 'Cancellation Policy', 'transfertmarrakech' ), $cancellation, 3 );

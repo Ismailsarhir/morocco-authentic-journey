@@ -161,7 +161,7 @@ if (! empty($tags) && is_array($tags)) {
 // Duration
 if (! empty($duration)) {
 	$card_info_items[] = [
-		'label' => esc_html__('Durée:', 'transfertmarrakech'),
+		'label' => esc_html__('Duration:', 'transfertmarrakech'),
 		'value' => esc_html($duration),
 	];
 }
@@ -368,7 +368,7 @@ if (! empty($destination_name)) {
 	if (! empty($circuit_vehicles_data)) {
 		$renderer->render('vehicles-grid', [
 			'vehicles' => $circuit_vehicles_data,
-			'title'    => esc_html__('Véhicules disponibles pour ce circuit', 'transfertmarrakech'),
+			'title'    => esc_html__('Vehicles available for this circuit', 'transfertmarrakech'),
 		]);
 	}
 
@@ -376,7 +376,7 @@ if (! empty($destination_name)) {
 	$whatsapp_message = sprintf(
 		'Bonjour, %sje suis intéressé(e) par : %s%s%s',
 		"\n",
-		esc_html($title) . ' ' . esc_html__('à partir de', 'transfertmarrakech') . ' ' . esc_html($price_formatted) . ' ' . esc_html__('pour un circuit de', 'transfertmarrakech') . ' ' . esc_html($duration) . ' ' . esc_html__('à', 'transfertmarrakech') . ' ' . esc_html($location) . ' ',
+		esc_html($title) . ' ' . esc_html__('from', 'transfertmarrakech') . ' ' . esc_html($price_formatted) . ' ' . esc_html__('for a circuit of', 'transfertmarrakech') . ' ' . esc_html($duration) . ' ' . esc_html__('to', 'transfertmarrakech') . ' ' . esc_html($location) . ' ',
 		"\n",
 		esc_url($share_url)
 	);

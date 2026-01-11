@@ -21,7 +21,7 @@ $thumbnail_id = $thumbnail_id ?? 0;
 $share_url = $share_url ?? '';
 $share_title = $share_title ?? esc_attr( $title );
 $whatsapp_url = $whatsapp_url ?? '';
-$whatsapp_label = $whatsapp_label ?? esc_html__( 'Contacter une agence', 'transfertmarrakech' );
+$whatsapp_label = $whatsapp_label ?? esc_html__( 'Contact an agency', 'transfertmarrakech' );
 ?>
 <div class="banner">
 	<div class="banner__inner">
@@ -50,7 +50,7 @@ $whatsapp_label = $whatsapp_label ?? esc_html__( 'Contacter une agence', 'transf
 		<?php if ( ! empty( $share_url ) ) : ?>
 			<div class="banner__share-wrapper">
 				<a href="#" class="banner__share has-underline" data-share-url="<?php echo esc_url( $share_url ); ?>" data-share-title="<?php echo esc_attr( $share_title ); ?>">
-					<?php esc_html_e( 'Partager', 'transfertmarrakech' ); ?>
+					<?php esc_html_e( 'Share', 'transfertmarrakech' ); ?>
 				</a>
 			</div>
 		<?php endif; ?>

@@ -166,7 +166,7 @@ class DestinationsCarousel {
 		// Fallback vers le nom du terme
 		return \sprintf( 
 			/* translators: %s: Destination name */
-			\__( 'Image de %s', 'transfertmarrakech' ),
+			\__( 'Image of %s', 'transfertmarrakech' ),
 			$term->name
 		);
 	}

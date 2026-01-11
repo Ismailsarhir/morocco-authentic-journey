@@ -14,11 +14,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Configuration
 // Replace with your email address
 $newsletter_email = 'contact@example.com';
-$newsletter_url = 'mailto:' . $newsletter_email . '?subject=' . rawurlencode( __( 'Inscription à la newsletter', 'transfertmarrakech' ) );
+$newsletter_url = 'mailto:' . $newsletter_email . '?subject=' . rawurlencode( __( 'Newsletter Subscription', 'transfertmarrakech' ) );
 
-$title_text = __( 'Inscrivez-vous à notre infolettre', 'transfertmarrakech' );
-$description_text = __( 'Restez informé(e) de nos offres spéciales, nouveaux produits et promotions exclusives. Inscrivez-vous dès maintenant pour ne rien manquer !', 'transfertmarrakech' );
-$cta_text = __( "S'inscrire", 'transfertmarrakech' );
+$title_text = __( 'Subscribe to our newsletter', 'transfertmarrakech' );
+$description_text = __( 'Stay informed about our special offers, new products and exclusive promotions. Subscribe now so you don\'t miss anything!', 'transfertmarrakech' );
+$cta_text = __( 'Subscribe', 'transfertmarrakech' );
 ?>
 
 <div class="prefooter__wrapper">

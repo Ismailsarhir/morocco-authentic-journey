@@ -89,19 +89,19 @@ $renderer = new \TM\Template\Renderer();
 $card_info_items = [];
 if (! empty($pickup)) {
 	$card_info_items[] = [
-		'label' => esc_html__('Départ :', 'transfertmarrakech'),
+		'label' => esc_html__('Departure:', 'transfertmarrakech'),
 		'value' => $pickup,
 	];
 }
 if (! empty($dropoff)) {
 	$card_info_items[] = [
-		'label' => esc_html__('Arrivée :', 'transfertmarrakech'),
+		'label' => esc_html__('Arrival:', 'transfertmarrakech'),
 		'value' => $dropoff,
 	];
 }
 if (! empty($duration_display)) {
 	$card_info_items[] = [
-		'label' => esc_html__('Durée estimée :', 'transfertmarrakech'),
+		'label' => esc_html__('Estimated Duration:', 'transfertmarrakech'),
 		'value' => $duration_display,
 	];
 }
@@ -130,9 +130,9 @@ if (! empty($destination_name)) {
 	$renderer->render('product-keywords', [
 		'primary_tags' => array_filter([$pickup, $dropoff]),
 		'secondary_tags' => [
-			esc_html__('Transfert garanti', 'transfertmarrakech'),
-			esc_html__('Recommandé', 'transfertmarrakech'),
-			esc_html__('Nouvelle route', 'transfertmarrakech'),
+			esc_html__('Guaranteed Transfer', 'transfertmarrakech'),
+			esc_html__('Recommended', 'transfertmarrakech'),
+			esc_html__('New Route', 'transfertmarrakech'),
 		],
 	]);
 
@@ -141,7 +141,7 @@ if (! empty($destination_name)) {
 	
 	if (! empty($cities_visited)) {
 		$description_sections[] = [
-			'title'   => esc_html__('Villes visitées', 'transfertmarrakech'),
+			'title'   => esc_html__('Cities Visited', 'transfertmarrakech'),
 			'content' => $cities_visited,
 			'type'    => 'list',
 			'class'   => '',
@@ -159,7 +159,7 @@ if (! empty($destination_name)) {
 	
 	if (! empty($content)) {
 		$description_sections[] = [
-			'title'   => esc_html__('Sommaire', 'transfertmarrakech'),
+			'title'   => esc_html__('Summary', 'transfertmarrakech'),
 			'content' => $content,
 			'type'    => 'text',
 			'class'   => 'summary',
@@ -177,7 +177,7 @@ if (! empty($destination_name)) {
 	if (! empty($transfer_vehicles_data)) {
 		$renderer->render('vehicles-grid', [
 			'vehicles' => $transfer_vehicles_data,
-			'title'    => esc_html__('Véhicule disponible pour ce transfert', 'transfertmarrakech'),
+			'title'    => esc_html__('Vehicle available for this transfer', 'transfertmarrakech'),
 		]);
 	}
 
@@ -185,7 +185,7 @@ if (! empty($destination_name)) {
 	$whatsapp_message = sprintf(
 		'Bonjour, %sje suis intéressé(e) par : %s%s%s',
 		"\n",
-		esc_html($title) . ' ' . esc_html__('à partir de', 'transfertmarrakech') . ' ' . esc_html($price_formatted) . ' ' . esc_html__('MAD*', 'transfertmarrakech') . ' ' . esc_html__('pour un transfert de', 'transfertmarrakech') . ' ' . esc_html($pickup) . ' ' . esc_html__('à', 'transfertmarrakech') . ' ' . esc_html($dropoff) . ' ',
+		esc_html($title) . ' ' . esc_html__('from', 'transfertmarrakech') . ' ' . esc_html($price_formatted) . ' ' . esc_html__('MAD*', 'transfertmarrakech') . ' ' . esc_html__('for a transfer from', 'transfertmarrakech') . ' ' . esc_html($pickup) . ' ' . esc_html__('to', 'transfertmarrakech') . ' ' . esc_html($dropoff) . ' ',
 		"\n",
 		esc_url($share_url)
 	);
@@ -198,7 +198,7 @@ if (! empty($destination_name)) {
 		'share_url'     => $share_url,
 		'share_title'   => $share_title,
 		'whatsapp_url'  => $whatsapp_url,
-		'whatsapp_label' => esc_html__('Contacter une agence', 'transfertmarrakech'),
+		'whatsapp_label' => esc_html__('Contact an agency', 'transfertmarrakech'),
 	]);
 	?>
 </main>

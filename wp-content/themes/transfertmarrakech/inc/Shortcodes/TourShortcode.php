@@ -55,7 +55,7 @@ class TourShortcode extends BaseShortcode {
 		$tours = self::$repository->get_by_args( Constants::POST_TYPE_TOUR, $args );
 		
 		if ( empty( $tours ) ) {
-			return '<p>' . \esc_html__( 'Aucun tour trouvé', 'transfertmarrakech' ) . '</p>';
+			return '<p>' . \esc_html__( 'No tours found', 'transfertmarrakech' ) . '</p>';
 		}
 		
 		\ob_start();

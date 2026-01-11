@@ -81,20 +81,20 @@ class TermMeta {
 	public function add_form_fields(): void {
 		?>
 		<div class="form-field term-image-wrap">
-			<label for="tm_term_image"><?php \esc_html_e( 'Image de la destination', 'transfertmarrakech' ); ?></label>
+			<label for="tm_term_image"><?php \esc_html_e( 'Destination Image', 'transfertmarrakech' ); ?></label>
 			<div class="tm-term-image-container">
 				<input type="hidden" id="tm_term_image" name="tm_term_image" value="" />
 				<div class="tm-term-image-preview" style="margin-top: 10px;">
 					<img src="" style="max-width: 300px; display: none;" />
 				</div>
 				<button type="button" class="button tm-upload-image-button">
-					<?php \esc_html_e( 'Choisir une image', 'transfertmarrakech' ); ?>
+					<?php \esc_html_e( 'Choose Image', 'transfertmarrakech' ); ?>
 				</button>
 				<button type="button" class="button tm-remove-image-button" style="display: none;">
-					<?php \esc_html_e( 'Supprimer l\'image', 'transfertmarrakech' ); ?>
+					<?php \esc_html_e( 'Remove Image', 'transfertmarrakech' ); ?>
 				</button>
 			</div>
-			<p class="description"><?php \esc_html_e( 'Image qui sera affichée dans le carrousel des destinations.', 'transfertmarrakech' ); ?></p>
+			<p class="description"><?php \esc_html_e( 'Image that will be displayed in the destinations carousel.', 'transfertmarrakech' ); ?></p>
 		</div>
 		<?php
 	}
@@ -111,7 +111,7 @@ class TermMeta {
 		?>
 		<tr class="form-field term-image-wrap">
 			<th scope="row">
-				<label for="tm_term_image"><?php \esc_html_e( 'Image de la destination', 'transfertmarrakech' ); ?></label>
+				<label for="tm_term_image"><?php \esc_html_e( 'Destination Image', 'transfertmarrakech' ); ?></label>
 			</th>
 			<td>
 				<div class="tm-term-image-container">
@@ -124,13 +124,13 @@ class TermMeta {
 						<?php endif; ?>
 					</div>
 					<button type="button" class="button tm-upload-image-button">
-						<?php \esc_html_e( 'Choisir une image', 'transfertmarrakech' ); ?>
+						<?php \esc_html_e( 'Choose Image', 'transfertmarrakech' ); ?>
 					</button>
 					<button type="button" class="button tm-remove-image-button" style="<?php echo $image_id ? '' : 'display: none;'; ?>">
-						<?php \esc_html_e( 'Supprimer l\'image', 'transfertmarrakech' ); ?>
+						<?php \esc_html_e( 'Remove Image', 'transfertmarrakech' ); ?>
 					</button>
 				</div>
-				<p class="description"><?php \esc_html_e( 'Image qui sera affichée dans le carrousel des destinations.', 'transfertmarrakech' ); ?></p>
+				<p class="description"><?php \esc_html_e( 'Image that will be displayed in the destinations carousel.', 'transfertmarrakech' ); ?></p>
 			</td>
 		</tr>
 		<?php
@@ -172,7 +172,7 @@ class TermMeta {
 			'tm_term_image',
 			[
 				'type'              => 'integer',
-				'description'       => __( 'Image de la destination pour le carrousel', 'transfertmarrakech' ),
+				'description'       => __( 'Destination image for the carousel', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'absint',
 				'auth_callback'     => function() {

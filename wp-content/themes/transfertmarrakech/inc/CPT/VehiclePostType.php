@@ -40,31 +40,31 @@ class VehiclePostType extends PostType {
 		return [
 			'name'                  => _x( 'Véhicules', 'Post Type General Name', 'transfertmarrakech' ),
 			'singular_name'         => _x( 'Véhicule', 'Post Type Singular Name', 'transfertmarrakech' ),
-			'menu_name'             => __( 'Véhicules', 'transfertmarrakech' ),
-			'name_admin_bar'        => __( 'Véhicule', 'transfertmarrakech' ),
-			'archives'              => __( 'Archives des véhicules', 'transfertmarrakech' ),
-			'attributes'            => __( 'Attributs du véhicule', 'transfertmarrakech' ),
-			'parent_item_colon'     => __( 'Véhicule parent:', 'transfertmarrakech' ),
-			'all_items'             => __( 'Tous les véhicules', 'transfertmarrakech' ),
-			'add_new_item'          => __( 'Ajouter un nouveau véhicule', 'transfertmarrakech' ),
-			'add_new'               => __( 'Ajouter nouveau', 'transfertmarrakech' ),
-			'new_item'              => __( 'Nouveau véhicule', 'transfertmarrakech' ),
-			'edit_item'             => __( 'Modifier le véhicule', 'transfertmarrakech' ),
-			'update_item'           => __( 'Mettre à jour le véhicule', 'transfertmarrakech' ),
-			'view_item'             => __( 'Voir le véhicule', 'transfertmarrakech' ),
-			'view_items'            => __( 'Voir les véhicules', 'transfertmarrakech' ),
-			'search_items'          => __( 'Rechercher un véhicule', 'transfertmarrakech' ),
-			'not_found'             => __( 'Aucun véhicule trouvé', 'transfertmarrakech' ),
-			'not_found_in_trash'    => __( 'Aucun véhicule trouvé dans la corbeille', 'transfertmarrakech' ),
-			'featured_image'        => __( 'Image du véhicule', 'transfertmarrakech' ),
-			'set_featured_image'    => __( 'Définir l\'image du véhicule', 'transfertmarrakech' ),
-			'remove_featured_image' => __( 'Supprimer l\'image du véhicule', 'transfertmarrakech' ),
-			'use_featured_image'    => __( 'Utiliser comme image du véhicule', 'transfertmarrakech' ),
-			'insert_into_item'      => __( 'Insérer dans le véhicule', 'transfertmarrakech' ),
-			'uploaded_to_this_item' => __( 'Téléversé vers ce véhicule', 'transfertmarrakech' ),
-			'items_list'            => __( 'Liste des véhicules', 'transfertmarrakech' ),
-			'items_list_navigation' => __( 'Navigation de la liste des véhicules', 'transfertmarrakech' ),
-			'filter_items_list'     => __( 'Filtrer la liste des véhicules', 'transfertmarrakech' ),
+			'menu_name'             => __( 'Vehicles', 'transfertmarrakech' ),
+			'name_admin_bar'        => __( 'Vehicle', 'transfertmarrakech' ),
+			'archives'              => __( 'Vehicle Archives', 'transfertmarrakech' ),
+			'attributes'            => __( 'Vehicle Attributes', 'transfertmarrakech' ),
+			'parent_item_colon'     => __( 'Parent Vehicle:', 'transfertmarrakech' ),
+			'all_items'             => __( 'All Vehicles', 'transfertmarrakech' ),
+			'add_new_item'          => __( 'Add New Vehicle', 'transfertmarrakech' ),
+			'add_new'               => __( 'Add New', 'transfertmarrakech' ),
+			'new_item'              => __( 'New Vehicle', 'transfertmarrakech' ),
+			'edit_item'             => __( 'Edit Vehicle', 'transfertmarrakech' ),
+			'update_item'           => __( 'Update Vehicle', 'transfertmarrakech' ),
+			'view_item'             => __( 'View Vehicle', 'transfertmarrakech' ),
+			'view_items'            => __( 'View Vehicles', 'transfertmarrakech' ),
+			'search_items'          => __( 'Search Vehicles', 'transfertmarrakech' ),
+			'not_found'             => __( 'No vehicles found', 'transfertmarrakech' ),
+			'not_found_in_trash'    => __( 'No vehicles found in Trash', 'transfertmarrakech' ),
+			'featured_image'        => __( 'Vehicle Image', 'transfertmarrakech' ),
+			'set_featured_image'    => __( 'Set vehicle image', 'transfertmarrakech' ),
+			'remove_featured_image' => __( 'Remove vehicle image', 'transfertmarrakech' ),
+			'use_featured_image'    => __( 'Use as vehicle image', 'transfertmarrakech' ),
+			'insert_into_item'      => __( 'Insert into vehicle', 'transfertmarrakech' ),
+			'uploaded_to_this_item' => __( 'Uploaded to this vehicle', 'transfertmarrakech' ),
+			'items_list'            => __( 'Vehicles list', 'transfertmarrakech' ),
+			'items_list_navigation' => __( 'Vehicles list navigation', 'transfertmarrakech' ),
+			'filter_items_list'     => __( 'Filter vehicles list', 'transfertmarrakech' ),
 		];
 	}
 	
@@ -75,8 +75,8 @@ class VehiclePostType extends PostType {
 	 */
 	protected function get_args(): array {
 		return [
-			'label'                 => __( 'Véhicule', 'transfertmarrakech' ),
-			'description'           => __( 'Véhicules disponibles pour les transferts et tours', 'transfertmarrakech' ),
+			'label'                 => __( 'Vehicle', 'transfertmarrakech' ),
+			'description'           => __( 'Vehicles available for transfers and tours', 'transfertmarrakech' ),
 			'supports'              => [ 'title', 'editor', 'thumbnail', 'excerpt', 'custom-fields' ],
 			'taxonomies'            => [ 'vehicle_type' ],
 			'hierarchical'          => false,
@@ -114,8 +114,8 @@ class VehiclePostType extends PostType {
 			[ $this->post_type ],
 			[
 				'labels'            => [
-					'name'          => __( 'Types de véhicules', 'transfertmarrakech' ),
-					'singular_name' => __( 'Type de véhicule', 'transfertmarrakech' ),
+					'name'          => __( 'Vehicle Types', 'transfertmarrakech' ),
+					'singular_name' => __( 'Vehicle Type', 'transfertmarrakech' ),
 					'menu_name'     => __( 'Types', 'transfertmarrakech' ),
 				],
 				'hierarchical'      => true,
@@ -141,7 +141,7 @@ class VehiclePostType extends PostType {
 			'tm_vehicle_type',
 			[
 				'type'              => 'string',
-				'description'       => __( 'Type de véhicule', 'transfertmarrakech' ),
+				'description'       => __( 'Vehicle type', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'sanitize_text_field',
 				'auth_callback'     => function() {
@@ -157,7 +157,7 @@ class VehiclePostType extends PostType {
 			'tm_seats',
 			[
 				'type'              => 'integer',
-				'description'       => __( 'Nombre de places', 'transfertmarrakech' ),
+				'description'       => __( 'Number of seats', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'absint',
 				'auth_callback'     => function() {
@@ -173,7 +173,7 @@ class VehiclePostType extends PostType {
 			'tm_baggage_capacity',
 			[
 				'type'              => 'string',
-				'description'       => __( 'Capacité bagages', 'transfertmarrakech' ),
+				'description'       => __( 'Baggage capacity', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'sanitize_text_field',
 				'auth_callback'     => function() {
@@ -189,7 +189,7 @@ class VehiclePostType extends PostType {
 			'tm_gallery',
 			[
 				'type'              => 'array',
-				'description'       => __( 'Galerie d\'images', 'transfertmarrakech' ),
+				'description'       => __( 'Image gallery', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => [ 'TM\Utils\Sanitizer', 'sanitize_gallery' ],
 				'auth_callback'     => function() {
@@ -211,7 +211,7 @@ class VehiclePostType extends PostType {
 			'tm_availability',
 			[
 				'type'              => 'boolean',
-				'description'       => __( 'Disponibilité', 'transfertmarrakech' ),
+				'description'       => __( 'Availability', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => 'rest_sanitize_boolean',
 				'auth_callback'     => function() {
@@ -227,7 +227,7 @@ class VehiclePostType extends PostType {
 			'tm_daily_price',
 			[
 				'type'              => 'string',
-				'description'       => __( 'Prix journalier', 'transfertmarrakech' ),
+				'description'       => __( 'Daily price', 'transfertmarrakech' ),
 				'single'            => true,
 				'sanitize_callback' => [ 'TM\Utils\Sanitizer', 'sanitize_price' ],
 				'auth_callback'     => function() {

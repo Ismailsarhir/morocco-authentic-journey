@@ -85,8 +85,8 @@ class Header {
 		$search_icon_url = HeaderHelper::get_search_icon_url();
 		$agent_portal_url = HeaderHelper::get_agent_portal_url();
 		?>
-		<button class="header__search-toggle" aria-label="<?php esc_attr_e( 'Recherche', 'transfertmarrakech' ); ?>">
-			<img src="<?php echo esc_url( $search_icon_url ); ?>" alt="<?php esc_attr_e( 'Recherche', 'transfertmarrakech' ); ?>">
+		<button class="header__search-toggle" aria-label="<?php esc_attr_e( 'Search', 'transfertmarrakech' ); ?>">
+			<img src="<?php echo esc_url( $search_icon_url ); ?>" alt="<?php esc_attr_e( 'Search', 'transfertmarrakech' ); ?>">
 		</button>
 
 		<a 
@@ -95,9 +95,9 @@ class Header {
 			class="cta in_desktop is-fixed is-small"
 			rel="noopener noreferrer"
 		>
-			<span class="cta__inner" data-label="<?php \esc_attr_e( 'Réservez Maintenant', 'transfertmarrakech' ); ?>">
+			<span class="cta__inner" data-label="<?php \esc_attr_e( 'Book Now', 'transfertmarrakech' ); ?>">
 				<span class="cta__txt">
-					<?php \esc_html_e( 'Réservez Maintenant', 'transfertmarrakech' ); ?>
+					<?php \esc_html_e( 'Book Now', 'transfertmarrakech' ); ?>
 				</span>
 			</span>
 		</a>
@@ -142,7 +142,7 @@ class Header {
 	private function render_search(): void {
 		$search_url = \home_url( '/?s=' );
 		?>
-		<search class="search" data-lenis-prevent="" role="search">
+		<search class="search" data-lenis-prevent="">
 			<div class="search__inner">
 				<?php $this->render_search_form(); ?>
 			</div>
@@ -170,12 +170,11 @@ class Header {
 			class="ais-SearchBox-form" 
 			action="<?php echo \esc_url( $search_url ); ?>" 
 			method="get" 
-			role="search"
 			novalidate
 		>
 			<label class="search-bar__label results">
 				<div class="search-bar__label-title">
-					<?php \esc_html_e( 'Rechercher', 'transfertmarrakech' ); ?>
+					<?php \esc_html_e( 'Search', 'transfertmarrakech' ); ?>
 				</div>
 				<div class="instantsearch search-bar__label-value">
 					<div class="ais-SearchBox">
@@ -184,7 +183,7 @@ class Header {
 							type="search" 
 							name="s"
 							id="<?php echo \esc_attr( $input_id ); ?>"
-							placeholder="<?php \esc_attr_e( 'Une région, une ville...', 'transfertmarrakech' ); ?>" 
+							placeholder="<?php \esc_attr_e( 'A region, a city...', 'transfertmarrakech' ); ?>" 
 							autocomplete="off" 
 							autocorrect="off" 
 							autocapitalize="off" 

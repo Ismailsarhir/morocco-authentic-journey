@@ -1,0 +1,7 @@
+@import "utils/index";
+
+@import "pages/404/base/index";
+
+@include breakpoint(sm--min-width) {
+  @import "pages/404/tablet/index";
+}

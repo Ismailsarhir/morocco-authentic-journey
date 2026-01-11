@@ -143,14 +143,14 @@ class ArchiveTransfersSettings {
 			[
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
-				'default'           => \__( 'Découvrez nos services de transfert', 'transfertmarrakech' ),
+				'default'           => \__( 'Discover our transfer services', 'transfertmarrakech' ),
 			]
 		);
 		
 		// Enregistre la section de settings
 		\add_settings_section(
 			'tm_archive_transfers_section',
-			\__( 'Paramètres de l\'archive des transferts', 'transfertmarrakech' ),
+			\__( 'Transfers Archive Settings', 'transfertmarrakech' ),
 			[ $this, 'render_section_description' ],
 			self::PAGE_SLUG
 		);
@@ -189,7 +189,7 @@ class ArchiveTransfersSettings {
 	 * @return void
 	 */
 	public function render_section_description(): void {
-		echo '<p>' . \esc_html__( 'Configurez l\'image, le titre et le sous-titre affichés sur la page d\'archive des transferts.', 'transfertmarrakech' ) . '</p>';
+		echo '<p>' . \esc_html__( 'Configure the image, title and subtitle displayed on the transfers archive page.', 'transfertmarrakech' ) . '</p>';
 	}
 	
 	/**
@@ -218,7 +218,7 @@ class ArchiveTransfersSettings {
 				class="button tm-archive-image-button"
 				data-target="<?php echo \esc_attr( self::OPTION_ARCHIVE_IMAGE ); ?>"
 			>
-				<?php echo $image_id ? \esc_html__( 'Changer l\'image', 'transfertmarrakech' ) : \esc_html__( 'Sélectionner une image', 'transfertmarrakech' ); ?>
+				<?php echo $image_id ? \esc_html__( 'Change Image', 'transfertmarrakech' ) : \esc_html__( 'Select Image', 'transfertmarrakech' ); ?>
 			</button>
 			<?php if ( $image_id ) : ?>
 				<button 
@@ -227,11 +227,11 @@ class ArchiveTransfersSettings {
 					data-target="<?php echo \esc_attr( self::OPTION_ARCHIVE_IMAGE ); ?>"
 					style="margin-left: 10px;"
 				>
-					<?php \esc_html_e( 'Supprimer', 'transfertmarrakech' ); ?>
+					<?php \esc_html_e( 'Remove', 'transfertmarrakech' ); ?>
 				</button>
 			<?php endif; ?>
 			<p class="description">
-				<?php \esc_html_e( 'Sélectionnez l\'image de fond pour le hero de l\'archive des transferts.', 'transfertmarrakech' ); ?>
+				<?php \esc_html_e( 'Select the background image for the transfers archive hero.', 'transfertmarrakech' ); ?>
 			</p>
 		</div>
 		<?php
@@ -243,17 +243,17 @@ class ArchiveTransfersSettings {
 	 * @return void
 	 */
 	public function render_title_field(): void {
-		$value = \get_option( self::OPTION_ARCHIVE_TITLE, \__( 'Tous nos transferts', 'transfertmarrakech' ) );
+		$value = \get_option( self::OPTION_ARCHIVE_TITLE, \__( 'All Our Transfers', 'transfertmarrakech' ) );
 		?>
 		<input 
 			type="text" 
 			name="<?php echo \esc_attr( self::OPTION_ARCHIVE_TITLE ); ?>" 
 			value="<?php echo \esc_attr( $value ); ?>" 
 			class="regular-text"
-			placeholder="<?php echo \esc_attr__( 'Tous nos transferts', 'transfertmarrakech' ); ?>"
+			placeholder="<?php echo \esc_attr__( 'All Our Transfers', 'transfertmarrakech' ); ?>"
 		>
 		<p class="description">
-			<?php \esc_html_e( 'Le titre principal affiché dans le hero de l\'archive.', 'transfertmarrakech' ); ?>
+			<?php \esc_html_e( 'The main title displayed in the archive hero.', 'transfertmarrakech' ); ?>
 		</p>
 		<?php
 	}
@@ -264,14 +264,14 @@ class ArchiveTransfersSettings {
 	 * @return void
 	 */
 	public function render_subtitle_field(): void {
-		$value = \get_option( self::OPTION_ARCHIVE_SUBTITLE, \__( 'Découvrez nos services de transfert', 'transfertmarrakech' ) );
+		$value = \get_option( self::OPTION_ARCHIVE_SUBTITLE, \__( 'Discover our transfer services', 'transfertmarrakech' ) );
 		?>
 		<input 
 			type="text" 
 			name="<?php echo \esc_attr( self::OPTION_ARCHIVE_SUBTITLE ); ?>" 
 			value="<?php echo \esc_attr( $value ); ?>" 
 			class="regular-text"
-			placeholder="<?php echo \esc_attr__( 'Découvrez nos services de transfert', 'transfertmarrakech' ); ?>"
+			placeholder="<?php echo \esc_attr__( 'Discover our transfer services', 'transfertmarrakech' ); ?>"
 		>
 		<p class="description">
 			<?php \esc_html_e( 'Le sous-titre affiché sous le titre principal.', 'transfertmarrakech' ); ?>
@@ -287,7 +287,7 @@ class ArchiveTransfersSettings {
 	public function render_page(): void {
 		// Vérifie les permissions
 		if ( ! \current_user_can( 'manage_options' ) ) {
-			\wp_die( \__( 'Vous n\'avez pas les permissions nécessaires pour accéder à cette page.', 'transfertmarrakech' ) );
+			\wp_die( \__( 'You do not have the necessary permissions to access this page.', 'transfertmarrakech' ) );
 		}
 		
 		// Affiche les messages de succès
@@ -295,7 +295,7 @@ class ArchiveTransfersSettings {
 			\add_settings_error(
 				'tm_archive_transfers_messages',
 				'tm_archive_transfers_message',
-				\__( 'Paramètres sauvegardés avec succès.', 'transfertmarrakech' ),
+				\__( 'Settings saved successfully.', 'transfertmarrakech' ),
 				'success'
 			);
 		}
@@ -308,7 +308,7 @@ class ArchiveTransfersSettings {
 				<?php
 				\settings_fields( self::OPTION_GROUP );
 				\do_settings_sections( self::PAGE_SLUG );
-				\submit_button( \__( 'Enregistrer les modifications', 'transfertmarrakech' ) );
+				\submit_button( \__( 'Save Changes', 'transfertmarrakech' ) );
 				?>
 			</form>
 		</div>
@@ -339,7 +339,7 @@ class ArchiveTransfersSettings {
 	 * @return string
 	 */
 	public static function get_archive_subtitle(): string {
-		return \get_option( self::OPTION_ARCHIVE_SUBTITLE, \__( 'Découvrez nos services de transfert', 'transfertmarrakech' ) );
+		return \get_option( self::OPTION_ARCHIVE_SUBTITLE, \__( 'Discover our transfer services', 'transfertmarrakech' ) );
 	}
 }
 
