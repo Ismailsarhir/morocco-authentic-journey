@@ -75,6 +75,86 @@ class TransfersList {
 		// Request more transfers to account for those without images
 		$request_limit = $limit * 3;
 		
+		// First, try to get transfers marked to show on home page
+		$checked_transfers = $this->repository->get_by_args( Constants::POST_TYPE_TRANSFER, [
+			'posts_per_page' => $request_limit,
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+			'post_status'    => 'publish',
+			'meta_query'     => [
+				[
+					'key'     => Constants::META_TRANSFER_SHOW_ON_HOME,
+					'value'   => '1',
+					'compare' => '=',
+				],
+			],
+		] );
+		
+		// If we have checked transfers, use them
+		if ( ! empty( $checked_transfers ) ) {
+			$featured_transfers = [];
+			foreach ( $checked_transfers as $transfer ) {
+				if ( count( $featured_transfers ) >= $limit ) {
+					break;
+				}
+				
+				if ( ! $transfer instanceof \WP_Post || $transfer->post_status !== 'publish' ) {
+					continue;
+				}
+				
+				$transfer_id = $transfer->ID;
+				$transfer_meta = MetaHelper::get_transfer_meta( $transfer_id );
+				
+				$thumbnail_url = MetaHelper::get_post_thumbnail_url_with_fallback( $transfer_id );
+				
+				// Skip transfers without thumbnail
+				if ( ! $thumbnail_url ) {
+					continue;
+				}
+				
+				// Optimisation : utilise post_title directement
+				$title = MetaHelper::get_post_title( $transfer );
+				$permalink = \get_permalink( $transfer_id );
+				
+				if ( empty( $title ) || empty( $permalink ) ) {
+					continue;
+				}
+				
+				// Récupération du véhicule associé
+				$vehicle_id = (int) ( $transfer_meta[ Constants::META_TRANSFER_VEHICLE ] ?? 0 );
+				$vehicle_name = '';
+				if ( $vehicle_id > 0 ) {
+					$vehicle = $this->repository->get_by_id( $vehicle_id );
+					if ( $vehicle instanceof \WP_Post ) {
+						$vehicle_name = MetaHelper::get_post_title( $vehicle );
+					}
+				}
+				
+				$price = $transfer_meta[ Constants::META_TRANSFER_PRICE ] ?? '';
+				
+				$featured_transfers[] = [
+					'transfer'      => $transfer,
+					'transfer_id'   => $transfer_id,
+					'title'         => $title,
+					'permalink'     => $permalink,
+					'thumbnail'     => $thumbnail_url,
+					'type'          => $transfer_meta[ Constants::META_TRANSFER_TYPE ] ?? '',
+					'pickup'        => $transfer_meta[ Constants::META_TRANSFER_PICKUP ] ?? '',
+					'dropoff'       => $transfer_meta[ Constants::META_TRANSFER_DROPOFF ] ?? '',
+					'duration'      => $transfer_meta[ Constants::META_TRANSFER_DURATION_ESTIMATE ] ?? '',
+					'price'         => $price,
+					'price_formatted' => MetaHelper::format_price( $price ),
+					'vehicle_id'    => $vehicle_id,
+					'vehicle_name'  => $vehicle_name,
+				];
+			}
+			
+			if ( ! empty( $featured_transfers ) ) {
+				return $featured_transfers;
+			}
+		}
+		
+		// Otherwise, fall back to last transfers
 		$transfers = $this->repository->get_by_args( Constants::POST_TYPE_TRANSFER, [
 			'posts_per_page' => $request_limit,
 			'orderby'        => 'date',

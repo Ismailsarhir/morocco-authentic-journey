@@ -75,6 +75,90 @@ class VehiclesList {
 		// Request more vehicles to account for those without images
 		$request_limit = $limit * 3;
 		
+		// First, try to get vehicles marked to show on home page
+		$checked_vehicles = $this->repository->get_by_args( Constants::POST_TYPE_VEHICLE, [
+			'posts_per_page' => $request_limit,
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+			'post_status'    => 'publish',
+			'meta_query'     => [
+				[
+					'key'     => Constants::META_VEHICLE_SHOW_ON_HOME,
+					'value'   => '1',
+					'compare' => '=',
+				],
+			],
+		] );
+		
+		// If we have checked vehicles, use them
+		if ( ! empty( $checked_vehicles ) ) {
+			$featured_vehicles = [];
+			foreach ( $checked_vehicles as $vehicle ) {
+				if ( count( $featured_vehicles ) >= $limit ) {
+					break;
+				}
+				
+				if ( ! $vehicle instanceof \WP_Post || $vehicle->post_status !== 'publish' ) {
+					continue;
+				}
+				
+				$vehicle_id = $vehicle->ID;
+				
+				$vehicle_meta = MetaHelper::get_vehicle_meta( $vehicle_id );
+				
+				$thumbnail_url = MetaHelper::get_post_thumbnail_url_with_fallback( $vehicle_id );
+				
+				// Skip vehicles without featured image
+				if ( ! $thumbnail_url ) {
+					continue;
+				}
+				
+				// Optimisation : utilise post_title directement
+				$title = MetaHelper::get_post_title( $vehicle );
+				$permalink = \get_permalink( $vehicle_id );
+				
+				if ( empty( $title ) || empty( $permalink ) ) {
+					continue;
+				}
+				
+				$daily_price = $vehicle_meta[ Constants::META_VEHICLE_DAILY_PRICE ] ?? '';
+				$gallery_ids = $vehicle_meta[ Constants::META_VEHICLE_GALLERY ] ?? [];
+				
+				// Récupère les URLs de la galerie
+				$gallery_urls = [];
+				if ( ! empty( $gallery_ids ) && is_array( $gallery_ids ) ) {
+					foreach ( $gallery_ids as $gallery_id ) {
+						$gallery_id = (int) $gallery_id;
+						if ( $gallery_id > 0 ) {
+							$image_url = \wp_get_attachment_image_url( $gallery_id, 'large' );
+							if ( $image_url ) {
+								$gallery_urls[] = $image_url;
+							}
+						}
+					}
+				}
+				
+				$featured_vehicles[] = [
+					'vehicle_id'      => $vehicle_id,
+					'title'           => $title,
+					'permalink'       => $permalink,
+					'thumbnail'       => $thumbnail_url,
+					'type'            => $vehicle_meta[ Constants::META_VEHICLE_TYPE ] ?? '',
+					'seats'           => $vehicle_meta[ Constants::META_VEHICLE_SEATS ] ?? 0,
+					'baggage_capacity' => $vehicle_meta[ Constants::META_VEHICLE_BAGGAGE_CAPACITY ] ?? '',
+					'daily_price'     => $daily_price,
+					'daily_price_formatted' => MetaHelper::format_price( $daily_price ),
+					'availability'    => $vehicle_meta[ Constants::META_VEHICLE_AVAILABILITY ] ?? false,
+					'gallery'         => $gallery_urls,
+				];
+			}
+			
+			if ( ! empty( $featured_vehicles ) ) {
+				return $featured_vehicles;
+			}
+		}
+		
+		// Otherwise, fall back to last vehicles
 		$vehicles = $this->repository->get_by_args( Constants::POST_TYPE_VEHICLE, [
 			'posts_per_page' => $request_limit,
 			'orderby'        => 'date',

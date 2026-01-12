@@ -36,8 +36,7 @@ class CircuitMeta extends MetaBox {
 		$this->nonce_field();
 		
 		// Utilise le helper pour récupérer toutes les meta en une fois (plus efficace)
-		// Note: We'll need to add get_circuit_meta method to MetaHelper later
-		$meta = $this->get_circuit_meta( $post->ID );
+		$meta = \TM\Utils\MetaHelper::get_circuit_meta( $post->ID );
 		
 		$location          = $meta[ Constants::META_CIRCUIT_LOCATION ] ?? '';
 		$duration_days     = $meta[ Constants::META_CIRCUIT_DURATION_DAYS ] ?? '';
@@ -58,6 +57,10 @@ class CircuitMeta extends MetaBox {
 		$cancellation      = $meta[ Constants::META_CIRCUIT_CANCELLATION ] ?? '';
 		$price_tiers       = $meta[ Constants::META_CIRCUIT_PRICE_TIERS ] ?? [];
 		$vehicle_ids       = $meta[ Constants::META_CIRCUIT_VEHICLES ] ?? [];
+		$show_on_home      = $meta[ Constants::META_CIRCUIT_SHOW_ON_HOME ] ?? false;
+		
+		// Show on Home Page
+		$this->checkbox_field( Constants::META_CIRCUIT_SHOW_ON_HOME, __( 'Show on Home Page', 'transfertmarrakech' ), (bool) $show_on_home );
 		
 		// Localisation
 		$this->text_field( Constants::META_CIRCUIT_LOCATION, __( 'Location', 'transfertmarrakech' ), $location, __( 'Ex: Marrakech', 'transfertmarrakech' ) );
@@ -598,6 +601,10 @@ class CircuitMeta extends MetaBox {
 		} else {
 			\update_post_meta( $post_id, Constants::META_CIRCUIT_VEHICLES, [] );
 		}
+		
+		// Show on Home Page
+		$show_on_home = isset( $_POST[ Constants::META_CIRCUIT_SHOW_ON_HOME ] ) && $_POST[ Constants::META_CIRCUIT_SHOW_ON_HOME ] === '1';
+		\update_post_meta( $post_id, Constants::META_CIRCUIT_SHOW_ON_HOME, $show_on_home );
 	}
 }
 

@@ -200,6 +200,33 @@ class ToursList {
 	 * @return array
 	 */
 	private function get_featured_tours( int $limit = self::MAX_TOURS ): array {
+		// First, try to get tours marked to show on home page
+		$checked_tours = $this->repository->get_by_args( Constants::POST_TYPE_TOUR, [
+			'posts_per_page' => $limit,
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+			'meta_query'     => [
+				[
+					'key'     => Constants::META_TOUR_SHOW_ON_HOME,
+					'value'   => '1',
+					'compare' => '=',
+				],
+			],
+		] );
+		
+		// If we have checked tours, use them
+		if ( ! empty( $checked_tours ) ) {
+			$featured_tours = [];
+			foreach ( $checked_tours as $tour ) {
+				$tour_data = $this->format_tour_data( $tour );
+				if ( $tour_data ) {
+					$featured_tours[] = $tour_data;
+				}
+			}
+			return $featured_tours;
+		}
+		
+		// Otherwise, fall back to last 6 tours
 		$tours = $this->repository->get_by_args( Constants::POST_TYPE_TOUR, [
 			'posts_per_page' => $limit,
 			'orderby'        => 'date',

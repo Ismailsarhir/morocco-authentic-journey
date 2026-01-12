@@ -1,0 +1,44 @@
+.page {
+  .page {
+    &__header {
+      margin-bottom: max(36px, 3600svw / var(--w));
+      margin-inline: var(--gutter);
+      padding-block: calc(var(--header-spacing) + max(47px, 4700svw / var(--w)))
+        max(47px, 4700svw / var(--w));
+      text-align: center;
+      border-bottom: 2px dotted;
+    }
+
+    &__body {
+      margin: max(35px, 3500svw / var(--w)) var(--gutter);
+
+      p,
+      ul,
+      ol {
+        margin-block: 1.6470588235em;
+      }
+
+      p {
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+
+      ul,
+      ol {
+        padding-left: 1em;
+        li:not(:last-child) {
+          margin-bottom: 1.2941176471em;
+        }
+      }
+
+      ul {
+        list-style-type: disc;
+      }
+
+      ol {
+        list-style-type: decimal;
+      }
+    }
+  }
+}

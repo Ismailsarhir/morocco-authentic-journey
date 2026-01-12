@@ -220,7 +220,7 @@ if (! empty($destination_name)) {
 	$whatsapp_message = sprintf(
 		'Hello, %sI am interested in: %s%s%s',
 		"\n",
-		esc_html($title) . ' ' . esc_html__('from', 'transfertmarrakech') . ' ' . esc_html($price_formatted) . ' ' . esc_html__('for a tour from', 'transfertmarrakech') . ' ' . esc_html($meeting_point) . ' ' . esc_html__('to', 'transfertmarrakech') . ' ' . esc_html($location) . ' ',
+		esc_html($title) . ' ' . esc_html__('for a tour from', 'transfertmarrakech') . ' ' . esc_html($meeting_point) . ' ' . esc_html__('to', 'transfertmarrakech') . ' ' . esc_html($location) . ' ',
 		"\n",
 		esc_url($share_url)
 	);

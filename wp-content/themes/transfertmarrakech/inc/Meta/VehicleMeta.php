@@ -44,6 +44,10 @@ class VehicleMeta extends MetaBox {
 		$gallery_ids     = $meta[ Constants::META_VEHICLE_GALLERY ] ?? [];
 		$availability    = $meta[ Constants::META_VEHICLE_AVAILABILITY ] ?? false;
 		$daily_price     = $meta[ Constants::META_VEHICLE_DAILY_PRICE ] ?? '';
+		$show_on_home    = $meta[ Constants::META_VEHICLE_SHOW_ON_HOME ] ?? false;
+		
+		// Show on Home Page
+		$this->checkbox_field( Constants::META_VEHICLE_SHOW_ON_HOME, __( 'Show on Home Page', 'transfertmarrakech' ), (bool) $show_on_home );
 		
 		// Type de véhicule
 		$type_options = [
@@ -122,6 +126,10 @@ class VehicleMeta extends MetaBox {
 			$price = \TM\Utils\MetaHelper::format_price_for_save( $_POST[ Constants::META_VEHICLE_DAILY_PRICE ] );
 			\update_post_meta( $post_id, Constants::META_VEHICLE_DAILY_PRICE, $price );
 		}
+		
+		// Show on Home Page
+		$show_on_home = isset( $_POST[ Constants::META_VEHICLE_SHOW_ON_HOME ] ) && $_POST[ Constants::META_VEHICLE_SHOW_ON_HOME ] === '1';
+		\update_post_meta( $post_id, Constants::META_VEHICLE_SHOW_ON_HOME, $show_on_home );
 	}
 }
 

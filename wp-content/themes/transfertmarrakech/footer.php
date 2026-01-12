@@ -30,8 +30,9 @@ get_template_part( 'template-parts/prefooter' );
 				?>
 				
 				<?php
-				// CTA Réservez Maintenant
-				$reservez_url = '#';
+				// CTA Book Now - WhatsApp
+				$whatsapp_message = 'Hello, I would like to make a reservation.';
+				$reservez_url = \TM\Utils\MetaHelper::build_whatsapp_url( $whatsapp_message );
 				?>
 				<a href="<?php echo esc_url( $reservez_url ); ?>" class="cta primary">
 					<span class="cta__inner" data-label="<?php echo esc_attr__( 'Book Now', 'transfertmarrakech' ); ?>">
@@ -41,7 +42,7 @@ get_template_part( 'template-parts/prefooter' );
 				
 				<?php
 				// CTA EMAIL
-				$email_url = 'mailto:contact@example.com';
+				$email_url = 'mailto:contact@transfert-marrakech.com';
 				$email_label = __( 'Contact Us', 'transfertmarrakech' );
 				?>
 				<a href="<?php echo esc_url( $email_url ); ?>" class="cta secondary">
@@ -96,14 +97,8 @@ get_template_part( 'template-parts/prefooter' );
 		
 			<div>
 				<ul>		
-					<?php
-					// Politique de confidentialité
-					$privacy_url = '#';
-					?>
 					<li>
-						<a href="<?php echo esc_url( $privacy_url ); ?>" target="_blank" rel="noopener noreferrer">
-						Boulevard el Mansour Eddahbi - Marrakech
-						</a>
+						Boulevard el Mansour Eddahbi - Marrakech, Morocco
 					</li>
 				</ul>
 			</div>

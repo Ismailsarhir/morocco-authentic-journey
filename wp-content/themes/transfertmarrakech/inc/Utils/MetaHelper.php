@@ -438,6 +438,7 @@ class MetaHelper {
 			\TM\Core\Constants::META_CIRCUIT_CANCELLATION,
 			\TM\Core\Constants::META_CIRCUIT_PRICE_TIERS,
 			\TM\Core\Constants::META_CIRCUIT_VEHICLES,
+			\TM\Core\Constants::META_CIRCUIT_SHOW_ON_HOME,
 		];
 		
 		// Batch fetch all meta at once

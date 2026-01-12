@@ -54,6 +54,10 @@ class TourMeta extends MetaBox {
 		$cancellation  = $meta[ Constants::META_TOUR_CANCELLATION ] ?? '';
 		$price_tiers   = $meta[ Constants::META_TOUR_PRICE_TIERS ] ?? [];
 		$vehicle_ids   = $meta[ Constants::META_TOUR_VEHICLES ] ?? [];
+		$show_on_home  = $meta[ Constants::META_TOUR_SHOW_ON_HOME ] ?? false;
+		
+		// Show on Home Page
+		$this->checkbox_field( Constants::META_TOUR_SHOW_ON_HOME, __( 'Show on Home Page', 'transfertmarrakech' ), (bool) $show_on_home );
 		
 		// Localisation
 		$this->text_field( Constants::META_TOUR_LOCATION, __( 'Location', 'transfertmarrakech' ), $location, __( 'Ex: Essaouira, Marrakech', 'transfertmarrakech' ) );
@@ -293,6 +297,10 @@ class TourMeta extends MetaBox {
 		if ( isset( $_POST[ Constants::META_TOUR_CANCELLATION ] ) ) {
 			\update_post_meta( $post_id, Constants::META_TOUR_CANCELLATION, \sanitize_textarea_field( $_POST[ Constants::META_TOUR_CANCELLATION ] ) );
 		}
+		
+		// Show on Home Page
+		$show_on_home = isset( $_POST[ Constants::META_TOUR_SHOW_ON_HOME ] ) && $_POST[ Constants::META_TOUR_SHOW_ON_HOME ] === '1';
+		\update_post_meta( $post_id, Constants::META_TOUR_SHOW_ON_HOME, $show_on_home );
 		
 		// Prix par nombre de personnes (flexible)
 		if ( isset( $_POST[ Constants::META_TOUR_PRICE_TIERS ] ) && is_array( $_POST[ Constants::META_TOUR_PRICE_TIERS ] ) ) {

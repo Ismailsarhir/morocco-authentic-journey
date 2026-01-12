@@ -137,7 +137,7 @@ class Separated_Css_Injector {
 				'condition' => function() {
 					return \is_page();
 				},
-				'file_name' => 'global',
+				'file_name' => 'page',
 				'dependencies' => [ 'global_css' ],
 				'dequeues' => [],
 			],
@@ -167,11 +167,6 @@ class Separated_Css_Injector {
 	 * @return string Chemin complet vers le fichier CSS
 	 */
 	private function get_file_path( string $file_name ): string {
-		// Si vous avez besoin de versions mobiles, décommentez et adaptez :
-		// if ( wp_is_mobile() ) {
-		//     $file_name .= '_mobile';
-		// }
-
 		return $this->css_path . $file_name . '.css';
 	}
 

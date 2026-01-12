@@ -46,7 +46,7 @@ h3,
 h4,
 .h4{
   @include typographic($font-ppneuemontreal-bold, max(35px, 4000svw / var(--w)), 700, inherit, 1);
-  margin-block: 3.125em 0.7em;
+  margin-block: 1.1666666667em 0.7166666667em;
 }
 
 h5,

@@ -45,6 +45,10 @@ class TransferMeta extends MetaBox {
 		$dropoff           = $meta[ Constants::META_TRANSFER_DROPOFF ] ?? '';
 		$duration_estimate = $meta[ Constants::META_TRANSFER_DURATION_ESTIMATE ] ?? '';
 		$description       = $meta[ Constants::META_TRANSFER_DESCRIPTION ] ?? '';
+		$show_on_home     = $meta[ Constants::META_TRANSFER_SHOW_ON_HOME ] ?? false;
+		
+		// Show on Home Page
+		$this->checkbox_field( Constants::META_TRANSFER_SHOW_ON_HOME, __( 'Show on Home Page', 'transfertmarrakech' ), (bool) $show_on_home );
 		
 		// Type de transfert
 		$type_options = [
@@ -130,6 +134,10 @@ class TransferMeta extends MetaBox {
 		if ( isset( $_POST[ Constants::META_TRANSFER_DESCRIPTION ] ) ) {
 			\update_post_meta( $post_id, Constants::META_TRANSFER_DESCRIPTION, \sanitize_textarea_field( $_POST[ Constants::META_TRANSFER_DESCRIPTION ] ) );
 		}
+		
+		// Show on Home Page
+		$show_on_home = isset( $_POST[ Constants::META_TRANSFER_SHOW_ON_HOME ] ) && $_POST[ Constants::META_TRANSFER_SHOW_ON_HOME ] === '1';
+		\update_post_meta( $post_id, Constants::META_TRANSFER_SHOW_ON_HOME, $show_on_home );
 	}
 }
 

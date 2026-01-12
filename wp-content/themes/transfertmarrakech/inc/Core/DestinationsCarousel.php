@@ -64,10 +64,6 @@ class DestinationsCarousel {
 		] );
 		
 		if ( \is_wp_error( $terms ) ) {
-			// Log l'erreur en mode debug
-			if ( \defined( 'WP_DEBUG' ) && \WP_DEBUG ) {
-				\error_log( 'DestinationsCarousel Error: ' . $terms->get_error_message() );
-			}
 			return [];
 		}
 		
@@ -178,28 +174,6 @@ class DestinationsCarousel {
 	 */
 	public function render(): void {
 		$destinations = $this->get_destinations();
-		
-		// Debug mode - affiche des infos si WP_DEBUG est activé
-		if ( \defined( 'WP_DEBUG' ) && \WP_DEBUG && empty( $destinations ) ) {
-			$terms = \get_terms( [
-				'taxonomy'               => 'tour_location',
-				'hide_empty'             => false,
-				'update_term_meta_cache' => true,
-			] );
-			
-			if ( ! \is_wp_error( $terms ) && ! empty( $terms ) ) {
-				\error_log( 'DestinationsCarousel Debug: Found ' . count( $terms ) . ' terms' );
-				foreach ( $terms as $term ) {
-					$image_id = \get_term_meta( $term->term_id, 'tm_term_image', true );
-					\error_log( sprintf( 
-						'Term "%s" (ID: %d) - Image ID: %s', 
-						$term->name, 
-						$term->term_id, 
-						$image_id ?: 'none' 
-					) );
-				}
-			}
-		}
 		
 		if ( empty( $destinations ) ) {
 			return;

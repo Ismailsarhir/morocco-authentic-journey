@@ -15,7 +15,6 @@ use TM\CPT\CircuitPostType;
 use TM\REST\VehicleRestController;
 use TM\REST\TourRestController;
 use TM\REST\TransferRestController;
-use TM\Shortcodes\ShortcodeManager;
 use TM\Meta\PostMeta;
 use TM\Meta\TermMeta;
 use TM\Admin\FeaturedTextSettings;
@@ -65,7 +64,6 @@ class Theme {
 		$theme->register_hooks();
 		$theme->init_cpt();
 		$theme->init_rest();
-		$theme->init_shortcodes();
 		$theme->init_css_injector();
 		$theme->init_js_injector();
 		$theme->init_meta_boxes();
@@ -90,8 +88,8 @@ class Theme {
 		\add_action( 'admin_init', [ $this, 'add_featured_image_support' ] );
 		\add_action( 'add_meta_boxes', [ $this, 'ensure_featured_image_meta_box' ], 999 );
 		
-		// Remplace la classe 'search' par 'search-body' sur la page de recherche
-		\add_filter( 'body_class', [ $this, 'modify_search_body_class' ], 10, 2 );
+		// Modifie les classes du body (search et page)
+		\add_filter( 'body_class', [ $this, 'modify_body_class' ], 10, 2 );
 		
 		// Augmente la limite de taille d'upload pour les vidéos
 		\add_filter( 'upload_size_limit', [ $this, 'increase_upload_size_limit' ], 999 );
@@ -125,24 +123,26 @@ class Theme {
 	}
 	
 	/**
-	 * Modifie la classe du body pour la page de recherche
-	 * Remplace 'search' par 'search-body' pour éviter les conflits CSS
-	 * Optimisé avec vérification précoce
+	 * Modifie les classes du body
+	 * - Remplace 'search' par 'search-body' pour éviter les conflits CSS
+	 * - Ajoute la classe 'page' au body pour les pages
 	 * 
 	 * @param array $classes Classes du body
 	 * @param array $class   Classes additionnelles
 	 * @return array
 	 */
-	public function modify_search_body_class( array $classes, array $class ): array {
-		// Vérification précoce
-		if ( ! is_search() ) {
-			return $classes;
+	public function modify_body_class( array $classes, array $class ): array {
+		// Remplace 'search' par 'search-body' sur la page de recherche
+		if ( is_search() ) {
+			$key = array_search( 'search', $classes, true );
+			if ( $key !== false ) {
+				$classes[ $key ] = 'search-body';
+			}
 		}
 		
-		// Remplace 'search' par 'search-body'
-		$key = array_search( 'search', $classes, true );
-		if ( $key !== false ) {
-			$classes[ $key ] = 'search-body';
+		// Ajoute la classe 'page' au body pour les pages
+		if ( is_page() && ! in_array( 'page', $classes, true ) ) {
+			$classes[] = 'page';
 		}
 		
 		return $classes;
@@ -373,16 +373,6 @@ class Theme {
 			$transfer_rest = new TransferRestController();
 			$transfer_rest->register_routes();
 		} );
-	}
-	
-	/**
-	 * Initialise les shortcodes
-	 * 
-	 * @return void
-	 */
-	private function init_shortcodes(): void {
-		$shortcode_manager = new ShortcodeManager();
-		$shortcode_manager->register_all();
 	}
 	
 

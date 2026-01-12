@@ -374,9 +374,9 @@ if (! empty($destination_name)) {
 
 	// Construit le message WhatsApp
 	$whatsapp_message = sprintf(
-		'Bonjour, %sje suis intéressé(e) par : %s%s%s',
+		'Hello, %sI am interested in: %s%s%s',
 		"\n",
-		esc_html($title) . ' ' . esc_html__('from', 'transfertmarrakech') . ' ' . esc_html($price_formatted) . ' ' . esc_html__('for a circuit of', 'transfertmarrakech') . ' ' . esc_html($duration) . ' ' . esc_html__('to', 'transfertmarrakech') . ' ' . esc_html($location) . ' ',
+		esc_html($title) . ' ' . esc_html__('for a circuit of', 'transfertmarrakech') . ' ' . esc_html($duration) . ' ' . esc_html__('to', 'transfertmarrakech') . ' ' . esc_html($location) . ' ',
 		"\n",
 		esc_url($share_url)
 	);

@@ -36,6 +36,7 @@ class Constants {
 	public const META_TRANSFER_DROPOFF = 'tm_dropoff';
 	public const META_TRANSFER_DURATION_ESTIMATE = 'tm_duration_estimate';
 	public const META_TRANSFER_DESCRIPTION = 'tm_description';
+	public const META_TRANSFER_SHOW_ON_HOME = 'tm_transfer_show_on_home';
 	
 	/**
 	 * Meta Keys - Tours
@@ -60,6 +61,7 @@ class Constants {
 	public const META_TOUR_EXCLUDED = 'tm_tour_excluded';
 	public const META_TOUR_CANCELLATION = 'tm_tour_cancellation';
 	public const META_TOUR_PRICE_TIERS = 'tm_tour_price_tiers';
+	public const META_TOUR_SHOW_ON_HOME = 'tm_tour_show_on_home';
 	
 	/**
 	 * Meta Keys - Circuits
@@ -83,6 +85,7 @@ class Constants {
 	public const META_CIRCUIT_CANCELLATION = 'tm_circuit_cancellation';
 	public const META_CIRCUIT_PRICE_TIERS = 'tm_circuit_price_tiers';
 	public const META_CIRCUIT_VEHICLES = 'tm_circuit_vehicles';
+	public const META_CIRCUIT_SHOW_ON_HOME = 'tm_circuit_show_on_home';
 	
 	/**
 	 * Meta Keys - Vehicles
@@ -93,6 +96,7 @@ class Constants {
 	public const META_VEHICLE_GALLERY = 'tm_gallery';
 	public const META_VEHICLE_AVAILABILITY = 'tm_availability';
 	public const META_VEHICLE_DAILY_PRICE = 'tm_daily_price';
+	public const META_VEHICLE_SHOW_ON_HOME = 'tm_vehicle_show_on_home';
 	
 	/**
 	 * Options

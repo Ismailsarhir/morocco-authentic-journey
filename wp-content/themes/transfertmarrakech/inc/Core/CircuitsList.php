@@ -203,6 +203,37 @@ class CircuitsList {
 	 * @return array
 	 */
 	private function get_featured_circuits( int $limit = self::MAX_CIRCUITS ): array {
+		// First, try to get circuits marked to show on home page
+		$checked_circuits = $this->repository->get_by_args( Constants::POST_TYPE_CIRCUIT, [
+			'posts_per_page' => $limit,
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+			'meta_query'     => [
+				[
+					'key'     => Constants::META_CIRCUIT_SHOW_ON_HOME,
+					'value'   => '1',
+					'compare' => '=',
+				],
+			],
+		] );
+		
+		// If we have checked circuits, use them
+		if ( ! empty( $checked_circuits ) ) {
+			$featured_circuits = [];
+			foreach ( $checked_circuits as $circuit ) {
+				if ( ! $circuit instanceof \WP_Post ) {
+					continue;
+				}
+				
+				$circuit_data = $this->format_circuit_data( $circuit );
+				if ( $circuit_data ) {
+					$featured_circuits[] = $circuit_data;
+				}
+			}
+			return $featured_circuits;
+		}
+		
+		// Otherwise, fall back to last 6 circuits
 		$circuits = $this->repository->get_by_args( Constants::POST_TYPE_CIRCUIT, [
 			'posts_per_page' => $limit,
 			'orderby'        => 'date',
