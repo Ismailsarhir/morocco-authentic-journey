@@ -268,6 +268,71 @@ abstract class MetaBox {
 	}
 	
 	/**
+	 * Affiche un champ pour sélectionner une vidéo depuis la médiathèque
+	 * 
+	 * @param string $name  Nom du champ
+	 * @param string $label Label du champ
+	 * @param mixed  $value Valeur actuelle (ID d'attachment)
+	 * @return void
+	 */
+	protected function video_field( string $name, string $label, $value = '' ): void {
+		$video_id = ! empty( $value ) ? \absint( $value ) : 0;
+		$video_url = '';
+		$video_title = '';
+		
+		if ( $video_id ) {
+			$video_url = \wp_get_attachment_url( $video_id );
+			$video_title = \get_the_title( $video_id );
+		}
+		?>
+		<p>
+			<label for="<?php echo \esc_attr( $name ); ?>">
+				<strong><?php echo \esc_html( $label ); ?></strong>
+			</label>
+			<br>
+			<input 
+				type="hidden" 
+				id="<?php echo \esc_attr( $name ); ?>" 
+				name="<?php echo \esc_attr( $name ); ?>" 
+				value="<?php echo \esc_attr( $video_id ); ?>"
+				class="tm-video-id"
+			>
+			<button 
+				type="button" 
+				class="button tm-video-button"
+				data-target="<?php echo \esc_attr( $name ); ?>"
+			>
+				<?php \esc_html_e( 'Select Video', 'transfertmarrakech' ); ?>
+			</button>
+			<?php if ( $video_id ) : ?>
+				<button 
+					type="button" 
+					class="button tm-remove-video"
+					data-target="<?php echo \esc_attr( $name ); ?>"
+				>
+					<?php \esc_html_e( 'Remove Video', 'transfertmarrakech' ); ?>
+				</button>
+			<?php endif; ?>
+			<div class="tm-video-preview" style="margin-top: 10px;">
+				<?php if ( $video_id && $video_url ) : ?>
+					<div class="tm-video-item" style="position: relative;">
+						<video 
+							src="<?php echo \esc_url( $video_url ); ?>" 
+							controls 
+							style="max-width: 100%; max-height: 200px; display: block;"
+							preload="metadata"
+						></video>
+						<p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">
+							<?php echo \esc_html( $video_title ); ?>
+						</p>
+					</div>
+				<?php endif; ?>
+			</div>
+		</p>
+		<?php
+	}
+	
+	/**
 	 * Affiche un champ pour la galerie (IDs d'attachments)
 	 * 
 	 * @param string $name  Nom du champ

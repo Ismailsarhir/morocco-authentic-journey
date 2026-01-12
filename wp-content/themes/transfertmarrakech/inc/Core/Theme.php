@@ -92,6 +92,9 @@ class Theme {
 		
 		// Remplace la classe 'search' par 'search-body' sur la page de recherche
 		\add_filter( 'body_class', [ $this, 'modify_search_body_class' ], 10, 2 );
+		
+		// Augmente la limite de taille d'upload pour les vidéos
+		\add_filter( 'upload_size_limit', [ $this, 'increase_upload_size_limit' ], 999 );
 	}
 	
 	/**
@@ -270,21 +273,30 @@ class Theme {
 			return;
 		}
 		
-		if ( ! \in_array( $screen->post_type, $post_types, true ) ) {
-			return;
-		}
-		
 		// Charge les scripts WordPress nécessaires pour le sélecteur de médias
 		\wp_enqueue_media();
 		
-		// Charge le script JavaScript pour la gestion de la galerie
-		\wp_enqueue_script(
-			'tm-admin-gallery',
-			\get_template_directory_uri() . '/assets/js/admin-gallery.js',
-			[ 'jquery', 'media-upload', 'media-views' ],
-			'1.0.0',
-			true
-		);
+		// Charge le script JavaScript pour la gestion de la galerie (uniquement pour les CPT)
+		if ( \in_array( $screen->post_type, $post_types, true ) ) {
+			\wp_enqueue_script(
+				'tm-admin-gallery',
+				\get_template_directory_uri() . '/assets/js/admin-gallery.js',
+				[ 'jquery', 'media-upload', 'media-views' ],
+				'1.0.0',
+				true
+			);
+		}
+		
+		// Charge le script JavaScript pour la gestion de la vidéo (pour les posts standards et les CPT)
+		if ( \in_array( $screen->post_type, $post_types, true ) || $screen->post_type === 'post' ) {
+			\wp_enqueue_script(
+				'tm-admin-video',
+				\get_template_directory_uri() . '/assets/js/admin-video.js',
+				[ 'jquery', 'media-upload', 'media-views' ],
+				'1.0.1',
+				true
+			);
+		}
 		
 		// Script pour forcer l'affichage de la meta box Image à la une
 		\wp_add_inline_script( 'jquery', '
@@ -719,21 +731,32 @@ class Theme {
 			]
 		);
 		
-		// Hero Video URL (string)
+		// Hero Video ID (integer - attachment ID)
 		\register_post_meta(
 			'post',
-			'tm_hero_video_url',
+			'tm_hero_video_id',
 			[
-				'type'              => 'string',
-				'description'       => __( 'YouTube video URL for the Hero', 'transfertmarrakech' ),
+				'type'              => 'integer',
+				'description'       => __( 'Video attachment ID for the Hero', 'transfertmarrakech' ),
 				'single'            => true,
-				'sanitize_callback' => 'esc_url_raw',
+				'sanitize_callback' => 'absint',
 				'auth_callback'     => function() {
 					return \current_user_can( 'edit_posts' );
 				},
 				'show_in_rest'      => true,
 			]
 		);
+	}
+	
+	/**
+	 * Augmente la limite de taille d'upload pour permettre les vidéos volumineuses
+	 * 
+	 * @param int $size Taille actuelle en bytes
+	 * @return int Nouvelle taille en bytes (512MB)
+	 */
+	public function increase_upload_size_limit( int $size ): int {
+		// 512MB en bytes
+		return 512 * 1024 * 1024;
 	}
 }
 

@@ -62,59 +62,33 @@ class HeroHelper {
 	}
 	
 	/**
-	 * Récupère l'URL de la vidéo YouTube pour le Hero
+	 * Récupère l'URL de la vidéo depuis la médiathèque WordPress pour le Hero
 	 * 
 	 * @param WP_Post $post Post object
-	 * @return string
+	 * @return string URL de la vidéo ou chaîne vide
 	 */
 	public static function get_hero_video_url( $post ): string {
-		$video_url = \get_post_meta( $post->ID, 'tm_hero_video_url', true );
+		$video_id = \get_post_meta( $post->ID, 'tm_hero_video_id', true );
 		
-		if ( empty( $video_url ) ) {
+		if ( empty( $video_id ) ) {
 			return '';
 		}
 		
-		// Convertit l'URL YouTube en format embed si nécessaire
-		return self::convert_youtube_url_to_embed( $video_url );
+		$video_url = \wp_get_attachment_url( $video_id );
+		
+		return $video_url ? $video_url : '';
 	}
 	
 	/**
-	 * Convertit une URL YouTube en URL embed
+	 * Récupère l'ID de l'attachment vidéo pour le Hero
 	 * 
-	 * @param string $url URL YouTube
-	 * @return string URL embed
+	 * @param WP_Post $post Post object
+	 * @return int ID de l'attachment ou 0
 	 */
-	private static function convert_youtube_url_to_embed( string $url ): string {
-		// Extrait l'ID de la vidéo depuis différentes formats d'URL
-		$video_id = '';
+	public static function get_hero_video_id( $post ): int {
+		$video_id = \get_post_meta( $post->ID, 'tm_hero_video_id', true );
 		
-		// Format: https://www.youtube.com/watch?v=VIDEO_ID
-		if ( \preg_match( '/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/', $url, $matches ) ) {
-			$video_id = $matches[1];
-		}
-		// Format: https://youtu.be/VIDEO_ID
-		elseif ( \preg_match( '/youtu\.be\/([a-zA-Z0-9_-]+)/', $url, $matches ) ) {
-			$video_id = $matches[1];
-		}
-		// Format: https://www.youtube.com/embed/VIDEO_ID ou youtube-nocookie.com/embed/VIDEO_ID
-		elseif ( \preg_match( '/youtube(?:-nocookie)?\.com\/embed\/([a-zA-Z0-9_-]+)/', $url, $matches ) ) {
-			$video_id = $matches[1];
-		}
-		
-		if ( empty( $video_id ) ) {
-			return $url; // Retourne l'URL originale si on ne peut pas extraire l'ID
-		}
-		
-		// Retourne l'URL embed avec les paramètres optimisés pour mobile et desktop
-		// playsinline=1 : essentiel pour iOS/mobile
-		// controls=0 : masque les contrôles pour un fond vidéo
-		// fs=0 : désactive le plein écran
-		// rel=0 : ne montre pas de vidéos suggérées
-		return \sprintf( 
-			'https://www.youtube-nocookie.com/embed/%s?autoplay=1&mute=1&loop=1&playlist=%s&controls=0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&cc_load_policy=0&fs=0',
-			$video_id,
-			$video_id
-		);
+		return ! empty( $video_id ) ? \absint( $video_id ) : 0;
 	}
 }
 

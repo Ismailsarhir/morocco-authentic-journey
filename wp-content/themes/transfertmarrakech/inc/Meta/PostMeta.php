@@ -35,7 +35,7 @@ class PostMeta extends MetaBox {
 		
 		// Récupère la valeur actuelle
 		$show_in_hero = \get_post_meta( $post->ID, 'tm_show_in_hero', true );
-		$hero_video_url = \get_post_meta( $post->ID, 'tm_hero_video_url', true );
+		$hero_video_id = \get_post_meta( $post->ID, 'tm_hero_video_id', true );
 		
 		// Checkbox pour afficher dans le Hero
 		$this->checkbox_field( 
@@ -44,12 +44,11 @@ class PostMeta extends MetaBox {
 			(bool) $show_in_hero 
 		);
 		
-		// URL de la vidéo YouTube pour le Hero
-		$this->text_field( 
-			'tm_hero_video_url', 
-			__( 'YouTube Hero Video URL', 'transfertmarrakech' ), 
-			$hero_video_url,
-			__( 'Ex: https://www.youtube.com/watch?v=VIDEO_ID', 'transfertmarrakech' )
+		// Sélection de la vidéo depuis la médiathèque pour le Hero
+		$this->video_field( 
+			'tm_hero_video_id', 
+			__( 'Hero Video', 'transfertmarrakech' ), 
+			$hero_video_id
 		);
 		
 		?>
@@ -94,12 +93,16 @@ class PostMeta extends MetaBox {
 			\delete_post_meta( $post_id, 'tm_show_in_hero' );
 		}
 		
-		// Hero Video URL
-		if ( isset( $_POST['tm_hero_video_url'] ) ) {
-			$video_url = \esc_url_raw( $_POST['tm_hero_video_url'] );
-			\update_post_meta( $post_id, 'tm_hero_video_url', $video_url );
+		// Hero Video ID (from media library)
+		if ( isset( $_POST['tm_hero_video_id'] ) && ! empty( $_POST['tm_hero_video_id'] ) ) {
+			$video_id = \absint( $_POST['tm_hero_video_id'] );
+			// Vérifie que c'est bien une vidéo
+			$mime_type = \get_post_mime_type( $video_id );
+			if ( $mime_type && \strpos( $mime_type, 'video/' ) === 0 ) {
+				\update_post_meta( $post_id, 'tm_hero_video_id', $video_id );
+			}
 		} else {
-			\delete_post_meta( $post_id, 'tm_hero_video_url' );
+			\delete_post_meta( $post_id, 'tm_hero_video_id' );
 		}
 	}
 }
