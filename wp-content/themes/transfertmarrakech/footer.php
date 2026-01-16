@@ -41,13 +41,15 @@ get_template_part( 'template-parts/prefooter' );
 				</a>
 				
 				<?php
-				// CTA EMAIL
-				$email_url = 'mailto:contact@transfert-marrakech.com';
-				$email_label = __( 'Contact Us', 'transfertmarrakech' );
+				// CTA Contact Page
+				// Try to find contact page by slug (contact or contactez-nous)
+				$contact_page = \get_page_by_path( 'contact' );
+				$contact_url = $contact_page ? \get_permalink( $contact_page->ID ) : '#';
+				$contact_label = __( 'Contact Us', 'transfertmarrakech' );
 				?>
-				<a href="<?php echo esc_url( $email_url ); ?>" class="cta secondary">
-					<span class="cta__inner" data-label="<?php echo esc_attr( $email_label ); ?>">
-						<span class="cta__txt"><?php echo esc_html( $email_label ); ?></span>
+				<a href="<?php echo esc_url( $contact_url ); ?>" class="cta secondary">
+					<span class="cta__inner" data-label="<?php echo esc_attr( $contact_label ); ?>">
+						<span class="cta__txt"><?php echo esc_html( $contact_label ); ?></span>
 					</span>
 				</a>
 			</div>

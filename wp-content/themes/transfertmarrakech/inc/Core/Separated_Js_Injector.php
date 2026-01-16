@@ -93,6 +93,25 @@ class Separated_Js_Injector {
 				'dependencies' => [ 'default_js' ],
 				'dequeues' => [],
 			],
+			'contact' => [
+				'condition' => function() {
+					return \is_page( 'contact' );
+				},
+				'file_name' => 'components/contact-form',
+				'dependencies' => [ 'default_js' ],
+				'dequeues' => [],
+				'localize' => function() {
+					return [
+						'object_name' => 'tmContactForm',
+						'data' => [
+							'ajaxUrl' => \admin_url( 'admin-ajax.php' ),
+							'submitText' => \__( 'Submit', 'transfertmarrakech' ),
+							'sendingText' => \__( 'Sending...', 'transfertmarrakech' ),
+							'errorText' => \__( 'An error occurred. Please try again later.', 'transfertmarrakech' ),
+						],
+					];
+				},
+			],
 			'page' => [
 				'condition' => function() {
 					return \is_page();
@@ -178,6 +197,14 @@ class Separated_Js_Injector {
 				TM_VERSION,
 				true
 			);
+
+			// Localize script if needed
+			if ( isset( $js_file_info['localize'] ) && is_callable( $js_file_info['localize'] ) ) {
+				$localize_data = \call_user_func( $js_file_info['localize'] );
+				if ( ! empty( $localize_data ) && isset( $localize_data['object_name'] ) && isset( $localize_data['data'] ) ) {
+					\wp_localize_script( $handle, $localize_data['object_name'], $localize_data['data'] );
+				}
+			}
 
 			// Arrête après avoir trouvé la première condition vraie
 			break;

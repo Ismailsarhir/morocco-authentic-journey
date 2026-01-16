@@ -2,7 +2,16 @@
 
 @import "pages/page/base/index";
 
+@import "pages/contact/base/index";
+
 /* Tablet */
 @include breakpoint(sm--min-width) {
   @import "pages/page/tablet/index";
+
+  @import "pages/contact/tablet/index";
+}
+
+/* Desktop */
+@include breakpoint(md--min-width) {
+  @import "pages/contact/desktop/index";
 }

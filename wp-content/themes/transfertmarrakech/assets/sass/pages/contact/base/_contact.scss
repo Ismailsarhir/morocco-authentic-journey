@@ -1,0 +1,135 @@
+.contact {
+  &__header {
+    margin-bottom: max(36px, 3600svw / var(--w));
+    margin-inline: var(--gutter);
+    padding-block: calc(var(--header-spacing) + max(47px, 4700svw / var(--w)))
+      max(47px, 4700svw / var(--w));
+    text-align: center;
+  }
+
+  &__body {
+    margin-inline: var(--gutter);
+    border-top: 2px dotted;
+  }
+
+  &__infos {
+    min-width: 0;
+    max-width: none;
+    padding: 0;
+    border: none;
+  }
+
+  &__info {
+    padding-block: 1.4705882353em;
+    @include typographic(
+      $font-ppneuemontreal,
+      max(15px, 1600svw / var(--w)),
+      400,
+      inherit,
+      1.5
+    );
+    border-bottom: 2px dotted;
+
+    &-title:not(:last-child) {
+      margin-bottom: 0.4814814815em;
+    }
+
+    p {
+      margin-top: 0.8125em;
+    }
+  }
+
+  &__form {
+    padding: calc(2800svw / var(--w)) 0 calc(3300svw / var(--w)) 0;
+
+    .contact-form {
+      &__row {
+        display: grid;
+        gap: 8.8vw;
+
+        &:not(:last-child) {
+          margin-bottom: 8.8vw;
+        }
+      }
+
+      &__label {
+        display: block;
+        margin-bottom: 1.06em;
+        padding: 0;
+        @include typographic(
+          $font-ppneuemontreal,
+          1em,
+          inherit,
+          var(--blue-dark),
+          inherit
+        );
+      }
+
+      &__required {
+        color: var(--red);
+      }
+
+      &__textarea,
+      &__input {
+        display: block;
+        width: 100%;
+        padding: 1.1em;
+        @include typographic(
+          $font-ppneuemontreal,
+          16px,
+          400,
+          inherit,
+          inherit
+        );
+        background-color: transparent;
+        border: 1px solid var(--blue-dark);
+        border-radius: var(--radius);
+        appearance: none;
+
+        &--error {
+          border-color: var(--red);
+        }
+      }
+
+      &__error {
+        display: block;
+        margin-top: calc(max(10px, calc(calc(100vw * 25 / 1440))) / 3);
+        @include typographic(
+          $font-ppneuemontreal,
+          0.75em,
+          400,
+          var(--red),
+          inherit
+        );
+      }
+
+      &__message {
+        margin-block: 1rem;
+        padding: 1.2em;
+        border-radius: var(--radius);
+
+        &--error {
+          @include typographic(
+            $font-ppneuemontreal,
+            0.88em,
+            600,
+            var(--dark-red),
+            inherit
+          );
+          background-color: $white-color;
+        }
+
+        &--success {
+          @include typographic(
+            $font-ppneuemontreal,
+            0.88em,
+            600,
+            var(--blue-dark),
+            inherit
+          );
+          background-color: var(--light-green);
+        }
+      }
+    }
+  }
+}

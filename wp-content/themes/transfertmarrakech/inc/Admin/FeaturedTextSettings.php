@@ -73,16 +73,23 @@ class FeaturedTextSettings {
 		);
 		
 		// Enregistre le setting pour le texte principal
+		// Calculate years dynamically (current year - 2015)
+		$years_of_experience = (int) \date( 'Y' ) - 2015;
+		$default_text = sprintf(
+			\__( 
+				'Transfert Marrakech is much more than a simple travel agency, but a pioneer of travel in Morocco with %d years of experience.', 
+				'transfertmarrakech' 
+			),
+			$years_of_experience
+		);
+		
 		\register_setting(
 			self::OPTION_GROUP,
 			'tm_featured_text',
 			[
 				'type'              => 'string',
 				'sanitize_callback' => 'wp_kses_post', // Permet le HTML basique
-				'default'           => \__( 
-					'Transfert Marrakech is much more than a simple travel agency, but a pioneer of travel in Morocco with 10 years of experience.', 
-					'transfertmarrakech' 
-				),
+				'default'           => $default_text,
 			]
 		);
 		
@@ -150,15 +157,21 @@ class FeaturedTextSettings {
 	 */
 	public function render_text_field(): void {
 		$value = \get_option( 'tm_featured_text', '' );
+		// Calculate years dynamically for placeholder
+		$years_of_experience = (int) \date( 'Y' ) - 2015;
+		$placeholder = sprintf(
+			\__( 'Transfert Marrakech is much more than a simple travel agency, but a pioneer of travel in Morocco with %d years of experience.', 'transfertmarrakech' ),
+			$years_of_experience
+		);
 		?>
 		<textarea 
 			name="tm_featured_text" 
 			rows="5" 
 			class="large-text"
-			placeholder="<?php echo \esc_attr__( 'Transfert Marrakech is much more than a simple travel agency...', 'transfertmarrakech' ); ?>"
+			placeholder="<?php echo \esc_attr( $placeholder ); ?>"
 		><?php echo \esc_textarea( $value ); ?></textarea>
 		<p class="description">
-			<?php \esc_html_e( 'The main text displayed in the featured section. You can use basic HTML.', 'transfertmarrakech' ); ?>
+			<?php \esc_html_e( 'The main text displayed in the featured section. You can use basic HTML. Leave empty to use the default text with automatic year calculation.', 'transfertmarrakech' ); ?>
 		</p>
 		<?php
 	}

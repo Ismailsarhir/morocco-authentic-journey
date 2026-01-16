@@ -54,12 +54,25 @@ class FeaturedText {
 	 * @return string
 	 */
 	private function get_featured_text(): string {
-		$default_text = __( 
-			'Transfert Marrakech is much more than a simple travel agency, but a pioneer of travel in Morocco with 10 years of experience.', 
-			'transfertmarrakech' 
+		// Calculate years of experience dynamically (current year - 2015)
+		$years_of_experience = (int) \date( 'Y' ) - 2015;
+		
+		$default_text = sprintf(
+			__( 
+				'Transfert Marrakech is much more than a simple travel agency, but a pioneer of travel in Morocco with %d years of experience.', 
+				'transfertmarrakech' 
+			),
+			$years_of_experience
 		);
 		
-		return \get_option( 'tm_featured_text', $default_text );
+		$saved_text = \get_option( 'tm_featured_text', '' );
+		
+		// If custom text is saved, use it; otherwise use dynamic default
+		if ( ! empty( $saved_text ) ) {
+			return $saved_text;
+		}
+		
+		return $default_text;
 	}
 	
 	/**

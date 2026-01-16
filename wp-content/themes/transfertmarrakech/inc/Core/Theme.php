@@ -22,6 +22,7 @@ use TM\Admin\WhatsAppSettings;
 use TM\Admin\ArchiveToursSettings;
 use TM\Admin\ArchiveCircuitsSettings;
 use TM\Admin\ArchiveTransfersSettings;
+use TM\Admin\ContactSubmissionsPage;
 
 /**
  * Classe principale du thème qui initialise tous les composants
@@ -70,6 +71,7 @@ class Theme {
 		$theme->init_admin_pages();
 		$theme->init_pagination();
 		$theme->init_search();
+		$theme->init_contact_form();
 	}
 	
 	/**
@@ -434,6 +436,9 @@ class Theme {
 		
 		$archive_transfers_settings = new ArchiveTransfersSettings();
 		$archive_transfers_settings->register();
+		
+		$contact_submissions = new ContactSubmissionsPage();
+		$contact_submissions->register();
 	}
 	
 	/**
@@ -736,6 +741,16 @@ class Theme {
 				'show_in_rest'      => true,
 			]
 		);
+	}
+	
+	/**
+	 * Initialise le formulaire de contact
+	 * 
+	 * @return void
+	 */
+	private function init_contact_form(): void {
+		$contact_form = ContactFormHandler::get_instance();
+		$contact_form->register();
 	}
 	
 	/**
