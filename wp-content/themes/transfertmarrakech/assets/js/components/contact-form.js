@@ -127,14 +127,9 @@
 				this.showMessage(elements, data.data.message, 'success');
 				elements.form.reset();
 			} else {
-				// Only show general error message if there are no field-specific errors
-				const hasFieldErrors = data.data.errors && Object.keys(data.data.errors).length > 0;
-				if (!hasFieldErrors) {
-					this.showMessage(elements, data.data.message, 'error');
-				} else {
-					// Hide general message when showing field-specific errors
-					elements.messageDiv.style.display = 'none';
-				}
+				// Always show error message in contact-form__message div
+				this.showMessage(elements, data.data.message, 'error');
+				// Also show field-specific errors
 				this.showFieldErrors(elements, data.data.errors || {});
 			}
 		},
