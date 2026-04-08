@@ -9,7 +9,6 @@
   flex-flow: column nowrap;
   color: var(--blue-grey-light);
   overflow-x: hidden;
-  overscroll-behavior: contain;
 
   &::before {
     content: "";
@@ -105,11 +104,6 @@
       height: 100%;
       object-fit: cover;
     }
-  }
-  &-body {
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
   }
 }
 
