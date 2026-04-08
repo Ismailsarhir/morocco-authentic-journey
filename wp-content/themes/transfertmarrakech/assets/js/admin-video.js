@@ -18,15 +18,11 @@
 		$(document).on('click', '.tm-video-button', function(e) {
 			e.preventDefault();
 			
-			console.log('Video button clicked');
-			
 			var $button = $(this);
 			var targetId = $button.data('target');
 			var $input = $('#' + targetId);
 			var $preview = $input.siblings('.tm-video-preview');
 			var currentId = $input.val() ? parseInt($input.val()) : 0;
-			
-			console.log('Target ID:', targetId, 'Input found:', $input.length, 'Preview found:', $preview.length);
 			
 			// Vérifie que wp.media est disponible
 			if (typeof wp === 'undefined' || !wp.media) {
@@ -34,8 +30,6 @@
 				alert('Error: WordPress media selector is not available. Please refresh the page.');
 				return;
 			}
-			
-			console.log('wp.media is available, opening frame...');
 			
 			// Crée la frame du sélecteur de médias
 			var videoFrame = wp.media({
@@ -108,7 +102,6 @@
 			// Ouvre la frame
 			try {
 				videoFrame.open();
-				console.log('Media frame opened');
 			} catch (error) {
 				console.error('Error opening media frame:', error);
 				alert('Error opening media library. Please refresh the page and try again.');
@@ -137,7 +130,6 @@
 	
 	// Initialise au chargement du DOM
 	$(document).ready(function() {
-		console.log('Admin video script loaded');
 		initVideo();
 	});
 	

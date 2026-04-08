@@ -12,9 +12,6 @@ use TM\CPT\VehiclePostType;
 use TM\CPT\TourPostType;
 use TM\CPT\TransferPostType;
 use TM\CPT\CircuitPostType;
-use TM\REST\VehicleRestController;
-use TM\REST\TourRestController;
-use TM\REST\TransferRestController;
 use TM\Meta\PostMeta;
 use TM\Meta\TermMeta;
 use TM\Admin\FeaturedTextSettings;
@@ -64,7 +61,6 @@ class Theme {
 		$theme = self::get_instance();
 		$theme->register_hooks();
 		$theme->init_cpt();
-		$theme->init_rest();
 		$theme->init_css_injector();
 		$theme->init_js_injector();
 		$theme->init_meta_boxes();
@@ -95,33 +91,6 @@ class Theme {
 		
 		// Augmente la limite de taille d'upload pour les vidéos
 		\add_filter( 'upload_size_limit', [ $this, 'increase_upload_size_limit' ], 999 );
-	}
-	
-	/**
-	 * Change og:locale from fr_FR to en_US (English)
-	 * 
-	 * @param string $locale Current locale
-	 * @return string Modified locale
-	 */
-	public function change_og_locale_to_english( string $locale ): string {
-		// Change fr_FR to en_US
-		if ( $locale === 'fr_FR' ) {
-			return 'en_US';
-		}
-		return $locale;
-	}
-	
-	/**
-	 * Add og:locale meta tag directly in head
-	 * This is a fallback if Yoast SEO is not active
-	 * 
-	 * @return void
-	 */
-	public function add_og_locale_meta_tag(): void {
-		// Only add if Yoast SEO is not active (Yoast will handle it via filters if active)
-		if ( ! function_exists( 'wpseo_init' ) ) {
-			echo '<meta property="og:locale" content="en_US" />' . "\n";
-		}
 	}
 	
 	/**
@@ -359,25 +328,6 @@ class Theme {
 		$transfer_cpt->register();
 	}
 	
-	/**
-	 * Initialise les contrôleurs REST
-	 * 
-	 * @return void
-	 */
-	private function init_rest(): void {
-		\add_action( 'rest_api_init', function() {
-			$vehicle_rest = new VehicleRestController();
-			$vehicle_rest->register_routes();
-			
-			$tour_rest = new TourRestController();
-			$tour_rest->register_routes();
-			
-			$transfer_rest = new TransferRestController();
-			$transfer_rest->register_routes();
-		} );
-	}
-	
-
 	/**
 	 * Initialise l'injecteur de CSS séparé
 	 * 
